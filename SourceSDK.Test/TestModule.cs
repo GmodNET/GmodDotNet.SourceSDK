@@ -34,9 +34,9 @@ namespace SourceSDKTest
 
 			Test(() => Dbg.Error("Error(string)\n"));
 
-			Test(() => { Dbg.DevMsg("DevMsg(string)\n"); });
-			Test(() => { Dbg.DevWarning("DevWarning(string)\n"); });
-			Test(() => { Dbg.DevLog("DevLog(string)\n"); });
+			// Test(() => { Dbg.DevMsg("DevMsg(string)\n"); });
+			// Test(() => { Dbg.DevWarning("DevWarning(string)\n"); });
+			// Test(() => { Dbg.DevLog("DevLog(string)\n"); });
 
 			Test(() => Dbg.ConColorMsg(new Color(255, 255, 0), "ConColorMsg(in Color, string)\n"));
 
