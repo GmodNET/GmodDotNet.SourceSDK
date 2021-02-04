@@ -5,7 +5,7 @@ namespace SourceSDK.Tier0
 	/// <remarks>
 	/// "public/tier0/dbg.h"
 	/// </remarks>
-	class Dbg
+	public class Dbg
 	{
 		#region
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]

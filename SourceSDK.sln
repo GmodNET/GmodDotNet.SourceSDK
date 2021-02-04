@@ -9,7 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\test.lua = .github\workflows\test.lua
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceSDK.Test", "SourceSDK.Test\SourceSDK.Test.csproj", "{FA6CC35B-83AD-4FA7-9BFD-B77A6DAE735B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,10 @@ Global
 		{D788BA43-6EAC-4FEF-A999-7B1B8BD17ED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D788BA43-6EAC-4FEF-A999-7B1B8BD17ED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D788BA43-6EAC-4FEF-A999-7B1B8BD17ED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA6CC35B-83AD-4FA7-9BFD-B77A6DAE735B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6CC35B-83AD-4FA7-9BFD-B77A6DAE735B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6CC35B-83AD-4FA7-9BFD-B77A6DAE735B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6CC35B-83AD-4FA7-9BFD-B77A6DAE735B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
