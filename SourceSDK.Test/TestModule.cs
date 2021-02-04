@@ -32,6 +32,8 @@ namespace SourceSDKTest
 
 			Test(() => Dbg.Warning("Warning(string)\n"));
 
+			Test(() => Dbg.Warning_SpewCallStack(100, "Warning_SpewCallStack(int, string)"));
+
 			// Error() kills gmod
 			// Test(() => Dbg.Error("Error(string)\n"));
 

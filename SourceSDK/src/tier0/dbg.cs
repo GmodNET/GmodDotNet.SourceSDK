@@ -97,6 +97,9 @@ namespace SourceSDK.Tier0
 		public static extern void Warning([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Warning_SpewCallStack(int maxCallStackLength, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+
+		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Error([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 
