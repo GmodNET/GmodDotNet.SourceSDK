@@ -29,10 +29,8 @@ namespace SourceSDKTest
 		public void Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
 			Test(() => Dbg.Msg("Msg(string)\n"));
-			Test(() => Dbg.DMsg("group", 0, "DMsg(string, int, string)\n"));
 
 			Test(() => Dbg.Warning("Warning(string)\n"));
-			Test(() => Dbg.DWarning("group", 0, "DWarning(string, int, string)\n"));
 
 			Test(() => Dbg.Error("Error(string)\n"));
 

@@ -49,34 +49,21 @@ namespace SourceSDK.Tier0
 
 
 
-		#region
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Msg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
-		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string groupName, int level, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
-		#endregion
-
-		#region
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Warning([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
-		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DWarning([MarshalAs(UnmanagedType.LPUTF8Str)] string groupName, int level, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
-		#endregion
-
-		#region
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Error([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
-		#endregion
 
-		#region
 
 		[DllImport("tier0", EntryPoint = "?DevMsg@@YAXPEBDZZ", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DevMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
@@ -99,7 +86,6 @@ namespace SourceSDK.Tier0
 
 		// TODO: ValidateSpew
 
-		#endregion
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void COM_TimestampedLog([MarshalAs(UnmanagedType.LPUTF8Str)] string fmt, params string[] dotdotdot);
