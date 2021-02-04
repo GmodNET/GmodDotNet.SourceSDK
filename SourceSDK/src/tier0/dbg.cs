@@ -71,14 +71,14 @@ namespace SourceSDK.Tier0
 		[DllImport("tier0", EntryPoint = "?DevWarning@@YAXPEBDZZ", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DevWarning([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
-		[DllImport("tier0", EntryPoint = "?DevLog@@YAXPEBDZZ", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("tier0", EntryPoint = "?DevLog@@YAXPBDZZ", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DevLog([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 
 		public static Delegates.void_inColor_string ConColorMsg;
 
 
-		[DllImport("tier0", EntryPoint = "?ConMsg@@YAXPBDZZ", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("tier0", EntryPoint = "?ConMsg@@YAXPEBDZZ", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ConMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
