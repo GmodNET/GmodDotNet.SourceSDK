@@ -114,6 +114,11 @@ namespace SourceSDK.Tier0
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void NetLog(int level, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
+		// TODO: ValidateSpew
+
 		#endregion
+
+		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void COM_TimestampedLog([MarshalAs(UnmanagedType.LPUTF8Str)] string fmt);
 	}
 }
