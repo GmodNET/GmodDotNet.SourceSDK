@@ -97,4 +97,4 @@ jobs:
     - name: Restore solution
       run: dotnet restore SourceSDK.sln
     - name: Build Solution
-      run: dotnet publish SourceSDK.sln --configuration Release --framework net5
+      run: dotnet publish SourceSDK.sln
