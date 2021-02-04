@@ -67,7 +67,18 @@ namespace SourceSDK.Tier0
 		}
 		internal class OSX
 		{
-			
+			[DllImport("tier0", EntryPoint = "__Z6DevMsgPKcz", CallingConvention = CallingConvention.Cdecl)]
+			public static extern void DevMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+
+			[DllImport("tier0", EntryPoint = "__Z10DevWarningPKcz", CallingConvention = CallingConvention.Cdecl)]
+			public static extern void DevWarning([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+
+
+			[DllImport("tier0", EntryPoint = "__Z11ConColorMsgRK5ColorPKcz", CallingConvention = CallingConvention.Cdecl)]
+			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+
+			[DllImport("tier0", EntryPoint = "__Z6ConMsgPKcz", CallingConvention = CallingConvention.Cdecl)]
+			public static extern void ConMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 		}
 
 		public static class Delegates
