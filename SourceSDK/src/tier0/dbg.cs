@@ -31,7 +31,7 @@ namespace SourceSDK.Tier0
 		}
 		internal class Linux
 		{
-			[DllImport("tier0", EntryPoint = "ConColorMsg", CallingConvention = CallingConvention.Cdecl)]
+			[DllImport("tier0", EntryPoint = "_Z11ConColorMsgRK5ColorPKcz", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 		}
 		internal class OSX
