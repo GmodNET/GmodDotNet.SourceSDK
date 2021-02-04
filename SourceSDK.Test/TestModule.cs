@@ -32,18 +32,19 @@ namespace SourceSDKTest
 
 			Test(() => Dbg.Warning("Warning(string)\n"));
 
+			// Error() kills gmod
 			// Test(() => Dbg.Error("Error(string)\n"));
 
-			// Test(() => { Dbg.DevMsg("DevMsg(string)\n"); });
-			// Test(() => { Dbg.DevWarning("DevWarning(string)\n"); });
-			// Test(() => { Dbg.DevLog("DevLog(string)\n"); });
+			Test(() => { Dbg.DevMsg("DevMsg(string)\n"); });
+			Test(() => { Dbg.DevWarning("DevWarning(string)\n"); });
+			Test(() => { Dbg.DevLog("DevLog(string)\n"); });
 
 			Test(() => Dbg.ConColorMsg(new Color(255, 255, 0), "ConColorMsg(in Color, string)\n"));
 
-			// Test(() => { Dbg.ConMsg("ConMsg(string)\n"); });
-			// Test(() => { Dbg.ConDMsg("ConDMsg(string)\n"); });
+			Test(() => { Dbg.ConMsg("ConMsg(string)\n"); });
+			Test(() => { Dbg.ConDMsg("ConDMsg(string)\n"); });
 
-			// Test(() => { Dbg.COM_TimestampedLog("%s", "COM_TimestampedLog"); });
+			Test(() => { Dbg.COM_TimestampedLog("%s", "COM_TimestampedLog"); });
 
 			Debug.Assert(!failed);
 		}
