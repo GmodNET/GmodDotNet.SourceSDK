@@ -2,6 +2,7 @@ using GmodNET.API;
 using SourceSDK;
 using SourceSDK.Tier0;
 using System;
+using System.Diagnostics;
 
 namespace SourceSDKTest
 {
@@ -11,6 +12,7 @@ namespace SourceSDKTest
 
 		public string ModuleVersion => "0.0.1";
 
+		private bool failed;
 		internal void Test(Action action)
 		{
 			try
@@ -20,6 +22,7 @@ namespace SourceSDKTest
 			catch (Exception e)
 			{
 				Console.WriteLine(e);
+				failed = true;
 			}
 		}
 
@@ -43,6 +46,8 @@ namespace SourceSDKTest
 			Test(() => { Dbg.ConDMsg("ConDMsg(string)\n"); });
 
 			Test(() => { Dbg.COM_TimestampedLog("%s", "COM_TimestampedLog"); });
+
+			Debug.Assert(!failed);
 		}
 
 		public void Unload(ILua lua)
