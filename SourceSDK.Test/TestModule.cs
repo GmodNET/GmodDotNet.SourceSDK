@@ -32,7 +32,7 @@ namespace SourceSDKTest
 
 			Test(() => Dbg.Warning("Warning(string)\n"));
 
-			Test(() => Dbg.Error("Error(string)\n"));
+			// Test(() => Dbg.Error("Error(string)\n"));
 
 			// Test(() => { Dbg.DevMsg("DevMsg(string)\n"); });
 			// Test(() => { Dbg.DevWarning("DevWarning(string)\n"); });
