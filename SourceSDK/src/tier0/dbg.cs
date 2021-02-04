@@ -27,7 +27,10 @@ namespace SourceSDK.Tier0
 			}
 			else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 			{
-				// TODO
+				DevMsg = OSX.DevMsg;
+				DevWarning = OSX.DevWarning;
+				ConColorMsg = OSX.ConColorMsg;
+				ConMsg = OSX.ConMsg;
 			}
 			else
 			{
