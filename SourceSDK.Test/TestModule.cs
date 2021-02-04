@@ -28,11 +28,11 @@ namespace SourceSDKTest
 
 		public void Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
-			// Test(() => Dbg.Msg("Msg(string)\n"));
+			Test(() => Dbg.Msg("Msg(string)\n"));
 
-			// Test(() => Dbg.Warning("Warning(string)\n"));
+			Test(() => Dbg.Warning("Warning(string)\n"));
 
-			// Test(() => Dbg.Error("Error(string)\n"));
+			Test(() => Dbg.Error("Error(string)\n"));
 
 			// Test(() => { Dbg.DevMsg("DevMsg(string)\n"); });
 			// Test(() => { Dbg.DevWarning("DevWarning(string)\n"); });
