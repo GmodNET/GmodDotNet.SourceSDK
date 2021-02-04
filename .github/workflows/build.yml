@@ -28,7 +28,7 @@ jobs:
         tar -xvzf gmoddotnet.tar.gz -C ./gmod/garrysmod/lua/bin
         rm -rfv gmoddotnet.tar.gz
     - name: Build Module
-      run: dotnet publish HashCalc/HashCalc.csproj --configuration Release --framework net5 -o ./gmod/garrysmod/lua/bin/Modules/HashCalc
+      run: dotnet publish SourceSDK.Test/SourceSDK.Test.csproj --configuration Release --framework net5 -o ./gmod/garrysmod/lua/bin/Modules/SourceSDKTest
     - name: Copy test.lua
       run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
     - name: Run Garry's Mod
