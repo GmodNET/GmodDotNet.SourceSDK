@@ -77,6 +77,7 @@ jobs:
            powershell -Command './gmod/srcds_win64.exe -console -systemtest -condebug -game "garrysmod" +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 16 +sv_hibernate_think 1'
            powershell -Command 'Wait-Process -Name srcds_win64'
       continue-on-error: true
+      timeout-minutes: 1
     - name: Print log
       shell: bash
       run: cat gmod/garrysmod/console.log
