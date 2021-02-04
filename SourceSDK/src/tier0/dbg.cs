@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SourceSDK.Tier0
@@ -7,6 +9,46 @@ namespace SourceSDK.Tier0
 	/// </remarks>
 	public class Dbg
 	{
+		static Dbg()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				ConColorMsg_Color_string_delegate = Windows.ConColorMsg;
+			}else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			{
+				ConColorMsg_Color_string_delegate = Linux.ConColorMsg;
+			}
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+			{
+				ConColorMsg_Color_string_delegate = OSX.ConColorMsg;
+			}
+		}
+
+		internal class Windows
+		{
+			[DllImport("tier0", EntryPoint = "?ConColorMsg@@YAXAEBVColor@@PEBDZZ", CallingConvention = CallingConvention.Cdecl)]
+			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+		}
+		internal class Linux
+		{
+			[DllImport("tier0", EntryPoint = "ConColorMsg", CallingConvention = CallingConvention.Cdecl)]
+			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+		}
+		internal class OSX
+		{
+			[DllImport("tier0", EntryPoint = "empty", CallingConvention = CallingConvention.Cdecl)]
+			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+		}
+
+		internal class Delegates
+		{
+			internal delegate void void_string(string str);
+			internal delegate void void_inColor_string(in Color clr, string msg);
+		}
+
+		internal static Delegates.void_inColor_string ConColorMsg_Color_string_delegate;
+
+
 		#region
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Msg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
@@ -78,9 +120,11 @@ namespace SourceSDK.Tier0
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ConLog(int level, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
-
-		[DllImport("tier0", EntryPoint = "?ConColorMsg@@YAXAEBVColor@@PEBDZZ", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg)
+		{
+			ConColorMsg_Color_string_delegate(clr, msg);
+		}
 
 		[DllImport("tier0", EntryPoint = "?ConMsg@@YAXPBDZZ", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ConMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
