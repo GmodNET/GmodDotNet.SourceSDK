@@ -13,5 +13,9 @@ namespace SourceSDK.tier1
 			IntPtr createInterfaceFnPtr = NativeLibrary.GetExport(module, CREATEINTERFACE_PROCNAME);
 			return Marshal.GetDelegateForFunctionPointer<CreateInterfaceFn>(createInterfaceFnPtr);
 		}
+		public static CreateInterfaceFn Sys_GetFactory(string module)
+		{
+			return Sys_GetFactory(NativeLibrary.Load(module));
+		}
 	}
 }
