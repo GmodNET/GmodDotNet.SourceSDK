@@ -1,8 +1,10 @@
 using GmodNET.API;
 using SourceSDK;
 using SourceSDK.Tier0;
+using SourceSDK.Tier1;
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace SourceSDKTest
 {
@@ -46,6 +48,13 @@ namespace SourceSDKTest
 			Test(() => { Dbg.ConDMsg("ConDMsg(string)\n"); });
 
 			Test(() => { Dbg.COM_TimestampedLog("%s", "COM_TimestampedLog"); });
+
+			Test(() =>
+			{
+				string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "FileSystem_Stdio.dll" : "filesystem_stdio.so";
+				CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
+				Console.WriteLine(factory);
+			});
 
 			Debug.Assert(!failed);
 		}
