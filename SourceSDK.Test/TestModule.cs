@@ -60,8 +60,11 @@ namespace SourceSDKTest
 				{
 					path = "bin/linux64/filesystem_stdio.so";
 				}
+				Console.WriteLine("Getting lib handle");
+				IntPtr handle = NativeLibrary.Load(path);
+				Console.WriteLine(handle);
 				Console.WriteLine("Getting factory");
-				CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
+				CreateInterfaceFn factory = interfaceh.Sys_GetFactory(handle);
 				Console.WriteLine("Creating");
 				IntPtr fsysPtr = factory("VFileSystem022", IntPtr.Zero);
 				Console.WriteLine(fsysPtr);

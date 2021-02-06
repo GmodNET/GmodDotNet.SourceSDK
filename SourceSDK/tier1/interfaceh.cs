@@ -10,6 +10,10 @@ namespace SourceSDK.Tier1
 		public static CreateInterfaceFn Sys_GetFactory(IntPtr module)
 		{
 			IntPtr createInterfaceFnPtr = NativeLibrary.GetExport(module, CREATEINTERFACE_PROCNAME);
+			if (createInterfaceFnPtr == IntPtr.Zero)
+			{
+				throw new EntryPointNotFoundException("CreateInterface was not found");
+			}
 			return Marshal.GetDelegateForFunctionPointer<CreateInterfaceFn>(createInterfaceFnPtr);
 		}
 		public static CreateInterfaceFn Sys_GetFactory(string module)
