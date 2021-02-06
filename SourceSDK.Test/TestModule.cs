@@ -55,7 +55,7 @@ namespace SourceSDKTest
 				Console.WriteLine("Getting factory");
 				CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
 				Console.WriteLine("Creating");
-				IntPtr fsysPtr = factory("VFileSystem022", 0);
+				IntPtr fsysPtr = factory("VFileSystem022", IntPtr.Zero);
 				Console.WriteLine("Marshal.PtrToStructure");
 				IFileSystem fsys = Marshal.PtrToStructure<IFileSystem>(fsysPtr);
 				Console.WriteLine("fsys.IsSteam()");
