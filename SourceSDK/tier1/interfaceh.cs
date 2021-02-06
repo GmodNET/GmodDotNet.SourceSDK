@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace SourceSDK.Tier1
 {
-	public delegate IntPtr CreateInterfaceFn(IntPtr name, IntPtr returnCode);
 	public static class interfaceh
 	{
 		public const string CREATEINTERFACE_PROCNAME = "CreateInterface";
+		public delegate IntPtr CreateInterfaceFn(IntPtr name, IntPtr returnCode);
 		public static CreateInterfaceFn Sys_GetFactory(IntPtr module)
 		{
 			IntPtr createInterfaceFnPtr = NativeLibrary.GetExport(module, CREATEINTERFACE_PROCNAME);

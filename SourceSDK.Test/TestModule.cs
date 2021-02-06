@@ -28,6 +28,11 @@ namespace SourceSDKTest
 			}
 		}
 
+		struct CSysModule
+		{
+			public IntPtr ptr;
+		}
+
 		public void Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
 			Test(() => Dbg.Msg("Msg(string)\n"));
@@ -54,24 +59,35 @@ namespace SourceSDKTest
 				string path;
 				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				{
-					path = "bin/win64/filesystem_stdio.dll";
+					path = "filesystem_stdio.dll";
 				}
 				else
 				{
-					path = "bin/linux64/filesystem_stdio.so";
+					path = "filesystem_stdio.so";
 				}
+
 				Console.WriteLine("Getting lib handle");
 				IntPtr handle = NativeLibrary.Load(path);
 				Console.WriteLine(handle);
+
 				Console.WriteLine("Getting factory");
-				CreateInterfaceFn factory = interfaceh.Sys_GetFactory(handle);
+				IntPtr createInterfaceFnPtr = NativeLibrary.GetExport(handle, interfaceh.CREATEINTERFACE_PROCNAME);
+				interfaceh.CreateInterfaceFn factory = interfaceh.Sys_GetFactory(handle);
+
 				Console.WriteLine("Creating");
 				IntPtr resultPtr = new IntPtr(0);
-				IntPtr fsysPtr = factory(Marshal.StringToHGlobalAnsi("VFileSystem022"), resultPtr);
+				IntPtr factoryResult = factory(Marshal.StringToHGlobalAnsi("VFileSystem022"), resultPtr);
+				Console.WriteLine($"factoryResult = {factoryResult}\nresult = {resultPtr}");
 				Debug.Assert(resultPtr == IntPtr.Zero);
-				Console.WriteLine(fsysPtr);
+
+				Console.WriteLine("Marshal.PtrToStructure<CSysModule>");
+				CSysModule cSysModule = Marshal.PtrToStructure<CSysModule>(factoryResult);
+
+				Console.WriteLine($"cSysModule = {cSysModule}\ncSysModule.ptr = {cSysModule.ptr}");
+
 				Console.WriteLine("Marshal.PtrToStructure");
-				IFileSystem fsys = Marshal.PtrToStructure<IFileSystem>(fsysPtr);
+				IFileSystem fsys = Marshal.PtrToStructure<IFileSystem>(cSysModule.ptr);
+
 				Console.WriteLine("fsys.IsSteam()");
 				Console.WriteLine(fsys.IsSteam());
 			});
