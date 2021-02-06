@@ -75,10 +75,12 @@ namespace SourceSDKTest
 				interfaceh.CreateInterfaceFn factory = interfaceh.Sys_GetFactory(handle);
 
 				Console.WriteLine("Creating");
-				IntPtr resultPtr = new IntPtr(0);
+				GCHandle resultHandle = GCHandle.Alloc(0, GCHandleType.Pinned);
+				IntPtr resultPtr = resultHandle.AddrOfPinnedObject();
 				IntPtr factoryResult = factory(Marshal.StringToHGlobalAnsi("VFileSystem022"), resultPtr);
-				Console.WriteLine($"factoryResult = {factoryResult}\nresult = {resultPtr}");
+				Console.WriteLine($"factoryResult = {factoryResult}\resultPtr.ToInt32() = {resultPtr.ToInt32()}\nresultHandle = {(int)resultHandle.Target}");
 				Debug.Assert(resultPtr == IntPtr.Zero);
+				resultHandle.Free();
 
 				Console.WriteLine("Marshal.PtrToStructure<CSysModule>");
 				CSysModule cSysModule = Marshal.PtrToStructure<CSysModule>(factoryResult);
