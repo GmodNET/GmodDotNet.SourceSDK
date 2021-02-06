@@ -66,7 +66,7 @@ namespace SourceSDKTest
 				Console.WriteLine("Getting factory");
 				CreateInterfaceFn factory = interfaceh.Sys_GetFactory(handle);
 				Console.WriteLine("Creating");
-				IntPtr fsysPtr = factory("VFileSystem022", IntPtr.Zero);
+				IntPtr fsysPtr = factory(Marshal.StringToHGlobalAnsi("VFileSystem022"), IntPtr.Zero);
 				Console.WriteLine(fsysPtr);
 				Console.WriteLine("Marshal.PtrToStructure");
 				IFileSystem fsys = Marshal.PtrToStructure<IFileSystem>(fsysPtr);

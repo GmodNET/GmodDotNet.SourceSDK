@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace SourceSDK.Tier1
 {
-	public delegate IntPtr CreateInterfaceFn(string name, IntPtr returnCode);
+	public delegate IntPtr CreateInterfaceFn(IntPtr name, IntPtr returnCode);
 	public static class interfaceh
 	{
 		public const string CREATEINTERFACE_PROCNAME = "CreateInterface";
