@@ -51,7 +51,7 @@ namespace SourceSDKTest
 
 			Test(() =>
 			{
-				string path = "filesystem_stdio." + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".dll" : ".so");
+				string path = "filesystem_stdio." + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "dll" : "so");
 				CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
 				IFileSystem fsys = Marshal.PtrToStructure<IFileSystem>(factory("VFileSystem022", 0));
 				Console.WriteLine(fsys.IsSteam());
