@@ -15,12 +15,12 @@ else()
 	message(WARNING "Unknown compiler used: ${CMAKE_CXX_COMPILER_ID}")
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	list(APPEND SOURCESDK_DEFINES "WIN64" "_WIN64" "_DLL_EXT=.dll" "WIN32")
 	set(SOURCESDK_LIBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/lib/public/x64")
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 	list(APPEND SOURCESDK_DEFINES
 		"_DLL_EXT=.so"
 		"POSIX"
@@ -32,7 +32,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	set(SOURCESDK_LIBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/lib/public/linux64")
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	list(APPEND SOURCESDK_DEFINES
 		"_DLL_EXT=.dylib"
 		"POSIX"
