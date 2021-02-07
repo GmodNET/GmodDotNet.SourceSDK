@@ -117,6 +117,7 @@ jobs:
       with:
         name: sourcesdktest
         path: ./gmod/garrysmod/lua/bin/SourceSDKTest/
+    - run: tree
     - name: Copy test.lua
       run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
     - name: Run Garry's Mod
