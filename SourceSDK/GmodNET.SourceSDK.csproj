@@ -7,7 +7,15 @@
 		<IncludeSymbols>true</IncludeSymbols>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Folder Include="runtimes\linux-x64\native\" />
-	  <Folder Include="runtimes\win-x64\native\" />
+		<Folder Include="runtimes\linux-x64\native\" />
+		<Folder Include="runtimes\win-x64\native\" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="runtimes\win-x64\native\sourcesdkc.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="runtimes\linux-x64\native\libsourcesdkc.so">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>
