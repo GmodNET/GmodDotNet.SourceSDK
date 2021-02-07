@@ -2,6 +2,9 @@
 	<PropertyGroup>
 		<TargetFramework>net5</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Company>GmodNET</Company>
+		<Product>GmodNET.SourceSDK</Product>
+		<IncludeSymbols>true</IncludeSymbols>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Folder Include="runtimes\linux-x64\native\" />
