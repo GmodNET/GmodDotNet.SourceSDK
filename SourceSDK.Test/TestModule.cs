@@ -4,6 +4,7 @@ using SourceSDK.Tier0;
 using SourceSDK.Tier1;
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SourceSDKTest
@@ -26,6 +27,28 @@ namespace SourceSDKTest
 			{
 				Console.WriteLine(e);
 				failed = true;
+			}
+		}
+
+		public unsafe struct IFileSystem1
+		{
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			public delegate byte _IsSteam(IFileSystem1* pThis);
+
+			public unsafe IntPtr* lpVtbl;
+			//public extern bool IsSteam();
+			public bool IsSteam()
+			{
+				IntPtr isSteamPtr = lpVtbl[22];
+				if (isSteamPtr == IntPtr.Zero) throw new Exception("isSteamPtr");
+				Console.WriteLine("getting delegate");
+				_IsSteam isSteam = Marshal.GetDelegateForFunctionPointer<_IsSteam>(isSteamPtr);
+				Console.WriteLine("fs");
+				IFileSystem1* fs = (IFileSystem1*)Unsafe.AsPointer(ref this);
+				Console.WriteLine("isSteam");
+				byte isSteamResult = isSteam(fs);
+				Console.WriteLine("isSteamResult != 0");
+				return isSteamResult != 0;
 			}
 		}
 
@@ -81,15 +104,18 @@ namespace SourceSDKTest
 					{
 						try
 						{
-							IFileSystem fileSystem = Marshal.PtrToStructure<IFileSystem>((IntPtr)factoryResult);
+							Console.WriteLine("PtrToStructure");
+							IFileSystem1 fileSystem = Marshal.PtrToStructure<IFileSystem1>((IntPtr)factoryResult);
+							Console.WriteLine("fileSystem.IsSteam");
 							Console.WriteLine(fileSystem.IsSteam());
+							Console.WriteLine("done");
 						}
 						catch (Exception e)
 						{
 							Console.WriteLine(e);
 							try
 							{
-								IFileSystem fileSystem = new IFileSystem() { lpVtbl = factoryResult };
+								IFileSystem1 fileSystem = new IFileSystem1() { lpVtbl = factoryResult };
 								Console.WriteLine(fileSystem.IsSteam());
 							}
 							catch (Exception e2)
