@@ -7,10 +7,11 @@ namespace GmodNET.SourceSDK
 	{
 		static IFileSystem() => NativeLibraryResolver.Init();
 
-		private IntPtr ptr;
+		private readonly IntPtr ptr;
 
 		public IFileSystem(IntPtr ptr)
 		{
+			if (ptr == IntPtr.Zero) throw new ArgumentNullException(nameof(ptr), "Passing invalid pointer will cause crash");
 			this.ptr = ptr;
 		}
 

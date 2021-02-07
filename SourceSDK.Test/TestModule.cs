@@ -72,16 +72,16 @@ namespace SourceSDKTest
 
 					Console.WriteLine($"result is {returnCode}");
 
-					//if (returnCode == interfaceh.IFACE.OK)
-					//{
+					if (returnCode == interfaceh.IFACE.OK)
+					{
 						IFileSystem fileSystem = new(iFileSystemPtr);
 
 						Console.WriteLine("PrintSearchPaths");
 						fileSystem.PrintSearchPaths();
 						Console.WriteLine("IsSteam");
 						Console.WriteLine(fileSystem.IsSteam());
-					//}
-					//else throw new EntryPointNotFoundException();
+					}
+					else throw new EntryPointNotFoundException();
 				}
 			});
 
