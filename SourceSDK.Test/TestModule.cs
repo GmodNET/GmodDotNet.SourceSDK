@@ -81,7 +81,7 @@ namespace SourceSDKTest
 					{
 						try
 						{
-							IFileSystem fileSystem = new IFileSystem() { lpVtbl = factoryResult };
+							IFileSystem fileSystem = Marshal.PtrToStructure<IFileSystem>((IntPtr)factoryResult);
 							Console.WriteLine(fileSystem.IsSteam());
 						}
 						catch (Exception e)
@@ -89,7 +89,7 @@ namespace SourceSDKTest
 							Console.WriteLine(e);
 							try
 							{
-								IFileSystem fileSystem = Marshal.PtrToStructure<IFileSystem>((IntPtr)factoryResult);
+								IFileSystem fileSystem = new IFileSystem() { lpVtbl = factoryResult };
 								Console.WriteLine(fileSystem.IsSteam());
 							}
 							catch (Exception e2)
