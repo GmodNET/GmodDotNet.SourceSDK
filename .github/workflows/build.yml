@@ -39,9 +39,9 @@ jobs:
       with:
         cmakeListsOrSettingsJson: CMakeSettingsJson
        # cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
-        #useVcpkgToolchainFile: true
+        useVcpkgToolchainFile: true
         cmakeBuildType: Release
-        #buildDirectory: '${{ github.workspace }}/out'
+        buildDirectory: '${{ github.workspace }}/out'
     - run: tree /f
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
