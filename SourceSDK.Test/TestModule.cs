@@ -33,7 +33,7 @@ namespace SourceSDKTest
 		public unsafe struct IFileSystem1
 		{
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate byte _IsSteam(IFileSystem1* pThis);
+			public delegate bool _IsSteam(IFileSystem1* pThis);
 
 			public unsafe IntPtr* lpVtbl;
 			//public extern bool IsSteam();
@@ -46,9 +46,9 @@ namespace SourceSDKTest
 				Console.WriteLine("fs");
 				IFileSystem1* fs = (IFileSystem1*)Unsafe.AsPointer(ref this);
 				Console.WriteLine("isSteam");
-				byte isSteamResult = isSteam(fs);
-				Console.WriteLine("isSteamResult != 0");
-				return isSteamResult != 0;
+				bool isSteamResult = isSteam(fs);
+				Console.WriteLine("return");
+				return isSteamResult;
 			}
 		}
 
