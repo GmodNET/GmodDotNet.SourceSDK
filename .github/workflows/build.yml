@@ -116,7 +116,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: sourcesdktest
-        path: ./gmod/garrysmod/lua/bin/SourceSDKTest/
+        path: ./gmod/garrysmod/lua/bin/Modules/SourceSDKTest/
     - run: tree
     - name: Copy test.lua
       run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
@@ -153,7 +153,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: sourcesdktest
-        path: ./gmod/garrysmod/lua/bin/SourceSDKTest/
+        path: ./gmod/garrysmod/lua/bin/Modules/SourceSDKTest/
     - name: Copy test.lua
       run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
     - name: Run Garry's Mod
