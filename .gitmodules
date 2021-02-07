@@ -1,0 +1,4 @@
+[submodule "SourceSDK.CAPI/gmod_sdk"]
+	path = SourceSDK.CAPI/gmod_sdk
+	url = https://github.com/danielga/garrysmod_common.git
+	branch = x86-64-support-sourcesdk

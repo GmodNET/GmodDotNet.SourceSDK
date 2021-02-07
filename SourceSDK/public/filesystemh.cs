@@ -1,27 +1,29 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SourceSDK
 {
-	public unsafe struct IFileSystem
+	public class IFileSystem
 	{
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		public delegate byte _IsSteam(IFileSystem* pThis);
+		private IntPtr ptr;
+		public IFileSystem(IntPtr ptr)
+		{
+			this.ptr = ptr;
+		}
 
-		public unsafe IntPtr* lpVtbl;
-		//public extern bool IsSteam();
+		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_IsSteam(IntPtr ptr);
+
 		public bool IsSteam()
 		{
-			IntPtr isSteamPtr = lpVtbl[22];
-			if (isSteamPtr == IntPtr.Zero) throw new KeyNotFoundException("isSteamPtr");
-			_IsSteam isSteam = Marshal.GetDelegateForFunctionPointer<_IsSteam>(isSteamPtr);
-			IFileSystem* fs = (IFileSystem*)Unsafe.AsPointer(ref this);
-			return isSteam(fs) != 0;
+			return IFileSystem_IsSteam(ptr);
+		}
+
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);
+		public void PrintSearchPaths()
+		{
+			IFileSystem_PrintSearchPaths(ptr);
 		}
 	}
 }

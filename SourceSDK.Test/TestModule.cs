@@ -4,7 +4,6 @@ using SourceSDK.Tier0;
 using SourceSDK.Tier1;
 using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SourceSDKTest
@@ -27,26 +26,6 @@ namespace SourceSDKTest
 			{
 				Console.WriteLine(e);
 				failed = true;
-			}
-		}
-
-		public unsafe struct IFileSystem1
-		{
-			public void** lpVtbl;
-
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate bool _IsSteam();
-
-			public bool IsSteam()
-			{
-				IntPtr isSteamPtr = new IntPtr(lpVtbl[22]);
-				if (isSteamPtr == IntPtr.Zero) throw new Exception("isSteamPtr");
-				Console.WriteLine("getting delegate");
-				_IsSteam isSteam = Marshal.GetDelegateForFunctionPointer<_IsSteam>(isSteamPtr);
-				Console.WriteLine("isSteam");
-				bool isSteamResult = isSteam();
-				Console.WriteLine("return");
-				return isSteamResult;
 			}
 		}
 
@@ -82,53 +61,27 @@ namespace SourceSDKTest
 						path = "filesystem_stdio";
 					}
 
-					Console.WriteLine("Getting lib handle");
-					IntPtr handle = NativeLibrary.Load(path);
-					Console.WriteLine(handle);
-					if (handle == IntPtr.Zero) throw new DllNotFoundException();
-
 					Console.WriteLine("Getting factory");
 					interfaceh.CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
 
-					Console.WriteLine("Creating");
+					Console.WriteLine("factory()");
 
 					IntPtr interfaceNamePointer = Marshal.StringToHGlobalAnsi("VFileSystem022");
-					void** factoryResult = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
+					IntPtr iFileSystemPtr = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
 					Marshal.FreeHGlobal(interfaceNamePointer);
 
 					Console.WriteLine($"result is {returnCode}");
 
 					if (returnCode == interfaceh.IFACE.OK)
 					{
-						try
-						{
-							IFileSystem1 fileSystem = new IFileSystem1() { lpVtbl = factoryResult };
-							Console.WriteLine("fileSystem.IsSteam");
-							Console.WriteLine(fileSystem.IsSteam());
-							Console.WriteLine("done");
-						}
-						catch (Exception e)
-						{
-							Console.WriteLine(e);
-							try
-							{
-								Console.WriteLine("PtrToStructure");
-								IFileSystem1 fileSystem = Marshal.PtrToStructure<IFileSystem1>((IntPtr)factoryResult);
-								Console.WriteLine("fileSystem.IsSteam");
-								Console.WriteLine(fileSystem.IsSteam());
-								Console.WriteLine("done");
-							}
-							catch (Exception e2)
-							{
-								Console.WriteLine("SECOND EXCEPTION:");
-								Console.WriteLine(e2);
-							}
-						}
+						IFileSystem fileSystem = new(iFileSystemPtr);
+
+						Console.WriteLine("PrintSearchPaths");
+						fileSystem.PrintSearchPaths();
+						Console.WriteLine("IsSteam");
+						Console.WriteLine(fileSystem.IsSteam());
 					}
-					else
-					{
-						Console.WriteLine("failed getting interface");
-					}
+					else throw new EntryPointNotFoundException();
 				}
 			});
 
