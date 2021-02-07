@@ -64,18 +64,42 @@ jobs:
   #      path: "out/SourceSDK.CAPI/libsourcesdkc.dylib"
   #      retention-days: 10
   #      if-no-files-found: error
-  linux:
+  Build:
+    needs: [ linux-cmake-build, windows-cmake-build ]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        submodules: recursive
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.100
-    - name: Restore solution
-      run: dotnet restore SourceSDK.sln
+    - name: Download linux-x64
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-x64
+        path: SourceSDK/runtimes/linux-x64/native
+    - name: Download win-x64
+      uses: actions/download-artifact@v2
+      with:
+        name: win-x64
+        path: SourceSDK/runtimes/win-x64/native
+    - name: Build Solution
+      run: dotnet publish SourceSDK.sln --restore --configuration Release
+    - name: Upload SourceSDK.dll
+      uses: actions/upload-artifact@v2
+      with:
+        name: sourcesdk
+        path: SourceSDK/bin/Release/net5/*
+    - name: Upload SourceSDKTest.dll
+      uses: actions/upload-artifact@v2
+      with:
+        name: sourcesdktest
+        path: SourceSDK.Test/bin/Release/net5/*
+  Test-linux:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
     - name: Install Steam and Garry's Mod Dedicated Server
       run: |
         wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
@@ -88,8 +112,11 @@ jobs:
         mkdir ./gmod/garrysmod/lua/bin
         tar -xvzf gmoddotnet.tar.gz -C ./gmod/garrysmod/lua/bin
         rm -rfv gmoddotnet.tar.gz
-    - name: Build Module
-      run: dotnet publish SourceSDK.Test/SourceSDK.Test.csproj --configuration Release --framework net5 -o ./gmod/garrysmod/lua/bin/Modules/SourceSDKTest
+    - name: Download SourceSDKTest
+      uses: actions/download-artifact@v2
+      with:
+        name: sourcesdktest
+        path: ./gmod/garrysmod/lua/bin/SourceSDKTest/
     - name: Copy test.lua
       run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
     - name: Run Garry's Mod
@@ -104,16 +131,11 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-  windows-build:
+  Test-windows:
+    needs: Build
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.100
-    - name: Restore solution
-      run: dotnet restore SourceSDK.sln
     - name: Install Steam and Garry's Mod Dedicated Server
       shell: bash
       run: |
@@ -126,10 +148,11 @@ jobs:
         curl -o gmoddotnet.zip https://gleb-krasilich.fra1.digitaloceanspaces.com/GmodNETStorage/storage/gmod-dot-net-windows.0.7.0-beta.2.30293992.master.zip -O -L
         mkdir ./gmod/garrysmod/lua/bin
         powershell -Command 'Expand-Archive -LiteralPath ./gmoddotnet.zip -DestinationPath ./gmod/garrysmod/lua/bin'
-    - name: Build Solution
-      run: dotnet publish SourceSDK.sln
-    - name: Build Module
-      run: dotnet publish SourceSDK.Test/SourceSDK.Test.csproj --configuration Release --framework net5 -o ./gmod/garrysmod/lua/bin/Modules/SourceSDKTest
+    - name: Download SourceSDKTest
+      uses: actions/download-artifact@v2
+      with:
+        name: sourcesdktest
+        path: ./gmod/garrysmod/lua/bin/SourceSDKTest/
     - name: Copy test.lua
       run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
     - name: Run Garry's Mod
@@ -148,15 +171,3 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-  macos-build:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.100
-    - name: Restore solution
-      run: dotnet restore SourceSDK.sln
-    - name: Build Solution
-      run: dotnet publish SourceSDK.sln

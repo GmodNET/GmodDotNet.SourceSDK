@@ -3,4 +3,8 @@
 		<TargetFramework>net5</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Folder Include="runtimes\linux-x64\native\" />
+	  <Folder Include="runtimes\win-x64\native\" />
+	</ItemGroup>
 </Project>
