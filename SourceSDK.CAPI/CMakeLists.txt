@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.8)
 
-project("sourcesdkc")
-
+project("sourcesdkc" CXX)
+set (CMAKE_CXX_STANDARD 11)
 set(SOURCESDK_DEFINES
   "PLATFORM_64BITS"
   "__x86_64__"
