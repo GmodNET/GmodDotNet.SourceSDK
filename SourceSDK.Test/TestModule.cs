@@ -66,9 +66,7 @@ namespace SourceSDKTest
 
 					Console.WriteLine("factory()");
 
-					IntPtr interfaceNamePointer = Marshal.StringToHGlobalAnsi("VFileSystem022");
-					IntPtr iFileSystemPtr = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
-					Marshal.FreeHGlobal(interfaceNamePointer);
+					IntPtr iFileSystemPtr = factory("VFileSystem022", out interfaceh.IFACE returnCode);
 
 					Console.WriteLine($"result is {returnCode}");
 
