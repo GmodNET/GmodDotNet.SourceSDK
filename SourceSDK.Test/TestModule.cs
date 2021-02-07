@@ -58,7 +58,7 @@ namespace SourceSDKTest
 					}
 					else
 					{
-						path = "filesystem_stdio";
+						path = "filesystem_stdio.so";
 					}
 
 					Console.WriteLine("Getting factory");
