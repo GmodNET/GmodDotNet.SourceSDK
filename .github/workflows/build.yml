@@ -17,7 +17,6 @@ jobs:
         cmakeListsOrSettingsJson: CMakeListsTxtBasic
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
-    - run: tree
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -38,7 +37,6 @@ jobs:
         cmakeListsOrSettingsJson: CMakeSettingsJson
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
-    - run: tree /f
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
