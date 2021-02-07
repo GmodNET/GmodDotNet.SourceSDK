@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net5</TargetFramework>
 		<AssemblyName>SourceSDKTest</AssemblyName>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
 	  <PackageReference Include="GmodNET.API" Version="0.7.0-beta.2.32934270.master" />
