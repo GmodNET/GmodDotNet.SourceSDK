@@ -46,29 +46,26 @@ jobs:
         path: "out/x64-Release/SourceSDK.CAPI/sourcesdkc.dll"
         retention-days: 10
         if-no-files-found: error
-  osx-cmake-build:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    - uses: ilammy/msvc-dev-cmd@v1
-    - run: |
-        export CMAKE_C_COMPILER=/usr/bin/gcc
-        export CMAKE_CXX_COMPILER=/usr/bin/g++
-    - name: 'CMake'
-      uses: lukka/run-cmake@v2
-      with:
-        cmakeListsOrSettingsJson: CMakeListsTxtBasic
-        cmakeBuildType: Release
-        buildDirectory: '${{ github.workspace }}/out'
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: osx-x64
-        path: "out/SourceSDK.CAPI/libsourcesdkc.dylib"
-        retention-days: 10
-        if-no-files-found: error
+  #osx-cmake-build:
+  #  runs-on: macos-latest
+  #  steps:
+  #  - uses: actions/checkout@v2
+  #    with:
+  #      submodules: recursive
+  #  - uses: ilammy/msvc-dev-cmd@v1
+  #  - name: 'CMake'
+  #    uses: lukka/run-cmake@v2
+  #    with:
+  #      cmakeListsOrSettingsJson: CMakeListsTxtBasic
+  #      cmakeBuildType: Release
+  #      buildDirectory: '${{ github.workspace }}/out'
+  #  - name: Upload Artifact
+  #    uses: actions/upload-artifact@v2
+  #    with:
+  #      name: osx-x64
+  #      path: "out/SourceSDK.CAPI/libsourcesdkc.dylib"
+  #      retention-days: 10
+  #      if-no-files-found: error
   linux:
     runs-on: ubuntu-latest
     steps:
