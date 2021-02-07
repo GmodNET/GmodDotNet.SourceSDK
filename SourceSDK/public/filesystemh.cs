@@ -1,20 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SourceSDK
 {
-	public struct IFileSystem
+	public unsafe struct IFileSystem
 	{
-		public static class Delegates
-		{
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate bool rBool();
-		}
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		public delegate byte _IsSteam(IFileSystem* pThis);
 
-		public Delegates.rBool IsSteam;
+		public unsafe void** lpVtbl;
+		//public extern bool IsSteam();
+		public bool IsSteam()
+		{
+			return Marshal.GetDelegateForFunctionPointer<_IsSteam>((IntPtr)(lpVtbl[22]))((IFileSystem*)Unsafe.AsPointer(ref this)) != 0;
+		}
 	}
 }

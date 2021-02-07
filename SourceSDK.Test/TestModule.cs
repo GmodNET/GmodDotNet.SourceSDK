@@ -70,10 +70,22 @@ namespace SourceSDKTest
 					interfaceh.CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
 
 					Console.WriteLine("Creating");
+
 					IntPtr interfaceNamePointer = Marshal.StringToHGlobalAnsi("VFileSystem022");
 					void** factoryResult = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
 					Marshal.FreeHGlobal(interfaceNamePointer);
+
 					Console.WriteLine($"result is {returnCode}");
+
+					if (returnCode == interfaceh.IFACE.OK)
+					{
+						IFileSystem fileSystem = new IFileSystem() {lpVtbl=factoryResult };
+						Console.WriteLine(fileSystem.IsSteam());
+					}
+					else
+					{
+						Console.WriteLine("failed getting interface");
+					}
 				}
 			});
 
