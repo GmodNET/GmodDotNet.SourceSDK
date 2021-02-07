@@ -59,6 +59,7 @@ jobs:
         cmakeListsOrSettingsJson: CMakeListsTxtBasic
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
+        buildWithCMakeArgs: "-DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++"
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
