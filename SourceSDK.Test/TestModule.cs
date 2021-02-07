@@ -102,8 +102,7 @@ namespace SourceSDKTest
 					{
 						try
 						{
-							Console.WriteLine("PtrToStructure");
-							IFileSystem1 fileSystem = Marshal.PtrToStructure<IFileSystem1>((IntPtr)factoryResult);
+							IFileSystem1 fileSystem = new IFileSystem1() { lpVtbl = factoryResult };
 							Console.WriteLine("fileSystem.IsSteam");
 							Console.WriteLine(fileSystem.IsSteam());
 							Console.WriteLine("done");
@@ -113,8 +112,11 @@ namespace SourceSDKTest
 							Console.WriteLine(e);
 							try
 							{
-								IFileSystem1 fileSystem = new IFileSystem1() { lpVtbl = factoryResult };
+								Console.WriteLine("PtrToStructure");
+								IFileSystem1 fileSystem = Marshal.PtrToStructure<IFileSystem1>((IntPtr)factoryResult);
+								Console.WriteLine("fileSystem.IsSteam");
 								Console.WriteLine(fileSystem.IsSteam());
+								Console.WriteLine("done");
 							}
 							catch (Exception e2)
 							{
