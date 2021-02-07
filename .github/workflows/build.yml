@@ -89,12 +89,12 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: sourcesdk
-        path: SourceSDK/bin/Release/net5/*
+        path: SourceSDK/bin/Release/net5/publish/*
     - name: Upload SourceSDKTest.dll
       uses: actions/upload-artifact@v2
       with:
         name: sourcesdktest
-        path: SourceSDK.Test/bin/Release/net5/*
+        path: SourceSDK.Test/bin/Release/net5/publish/*
   Test-linux:
     needs: Build
     runs-on: ubuntu-latest
