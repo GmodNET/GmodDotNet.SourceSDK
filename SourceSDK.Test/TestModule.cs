@@ -58,7 +58,7 @@ namespace SourceSDKTest
 					}
 					else
 					{
-						path = "filesystem_stdio.so";
+						path = "bin/linux64/filesystem_stdio.so";
 					}
 
 					Console.WriteLine("Getting lib handle");
