@@ -20,6 +20,12 @@ jobs:
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
     - run: tree
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-x64
+        path: "out/SourceSDK.CAPI/libsourcesdkc.so"
+        retention-days: 10
   windows-cmake-build:
     runs-on: windows-latest
     steps:
@@ -35,7 +41,12 @@ jobs:
         #useVcpkgToolchainFile: true
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
-    - run: tree
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: win-x64
+        path: "out/SourceSDK.CAPI/sourcesdkc.dll"
+        retention-days: 10
   linux:
     runs-on: ubuntu-latest
     steps:
