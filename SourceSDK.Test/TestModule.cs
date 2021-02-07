@@ -72,15 +72,32 @@ namespace SourceSDKTest
 					Console.WriteLine("Creating");
 
 					IntPtr interfaceNamePointer = Marshal.StringToHGlobalAnsi("VFileSystem022");
-					void** factoryResult = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
+					IntPtr* factoryResult = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
 					Marshal.FreeHGlobal(interfaceNamePointer);
 
 					Console.WriteLine($"result is {returnCode}");
 
 					if (returnCode == interfaceh.IFACE.OK)
 					{
-						IFileSystem fileSystem = new IFileSystem() {lpVtbl=factoryResult };
-						Console.WriteLine(fileSystem.IsSteam());
+						try
+						{
+							IFileSystem fileSystem = new IFileSystem() { lpVtbl = factoryResult };
+							Console.WriteLine(fileSystem.IsSteam());
+						}
+						catch (Exception e)
+						{
+							Console.WriteLine(e);
+							try
+							{
+								IFileSystem fileSystem = Marshal.PtrToStructure<IFileSystem>((IntPtr)factoryResult);
+								Console.WriteLine(fileSystem.IsSteam());
+							}
+							catch (Exception e2)
+							{
+								Console.WriteLine("SECOND EXCEPTION:");
+								Console.WriteLine(e2);
+							}
+						}
 					}
 					else
 					{

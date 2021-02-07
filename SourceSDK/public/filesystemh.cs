@@ -13,11 +13,15 @@ namespace SourceSDK
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate byte _IsSteam(IFileSystem* pThis);
 
-		public unsafe void** lpVtbl;
+		public unsafe IntPtr* lpVtbl;
 		//public extern bool IsSteam();
 		public bool IsSteam()
 		{
-			return Marshal.GetDelegateForFunctionPointer<_IsSteam>((IntPtr)(lpVtbl[22]))((IFileSystem*)Unsafe.AsPointer(ref this)) != 0;
+			IntPtr isSteamPtr = lpVtbl[22];
+			if (isSteamPtr == IntPtr.Zero) throw new KeyNotFoundException("isSteamPtr");
+			_IsSteam isSteam = Marshal.GetDelegateForFunctionPointer<_IsSteam>(isSteamPtr);
+			IFileSystem* fs = (IFileSystem*)Unsafe.AsPointer(ref this);
+			return isSteam(fs) != 0;
 		}
 	}
 }
