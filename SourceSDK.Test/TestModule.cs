@@ -32,14 +32,14 @@ namespace SourceSDKTest
 
 		public unsafe struct IFileSystem1
 		{
+			public void** lpVtbl;
+
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			public delegate bool _IsSteam();
 
-			public unsafe IntPtr* lpVtbl;
-			//public extern bool IsSteam();
 			public bool IsSteam()
 			{
-				IntPtr isSteamPtr = lpVtbl[22];
+				IntPtr isSteamPtr = new IntPtr(lpVtbl[22]);
 				if (isSteamPtr == IntPtr.Zero) throw new Exception("isSteamPtr");
 				Console.WriteLine("getting delegate");
 				_IsSteam isSteam = Marshal.GetDelegateForFunctionPointer<_IsSteam>(isSteamPtr);
@@ -93,7 +93,7 @@ namespace SourceSDKTest
 					Console.WriteLine("Creating");
 
 					IntPtr interfaceNamePointer = Marshal.StringToHGlobalAnsi("VFileSystem022");
-					IntPtr* factoryResult = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
+					void** factoryResult = factory(interfaceNamePointer, out interfaceh.IFACE returnCode);
 					Marshal.FreeHGlobal(interfaceNamePointer);
 
 					Console.WriteLine($"result is {returnCode}");

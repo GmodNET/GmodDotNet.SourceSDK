@@ -12,7 +12,7 @@ namespace SourceSDK.Tier1
 		}
 		public const string CREATEINTERFACE_PROCNAME = "CreateInterface";
 
-		public unsafe delegate IntPtr* CreateInterfaceFn(IntPtr name, out IFACE returnCode);
+		public unsafe delegate void** CreateInterfaceFn(IntPtr name, out IFACE returnCode);
 
 		public static CreateInterfaceFn Sys_GetFactory(IntPtr module)
 		{
