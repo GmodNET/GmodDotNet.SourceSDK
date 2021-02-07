@@ -5,9 +5,14 @@ namespace SourceSDK.Tier1
 {
 	public static class interfaceh
 	{
+		public enum IFACE
+		{
+			OK = 0,
+			FAILED = 1
+		}
 		public const string CREATEINTERFACE_PROCNAME = "CreateInterface";
 
-		public unsafe delegate void** CreateInterfaceFn(IntPtr name, out int returnCode);
+		public unsafe delegate void** CreateInterfaceFn(IntPtr name, out IFACE returnCode);
 
 		public static CreateInterfaceFn Sys_GetFactory(IntPtr module)
 		{
