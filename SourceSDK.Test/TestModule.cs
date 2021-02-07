@@ -70,7 +70,9 @@ namespace SourceSDKTest
 					interfaceh.CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
 
 					Console.WriteLine("Creating");
-					void** factoryResult = factory(Marshal.StringToHGlobalAnsi("VFileSystem022"), out int returnCode);
+					IntPtr interfaceNamePointer = Marshal.StringToHGlobalAnsi("VFileSystem022");
+					void** factoryResult = factory(interfaceNamePointer, out int returnCode);
+					Marshal.FreeHGlobal(interfaceNamePointer);
 					Console.WriteLine($"result is {returnCode}");
 				}
 			});
