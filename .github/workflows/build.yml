@@ -15,7 +15,7 @@ jobs:
       uses: lukka/run-cmake@v2
       with:
         cmakeListsOrSettingsJson: CMakeListsTxtBasic
-        cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
+       # cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
         #useVcpkgToolchainFile: true
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
@@ -30,7 +30,7 @@ jobs:
       uses: lukka/run-cmake@v2
       with:
         cmakeListsOrSettingsJson: CMakeListsTxtBasic
-        cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
+       # cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
         #useVcpkgToolchainFile: true
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'

@@ -1,18 +1,61 @@
-# CMakeList.txt : CMake project for SourceSDK.CAPI, include source and define
-# project specific logic here.
-#
-link_libraries("C:/Users/Дом/source/repos/SupinePandora43/GmodDotNet.SourceSDK/SourceSDK.CAPI/gmod_sdk/sourcesdk-minimal/lib/public/x64/tier0.lib")
-link_libraries("C:/Users/Дом/source/repos/SupinePandora43/GmodDotNet.SourceSDK/SourceSDK.CAPI/gmod_sdk/sourcesdk-minimal/lib/public/libz.lib")
-#link_libraries("C:/Users/Дом/source/repos/SupinePandora43/GmodDotNet.SourceSDK/SourceSDK.CAPI/gmod_sdk/sourcesdk-minimal/lib/public/tier1.lib")
-link_libraries("C:/Users/Дом/source/repos/SupinePandora43/GmodDotNet.SourceSDK/SourceSDK.CAPI/gmod_sdk/sourcesdk-minimal/lib/public/tier2.lib")
-link_libraries("C:/Users/Дом/source/repos/SupinePandora43/GmodDotNet.SourceSDK/SourceSDK.CAPI/gmod_sdk/sourcesdk-minimal/lib/public/tier3.lib")
-link_libraries("C:/Users/Дом/source/repos/SupinePandora43/GmodDotNet.SourceSDK/SourceSDK.CAPI/gmod_sdk/sourcesdk-minimal/lib/public/x64/vstdlib.lib")
 cmake_minimum_required (VERSION 3.8)
-set(arch "x64")
-set(CMAKE_SYSTEM_PROCESSOR "x64")
-project("sourcesdkc")
-add_library (sourcesdkc MODULE "SourceSDK.CAPI.cpp" "SourceSDK.CAPI.h")
-include_directories()
-target_include_directories(sourcesdkc PUBLIC "gmod_sdk/sourcesdk-minimal/public")
 
-add_compile_definitions("COMPILER_MSVC" "COMPILER_MSVC64" "__x86_64__")
+project("sourcesdkc")
+
+set(SOURCESDK_DEFINES
+  "PLATFORM_64BITS"
+  "__x86_64__"
+)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+	list(APPEND SOURCESDK_DEFINES "COMPILER_GCC" "GNUC")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+	list(APPEND SOURCESDK_DEFINES "COMPILER_MSVC")
+	list(APPEND SOURCESDK_DEFINES "COMPILER_MSVC64")
+else()
+	message(WARNING "Unknown compiler used: ${CMAKE_CXX_COMPILER_ID}")
+endif()
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	list(APPEND SOURCESDK_DEFINES "WIN64" "_WIN64" "_DLL_EXT=.dll" "WIN32")
+	set(SOURCESDK_LIBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/lib/public/x64")
+endif()
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	list(APPEND SOURCESDK_DEFINES
+		"_DLL_EXT=.so"
+		"POSIX"
+		"_POSIX"
+		"LINUX"
+		"_LINUX"
+		"SWDS"
+	)
+	set(SOURCESDK_LIBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/lib/public/linux64")
+endif()
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	list(APPEND SOURCESDK_DEFINES
+		"_DLL_EXT=.dylib"
+		"POSIX"
+		"_POSIX"
+		"OSX"
+		"_OSX"
+		"_DARWIN_UNLIMITED_SELECT"
+		"FD_SETSIZE=10240"
+		"OVERRIDE_V_DEFINES"
+		"SWDS"
+	)
+	set(SOURCESDK_LIBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/lib/public/osx64")
+endif()
+
+add_compile_definitions(${SOURCESDK_DEFINES})
+
+link_directories("${SOURCESDK_LIBDIRS}")
+link_libraries(tier0)
+add_library (sourcesdkc MODULE "SourceSDK.CAPI.cpp" "SourceSDK.CAPI.h")
+
+target_include_directories(sourcesdkc PUBLIC#SYSTEM INTERFACE
+	#"${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/common"
+	#"${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/game/shared"
+	"${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/public"
+)
+#target_include_directories(sourcesdkc SYSTEM INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/public/tier0")
