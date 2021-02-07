@@ -5,10 +5,42 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
+  linux-cmake-build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: 'CMake'
+      uses: lukka/run-cmake@v2
+      with:
+        cmakeListsOrSettingsJson: CMakeListsTxtBasic
+        cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
+        #useVcpkgToolchainFile: true
+        cmakeBuildType: Release
+        buildDirectory: '${{ github.workspace }}/out'
+    - run: tree
+  windows-cmake-build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: 'CMake'
+      uses: lukka/run-cmake@v2
+      with:
+        cmakeListsOrSettingsJson: CMakeListsTxtBasic
+        cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
+        #useVcpkgToolchainFile: true
+        cmakeBuildType: Release
+        buildDirectory: '${{ github.workspace }}/out'
+    - run: tree
   linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
