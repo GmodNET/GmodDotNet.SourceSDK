@@ -26,10 +26,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
+    - uses: ilammy/msvc-dev-cmd@v1
     - name: 'CMake'
       uses: lukka/run-cmake@v2
       with:
-        cmakeListsOrSettingsJson: CMakeListsTxtBasic
+        cmakeListsOrSettingsJson: CMakeSettingsJson
        # cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
         #useVcpkgToolchainFile: true
         cmakeBuildType: Release
