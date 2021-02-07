@@ -26,6 +26,7 @@ jobs:
         name: linux-x64
         path: "out/SourceSDK.CAPI/libsourcesdkc.so"
         retention-days: 10
+        if-no-files-found: error
   windows-cmake-build:
     runs-on: windows-latest
     steps:
@@ -48,6 +49,7 @@ jobs:
         name: win-x64
         path: "out/SourceSDK.CAPI/sourcesdkc.dll"
         retention-days: 10
+        if-no-files-found: error
   linux:
     runs-on: ubuntu-latest
     steps:
