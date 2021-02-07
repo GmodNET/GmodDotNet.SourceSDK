@@ -15,8 +15,6 @@ jobs:
       uses: lukka/run-cmake@v2
       with:
         cmakeListsOrSettingsJson: CMakeListsTxtBasic
-       # cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
-        #useVcpkgToolchainFile: true
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
     - run: tree
@@ -38,8 +36,6 @@ jobs:
       uses: lukka/run-cmake@v2
       with:
         cmakeListsOrSettingsJson: CMakeSettingsJson
-       # cmakeListsTxtPath: "SourceSDK.CAPI/CMakeLists.txt"
-        useVcpkgToolchainFile: true
         cmakeBuildType: Release
         buildDirectory: '${{ github.workspace }}/out'
     - run: tree /f
@@ -47,7 +43,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: win-x64
-        path: "out/SourceSDK.CAPI/sourcesdkc.dll"
+        path: "out/x64-Release/SourceSDK.CAPI/sourcesdkc.dll"
         retention-days: 10
         if-no-files-found: error
   linux:
