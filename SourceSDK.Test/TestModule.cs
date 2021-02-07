@@ -33,7 +33,7 @@ namespace SourceSDKTest
 		public unsafe struct IFileSystem1
 		{
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate bool _IsSteam(IFileSystem1* pThis);
+			public delegate bool _IsSteam();
 
 			public unsafe IntPtr* lpVtbl;
 			//public extern bool IsSteam();
@@ -43,10 +43,8 @@ namespace SourceSDKTest
 				if (isSteamPtr == IntPtr.Zero) throw new Exception("isSteamPtr");
 				Console.WriteLine("getting delegate");
 				_IsSteam isSteam = Marshal.GetDelegateForFunctionPointer<_IsSteam>(isSteamPtr);
-				Console.WriteLine("fs");
-				IFileSystem1* fs = (IFileSystem1*)Unsafe.AsPointer(ref this);
 				Console.WriteLine("isSteam");
-				bool isSteamResult = isSteam(fs);
+				bool isSteamResult = isSteam();
 				Console.WriteLine("return");
 				return isSteamResult;
 			}
