@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace SourceSDK.Tier1
+namespace GmodNET.SourceSDK.Tier1
 {
 	public static class interfaceh
 	{

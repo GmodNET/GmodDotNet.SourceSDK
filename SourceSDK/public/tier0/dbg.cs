@@ -1,8 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SourceSDK.Tier0
+namespace GmodNET.SourceSDK.Tier0
 {
 	/// <remarks>
 	/// "public/tier0/dbg.h"

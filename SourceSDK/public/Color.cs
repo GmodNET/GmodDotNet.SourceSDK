@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace SourceSDK
+namespace GmodNET.SourceSDK
 {
 	/// <summary>
 	/// Color struct

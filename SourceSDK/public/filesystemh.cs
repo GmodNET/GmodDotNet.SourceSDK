@@ -1,10 +1,12 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace SourceSDK
+namespace GmodNET.SourceSDK
 {
 	public class IFileSystem
 	{
+		static IFileSystem() => NativeLibraryResolver.Init();
+
 		private IntPtr ptr;
 
 		public IFileSystem(IntPtr ptr)
