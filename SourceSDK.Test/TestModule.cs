@@ -35,7 +35,7 @@ namespace SourceSDKTest
 
 			Test(() => Dbg.Warning("Warning(string)\n"));
 
-			Test(() => Dbg.Warning_SpewCallStack(100, "Warning_SpewCallStack(int, string)"));
+			Test(() => Dbg.Warning_SpewCallStack(100, "Warning_SpewCallStack(int, string)\n"));
 
 			Test(() => Dbg.DevMsg("DevMsg(string)\n"));
 			Test(() => Dbg.DevWarning("DevWarning(string)\n"));
