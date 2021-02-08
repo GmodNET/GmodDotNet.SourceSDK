@@ -47,7 +47,7 @@ add_compile_definitions(${SOURCESDK_DEFINES})
 
 link_directories("${SOURCESDK_LIBDIRS}")
 link_libraries(tier0)
-add_library (sourcesdkc MODULE "SourceSDK.CAPI.cpp" "SourceSDK.CAPI.h" "iappsystem_c.cpp")
+add_library (sourcesdkc MODULE "filesystem_c.cpp" "SourceSDK.CAPI.h" "iappsystem_c.cpp")
 
 target_include_directories(sourcesdkc PUBLIC#SYSTEM INTERFACE
 	#"${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/common"
