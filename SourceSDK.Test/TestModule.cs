@@ -104,7 +104,6 @@ namespace SourceSDKTest
 							Console.WriteLine("not found vmt");
 						}
 					}
-					else throw new EntryPointNotFoundException();
 				}
 			});
 
