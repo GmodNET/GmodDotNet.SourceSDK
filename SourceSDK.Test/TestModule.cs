@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using GmodNET.SourceSDK;
 using GmodNET.SourceSDK.Tier0;
 using GmodNET.SourceSDK.Tier1;
+using System.IO;
 
 namespace SourceSDKTest
 {
@@ -78,6 +79,27 @@ namespace SourceSDKTest
 						fileSystem.PrintSearchPaths();
 						Console.WriteLine("IsSteam");
 						Console.WriteLine(fileSystem.IsSteam());
+
+						IntPtr fileHandle = fileSystem.Open("materials/brick/brick_model.vmt", "r", "GAME");
+						if (fileHandle != IntPtr.Zero)
+						{
+							uint size = fileSystem.Size(fileHandle);
+							MemoryStream ms = new((int)size);
+							byte[] buff = ms.GetBuffer();
+
+
+							fixed(byte* buffPtr = buff)
+							{
+								IntPtr buffIntPtr = new(buffPtr);
+								fileSystem.Read(buffIntPtr, (int)size, fileHandle);
+								//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
+								Console.WriteLine(ms.ToArray());
+							}
+						}
+						else
+						{
+							Console.WriteLine("not found vmt");
+						}
 					}
 					else throw new EntryPointNotFoundException();
 				}
