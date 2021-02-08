@@ -6,8 +6,6 @@ namespace GmodNET.SourceSDK
 {
 	public class IFileSystem : IAppSystem
 	{
-		static IFileSystem() => NativeLibraryResolver.Init();
-
 		public IFileSystem(IntPtr ptr) : base(ptr) { }
 
 		[DllImport("sourcesdkc")]
