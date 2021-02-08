@@ -6,6 +6,8 @@ namespace GmodNET.SourceSDK
 {
 	public class IFileSystem : IAppSystem
 	{
+		public const string FILESYSTEM_INTERFACE_VERSION = "VFileSystem022";
+
 		public IFileSystem(IntPtr ptr) : base(ptr) { }
 
 		[DllImport("sourcesdkc")]

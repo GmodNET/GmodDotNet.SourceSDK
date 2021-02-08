@@ -14,7 +14,9 @@ namespace GmodNET.SourceSDK.AppFramework
 
 	public struct AppSystemInfo_t
 	{
+		[MarshalAs(UnmanagedType.LPStr)]
 		public string moduleName;
+		[MarshalAs(UnmanagedType.LPStr)]
 		public string interfaceName;
 	};
 

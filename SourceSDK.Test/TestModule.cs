@@ -66,7 +66,7 @@ namespace SourceSDKTest
 
 					Console.WriteLine("factory()");
 
-					IntPtr iFileSystemPtr = factory("VFileSystem022", out IFACE returnCode);
+					IntPtr iFileSystemPtr = factory(IFileSystem.FILESYSTEM_INTERFACE_VERSION, out IFACE returnCode);
 
 					Console.WriteLine($"result is {returnCode}");
 
