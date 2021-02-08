@@ -62,15 +62,15 @@ namespace SourceSDKTest
 					}
 
 					Console.WriteLine("Getting factory");
-					interfaceh.CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
+					CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
 
 					Console.WriteLine("factory()");
 
-					IntPtr iFileSystemPtr = factory("VFileSystem022", out interfaceh.IFACE returnCode);
+					IntPtr iFileSystemPtr = factory("VFileSystem022", out IFACE returnCode);
 
 					Console.WriteLine($"result is {returnCode}");
 
-					if (returnCode == interfaceh.IFACE.OK)
+					if (returnCode == IFACE.OK)
 					{
 						IFileSystem fileSystem = new(iFileSystemPtr);
 

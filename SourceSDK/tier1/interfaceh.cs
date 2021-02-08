@@ -3,16 +3,16 @@ using System.Runtime.InteropServices;
 
 namespace GmodNET.SourceSDK.Tier1
 {
+	public enum IFACE
+	{
+		OK = 0,
+		FAILED = 1
+	}
+
+	public delegate IntPtr CreateInterfaceFn(string name, out IFACE returnCode);
 	public static class interfaceh
 	{
-		public enum IFACE
-		{
-			OK = 0,
-			FAILED = 1
-		}
 		public const string CREATEINTERFACE_PROCNAME = "CreateInterface";
-
-		public unsafe delegate IntPtr CreateInterfaceFn(string name, out IFACE returnCode);
 
 		public static CreateInterfaceFn Sys_GetFactory(IntPtr module)
 		{
@@ -23,6 +23,7 @@ namespace GmodNET.SourceSDK.Tier1
 
 			return Marshal.GetDelegateForFunctionPointer<CreateInterfaceFn>(createInterfaceFnPtr);
 		}
+
 		public static CreateInterfaceFn Sys_GetFactory(string module)
 		{
 			IntPtr handle = NativeLibrary.Load(module);

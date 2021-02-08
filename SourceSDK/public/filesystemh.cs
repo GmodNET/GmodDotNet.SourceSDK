@@ -1,19 +1,14 @@
+using GmodNET.SourceSDK.AppFramework;
 using System;
 using System.Runtime.InteropServices;
 
 namespace GmodNET.SourceSDK
 {
-	public class IFileSystem
+	public class IFileSystem : IAppSystem
 	{
 		static IFileSystem() => NativeLibraryResolver.Init();
 
-		private readonly IntPtr ptr;
-
-		public IFileSystem(IntPtr ptr)
-		{
-			if (ptr == IntPtr.Zero) throw new ArgumentNullException(nameof(ptr), "Passing invalid pointer will cause crash");
-			this.ptr = ptr;
-		}
+		public IFileSystem(IntPtr ptr) : base(ptr) { }
 
 		[DllImport("sourcesdkc")]
 		internal static extern bool IFileSystem_IsSteam(IntPtr ptr);
