@@ -84,13 +84,12 @@ namespace SourceSDKTest
 						IntPtr baseFileSystemPtr = factory(BaseFileSystem.BASEFILESYSTEM_INTERFACE_VERSION, out IFACE baseReturnCode);
 						BaseFileSystem baseFileSystem = new(baseFileSystemPtr);
 
-						IntPtr fileHandle = baseFileSystem.Open("cfg/mapcycle.txt", "r", "MOD");
+						IntPtr fileHandle = baseFileSystem.Open("maps/gm_construct.bsp", "r", "MOD");
 						if (fileHandle != IntPtr.Zero)
 						{
 							uint size = baseFileSystem.Size(fileHandle);
 							MemoryStream ms = new((int)size);
 							byte[] buff = ms.GetBuffer();
-
 
 							fixed(byte* buffPtr = buff)
 							{
