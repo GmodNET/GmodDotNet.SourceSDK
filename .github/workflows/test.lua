@@ -1,4 +1,3 @@
-hook.Add("Tick", "CloseServer", engine.CloseServer)
 require("dotnet")
 
 local function run_test()
@@ -11,7 +10,12 @@ local function run_test()
 	assert(module_unloaded)
 end
 
-run_test()
+local function OnTick()
+	hook.Remove("Tick", "CloseServer")
+	run_test()
+	print("tests are successful!")
+	file.Write("success.txt", "done")
+	engine.CloseServer()
+end
 
-print("tests are successful!")
-file.Write("success.txt", "done")
+hook.Add("Tick", "CloseServer", OnTick)
