@@ -80,10 +80,14 @@ namespace SourceSDKTest
 						Console.WriteLine("IsSteam");
 						Console.WriteLine(fileSystem.IsSteam());
 
-						IntPtr fileHandle = fileSystem.Open("cfg/mapcycle.txt", "r", "MOD");
+
+						IntPtr baseFileSystemPtr = factory(BaseFileSystem.BASEFILESYSTEM_INTERFACE_VERSION, out IFACE baseReturnCode);
+						BaseFileSystem baseFileSystem = new(baseFileSystemPtr);
+
+						IntPtr fileHandle = baseFileSystem.Open("cfg/mapcycle.txt", "r", "MOD");
 						if (fileHandle != IntPtr.Zero)
 						{
-							uint size = fileSystem.Size(fileHandle);
+							uint size = baseFileSystem.Size(fileHandle);
 							MemoryStream ms = new((int)size);
 							byte[] buff = ms.GetBuffer();
 
@@ -91,7 +95,7 @@ namespace SourceSDKTest
 							fixed(byte* buffPtr = buff)
 							{
 								IntPtr buffIntPtr = new(buffPtr);
-								fileSystem.Read(buffIntPtr, (int)size, fileHandle);
+								baseFileSystem.Read(buffIntPtr, (int)size, fileHandle);
 								//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
 								Console.WriteLine(ms.ToArray());
 							}
