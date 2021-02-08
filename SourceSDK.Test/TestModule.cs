@@ -66,13 +66,13 @@ namespace SourceSDKTest
 
 					Console.WriteLine("factory()");
 
-					IntPtr iFileSystemPtr = factory(IFileSystem.FILESYSTEM_INTERFACE_VERSION, out IFACE returnCode);
+					IntPtr iFileSystemPtr = factory(FileSystem.FILESYSTEM_INTERFACE_VERSION, out IFACE returnCode);
 
 					Console.WriteLine($"result is {returnCode}");
 
 					if (returnCode == IFACE.OK)
 					{
-						IFileSystem fileSystem = new(iFileSystemPtr);
+						FileSystem fileSystem = new(iFileSystemPtr);
 
 						Console.WriteLine("PrintSearchPaths");
 						fileSystem.PrintSearchPaths();
