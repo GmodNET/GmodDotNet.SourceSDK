@@ -89,6 +89,8 @@ namespace SourceSDKTest
 
 					IntPtr fsPtr = GetSystem("VFileSystem", path);
 
+					if (fsPtr == IntPtr.Zero) fsPtr = GetSystem("VBaseFileSystem", path);
+
 					if (fsPtr != IntPtr.Zero)
 					{
 						FileSystem fileSystem = new(fsPtr);
