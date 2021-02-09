@@ -31,11 +31,12 @@ namespace SourceSDKTest
 			}
 		}
 
+		private delegate IntPtr CreateInterfaceFn(IntPtr name, out IFACE returnCode);
 		private static IntPtr GetSystem(string interfaceNoVersionName, string path)
 		{
 			Console.WriteLine($"GetSystem(): Searching for {interfaceNoVersionName} in {path}");
 
-			CreateInterfaceFn createInterfaceFn = interfaceh.Sys_GetFactory(path);
+			CreateInterfaceFn createInterfaceFn = Marshal.GetDelegateForFunctionPointer<CreateInterfaceFn>(NativeLibrary.GetExport(NativeLibrary.Load(path), interfaceh.CREATEINTERFACE_PROCNAME));
 
 			for (int i = 99; i >= 0; i--)
 			{
@@ -48,7 +49,11 @@ namespace SourceSDKTest
 
 				Console.WriteLine($"GetSystem(): Trying {verString}");
 
-				IntPtr systemPtr = createInterfaceFn(interfaceNoVersionName + verString, out IFACE returnCode);
+				IntPtr namePtr = Marshal.StringToHGlobalAnsi(interfaceNoVersionName + verString);
+
+				IntPtr systemPtr = createInterfaceFn(namePtr, out IFACE returnCode);
+
+				Marshal.FreeHGlobal(namePtr);
 
 				if (returnCode == IFACE.OK)
 				{
