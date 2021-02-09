@@ -6,6 +6,7 @@ using GmodNET.SourceSDK;
 using GmodNET.SourceSDK.Tier0;
 using GmodNET.SourceSDK.Tier1;
 using System.IO;
+using System.Text;
 
 namespace SourceSDKTest
 {
@@ -30,6 +31,38 @@ namespace SourceSDKTest
 			}
 		}
 
+		private static IntPtr GetSystem(string interfaceNoVersionName, string path)
+		{
+			Console.WriteLine($"GetSystem(): Searching for {interfaceNoVersionName} in {path}");
+
+			CreateInterfaceFn createInterfaceFn = interfaceh.Sys_GetFactory(path);
+
+			for (int i = 99; i >= 0; i--)
+			{
+				int last = i % 10;
+				int middle = i / 10;
+
+				string verString = $"0{middle}{last}";
+
+				if (verString.Length > 3) throw new IndexOutOfRangeException(nameof(verString));
+
+				Console.WriteLine($"GetSystem(): Trying {verString}");
+
+				IntPtr systemPtr = createInterfaceFn(interfaceNoVersionName + verString, out IFACE returnCode);
+
+				if (returnCode == IFACE.OK)
+				{
+					Console.WriteLine($"GetSystem(): Found {interfaceNoVersionName}{verString}");
+					return systemPtr;
+				}
+
+			}
+
+			Console.WriteLine($"GetSystem(): Not Found {interfaceNoVersionName}");
+
+			return IntPtr.Zero;
+		}
+
 		public void Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
 			Test(() => Dbg.Msg("Msg(string)\n"));
@@ -52,56 +85,34 @@ namespace SourceSDKTest
 			{
 				unsafe
 				{
-					string path;
-					if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "filesystem_stdio.so";
+
+					IntPtr fsPtr = GetSystem("VFileSystem", path);
+
+					if (fsPtr != IntPtr.Zero)
 					{
-						path = "filesystem_stdio.dll";
-					}
-					else
-					{
-						path = "filesystem_stdio.so";
-					}
+						FileSystem fileSystem = new(fsPtr);
 
-					Console.WriteLine("Getting factory");
-					CreateInterfaceFn factory = interfaceh.Sys_GetFactory(path);
+						IntPtr fileHandle = fileSystem.Open("lua/autorun/test.lua", "r", "LUA");
 
-					Console.WriteLine("factory()");
-
-					IntPtr iFileSystemPtr = factory(FileSystem.FILESYSTEM_INTERFACE_VERSION, out IFACE returnCode);
-
-					Console.WriteLine($"result is {returnCode}");
-
-					if (returnCode == IFACE.OK)
-					{
-						FileSystem fileSystem = new(iFileSystemPtr);
-
-						Console.WriteLine("PrintSearchPaths");
-						fileSystem.PrintSearchPaths();
-						Console.WriteLine("IsSteam");
-						Console.WriteLine(fileSystem.IsSteam());
-
-
-						IntPtr baseFileSystemPtr = factory(BaseFileSystem.BASEFILESYSTEM_INTERFACE_VERSION, out IFACE baseReturnCode);
-						BaseFileSystem baseFileSystem = new(baseFileSystemPtr);
-
-						IntPtr fileHandle = baseFileSystem.Open("maps/gm_construct.bsp", "r", "MOD");
 						if (fileHandle != IntPtr.Zero)
 						{
-							uint size = baseFileSystem.Size(fileHandle);
+							uint size = fileSystem.Size(fileHandle);
 							MemoryStream ms = new((int)size);
 							byte[] buff = ms.GetBuffer();
 
-							fixed(byte* buffPtr = buff)
+							fixed (byte* buffPtr = buff)
 							{
 								IntPtr buffIntPtr = new(buffPtr);
-								baseFileSystem.Read(buffIntPtr, (int)size, fileHandle);
+								fileSystem.Read(buffIntPtr, (int)size, fileHandle);
 								//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
-								Console.WriteLine(ms.ToArray());
+								Console.WriteLine("Printing test.lua");
+								Console.WriteLine(Encoding.UTF8.GetChars(ms.ToArray()));
 							}
 						}
 						else
 						{
-							Console.WriteLine("not found vmt");
+							Console.WriteLine("not found file");
 						}
 					}
 				}
