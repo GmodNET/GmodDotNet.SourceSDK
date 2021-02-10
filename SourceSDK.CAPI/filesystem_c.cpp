@@ -81,6 +81,16 @@ DLL_EXPORT FilesystemMountRetval_t IFileSystem_MountSteamContent(void** fsPtr, i
 	return fs->MountSteamContent(nExtraAppId);
 }
 
+DLL_EXPORT void IFileSystem_AddSearchPath(void** fsPtr, const char* pPath, const char* pathID, SearchPathAdd_t addType = PATH_ADD_TO_TAIL) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->AddSearchPath(pPath, pathID, addType);
+}
+
+DLL_EXPORT bool IFileSystem_RemoveSearchPath(void** fsPtr, const char* pPath, const char* pathID = 0) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->RemoveSearchPath(pPath, pathID);
+}
+
 DLL_EXPORT void IFileSystem_PrintSearchPaths(void** fsPtr) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	fs->PrintSearchPaths();
