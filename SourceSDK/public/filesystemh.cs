@@ -222,11 +222,21 @@ namespace GmodNET.SourceSDK
 	internal static class FileSystem_c
 	{
 		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_IsSteam(IntPtr ptr);
+
+		[DllImport("sourcesdkc")]
 		internal static extern FilesystemMountRetval_t IFileSystem_MountSteamContent(IntPtr ptr, int extraAppId = -1);
 		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_AddSearchPath(IntPtr ptr, string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL);
 		[DllImport("sourcesdkc")]
 		internal static extern bool IFileSystem_RemoveSearchPath(IntPtr ptr, string path, string pathID);
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_RemoveAllSearchPaths(IntPtr ptr);
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_RemoveSearchPaths(IntPtr ptr, string pathID);
+
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);
 	}
 
 	internal interface IBaseFileSystem
@@ -261,6 +271,9 @@ namespace GmodNET.SourceSDK
 
 		void AddSearchPath(string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL);
 		bool RemoveSearchPath(string path, string pathID);
+		void RemoveAllSearchPaths();
+		void RemoveSearchPaths(string pathID);
+
 
 		void PrintSearchPaths();
 	}
@@ -304,34 +317,20 @@ namespace GmodNET.SourceSDK
 
 		public FileSystem(IntPtr ptr) : base(ptr) { }
 
-		[DllImport("sourcesdkc")]
-		internal static extern bool IFileSystem_IsSteam(IntPtr ptr);
-		public bool IsSteam()
-		{
-			return IFileSystem_IsSteam(ptr);
-		}
 
-		public FilesystemMountRetval_t MountSteamContent(int extraAppId = -1)
-		{
-			return FileSystem_c.IFileSystem_MountSteamContent(ptr, extraAppId);
-		}
+		public bool IsSteam() => FileSystem_c.IFileSystem_IsSteam(ptr);
 
-		public void AddSearchPath(string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL)
-		{
-			FileSystem_c.IFileSystem_AddSearchPath(ptr, path, pathID, addType);
-		}
+		public FilesystemMountRetval_t MountSteamContent(int extraAppId = -1) => FileSystem_c.IFileSystem_MountSteamContent(ptr, extraAppId);
 
-		public bool RemoveSearchPath(string path, string pathID)
-		{
-			return FileSystem_c.IFileSystem_RemoveSearchPath(ptr, path, pathID);
-		}
+		public void AddSearchPath(string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL) => FileSystem_c.IFileSystem_AddSearchPath(ptr, path, pathID, addType);
+		public bool RemoveSearchPath(string path, string pathID) => FileSystem_c.IFileSystem_RemoveSearchPath(ptr, path, pathID);
+		public void RemoveAllSearchPaths() => FileSystem_c.IFileSystem_RemoveAllSearchPaths(ptr);
+		public void RemoveSearchPaths(string pathID) => FileSystem_c.IFileSystem_RemoveSearchPaths(ptr, pathID);
 
-		[DllImport("sourcesdkc")]
-		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);
-		public void PrintSearchPaths()
-		{
-			IFileSystem_PrintSearchPaths(ptr);
-		}
+
+		public void PrintSearchPaths() => FileSystem_c.IFileSystem_PrintSearchPaths(ptr);
+
+		/// IBaseFileSystem
 
 		public int Read(IntPtr output, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Read(ptr, output, size, file);
 		public int Write(IntPtr input, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Write(ptr, input, size, file);

@@ -75,21 +75,28 @@ DLL_EXPORT bool IFileSystem_IsSteam(void** fsPtr) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	return fs->IsSteam();
 }
-
 DLL_EXPORT FilesystemMountRetval_t IFileSystem_MountSteamContent(void** fsPtr, int nExtraAppId = -1) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	return fs->MountSteamContent(nExtraAppId);
 }
-
 DLL_EXPORT void IFileSystem_AddSearchPath(void** fsPtr, const char* pPath, const char* pathID, SearchPathAdd_t addType = PATH_ADD_TO_TAIL) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	fs->AddSearchPath(pPath, pathID, addType);
 }
-
 DLL_EXPORT bool IFileSystem_RemoveSearchPath(void** fsPtr, const char* pPath, const char* pathID = 0) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	return fs->RemoveSearchPath(pPath, pathID);
 }
+DLL_EXPORT void IFileSystem_RemoveAllSearchPaths(void** fsPtr) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->RemoveAllSearchPaths();
+}
+DLL_EXPORT void IFileSystem_RemoveSearchPaths(void** fsPtr, const char* szPathID) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->RemoveSearchPaths(szPathID);
+}
+
+
 
 DLL_EXPORT void IFileSystem_PrintSearchPaths(void** fsPtr) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
