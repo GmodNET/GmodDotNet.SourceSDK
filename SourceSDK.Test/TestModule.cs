@@ -101,8 +101,6 @@ namespace SourceSDKTest
 						FileSystem fileSystem = new(fsPtr);
 
 						fileSystem.PrintSearchPaths();
-						fileSystem.Init();
-						fileSystem.PrintSearchPaths();
 
 						IntPtr fileHandle = fileSystem.Open("lua/autorun/test.lua", "r", "LUA");
 
