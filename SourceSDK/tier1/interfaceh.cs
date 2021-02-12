@@ -72,7 +72,7 @@ namespace GmodNET.SourceSDK.Tier1
 		/// <seealso cref="Sys_LoadModule(string)"/>
 		public static void Sys_UnloadModule(IntPtr module)
 		{
-			NativeLibrary.Free(module);
+			//NativeLibrary.Free(module);
 		}
 
 		/// <summary>

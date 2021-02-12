@@ -88,8 +88,6 @@ namespace SourceSDKTest
 
 					Console.WriteLine("loading fs");
 
-					
-
 					if (!interfaceh.Sys_LoadInterface(path, "VFileSystem022", out IntPtr module, out IntPtr fsPtr))
 						if (!interfaceh.Sys_LoadInterface(path, "VBaseFileSystem011", out module, out fsPtr))
 						{
