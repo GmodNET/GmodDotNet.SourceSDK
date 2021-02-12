@@ -4,6 +4,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Company>GmodNET</Company>
 		<Product>GmodNET.SourceSDK</Product>
+		<Version>0.0.1</Version>
 		<IncludeSymbols>true</IncludeSymbols>
 	</PropertyGroup>
 	<ItemGroup>
