@@ -94,7 +94,7 @@ namespace SourceSDKTest
 							Console.WriteLine("failed finding filesystems");
 							// oof
 							NativeLibrary.Free(module);
-							NativeLibrary.Free(module);
+							Console.WriteLine("i guess it freed");
 							return;
 						}
 
