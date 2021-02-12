@@ -31,12 +31,11 @@ namespace SourceSDKTest
 			}
 		}
 
-		private delegate IntPtr CreateInterfaceFn(IntPtr name, out IFACE returnCode);
 		private static IntPtr GetSystem(string interfaceNoVersionName, string path)
 		{
 			Console.WriteLine($"GetSystem(): Searching for {interfaceNoVersionName} in {path}");
 
-			CreateInterfaceFn createInterfaceFn = Marshal.GetDelegateForFunctionPointer<CreateInterfaceFn>(NativeLibrary.GetExport(NativeLibrary.Load(path), interfaceh.CREATEINTERFACE_PROCNAME));
+			CreateInterfaceFn createInterfaceFn = interfaceh.Sys_GetFactory(path);
 
 			for (int i = 99; i >= 0; i--)
 			{
@@ -49,18 +48,13 @@ namespace SourceSDKTest
 
 				Console.WriteLine($"GetSystem(): Trying {verString}");
 
-				IntPtr namePtr = Marshal.StringToHGlobalAnsi(interfaceNoVersionName + verString);
-
-				IntPtr systemPtr = createInterfaceFn(namePtr, out IFACE returnCode);
-
-				Marshal.FreeHGlobal(namePtr);
+				IntPtr systemPtr = createInterfaceFn(interfaceNoVersionName + verString, out IFACE returnCode);
 
 				if (returnCode == IFACE.OK)
 				{
 					Console.WriteLine($"GetSystem(): Found {interfaceNoVersionName}{verString}");
 					return systemPtr;
 				}
-
 			}
 
 			Console.WriteLine($"GetSystem(): Not Found {interfaceNoVersionName}");
@@ -86,7 +80,7 @@ namespace SourceSDKTest
 
 			Test(() => Dbg.COM_TimestampedLog("COM_TimestampedLog(format = %s)", "COM_TimestampedLog"));
 
-			/*Test(() =>
+			Test(() =>
 			{
 				unsafe
 				{
@@ -125,7 +119,7 @@ namespace SourceSDKTest
 						}
 					}
 				}
-			});*/
+			});
 
 			Debug.Assert(!failed);
 		}

@@ -37,7 +37,7 @@ namespace GmodNET.SourceSDK.Tier0
 			}
 		}
 
-		internal class Windows
+		internal static class Windows
 		{
 			[DllImport("tier0", EntryPoint = "?DevMsg@@YAXPEBDZZ", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void DevMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
@@ -52,7 +52,7 @@ namespace GmodNET.SourceSDK.Tier0
 			[DllImport("tier0", EntryPoint = "?ConMsg@@YAXPEBDZZ", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void ConMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 		}
-		internal class Linux
+		internal static class Linux
 		{
 			[DllImport("tier0", EntryPoint = "_Z6DevMsgPKcz", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void DevMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
@@ -67,7 +67,7 @@ namespace GmodNET.SourceSDK.Tier0
 			[DllImport("tier0", EntryPoint = "_Z6ConMsgPKcz", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void ConMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 		}
-		internal class OSX
+		internal static class OSX
 		{
 			[DllImport("tier0", EntryPoint = "__Z6DevMsgPKcz", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void DevMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
@@ -112,6 +112,13 @@ namespace GmodNET.SourceSDK.Tier0
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ConDMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
+		/// <summary>
+		/// </summary>
+		/// <param name="fmt"></param>
+		/// <param name="dotdotdot"></param>
+		/// <remarks>
+		/// SupinePandora43: doesn't work, i don't know how it supposed to work
+		/// </remarks>
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void COM_TimestampedLog([MarshalAs(UnmanagedType.LPUTF8Str)] string fmt, string dotdotdot);
 	}
