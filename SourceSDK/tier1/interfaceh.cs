@@ -47,14 +47,11 @@ namespace GmodNET.SourceSDK.Tier1
 			{
 				exception = e;
 			}
-			finally
-			{
-				NativeLibrary.Free(handle);
-			}
 
 			if (exception is not null) throw exception;
 			return factory;
 		}
+
 		/// <summary>
 		/// loads module
 		/// </summary>
@@ -88,7 +85,7 @@ namespace GmodNET.SourceSDK.Tier1
 		/// <returns>successful</returns>
 		/// <seealso cref="Sys_GetFactory(string)"/>
 		/// <seealso cref="Sys_GetFactory(IntPtr)"/>
-		public static bool Sys_LoadInterface(string moduleName, string interfaceVersionName, [NotNullWhen(true)] out IntPtr outModule, [NotNullWhen(true)] out IntPtr outInterface)
+		public static bool Sys_LoadInterface(string moduleName, string interfaceVersionName, out IntPtr outModule, out IntPtr outInterface)
 		{
 			outModule = Sys_LoadModule(moduleName);
 			outInterface = IntPtr.Zero;
