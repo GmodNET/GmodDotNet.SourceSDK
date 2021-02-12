@@ -102,6 +102,13 @@ namespace SourceSDKTest
 
 					fileSystem.PrintSearchPaths();
 
+					Console.WriteLine("add search path");
+
+					fileSystem.AddSearchPath("garrysmod", "LUA", SearchPathAdd_t.PATH_ADD_TO_TAIL);
+
+					Console.WriteLine("print paths");
+					fileSystem.PrintSearchPaths();
+
 					IntPtr fileHandle = fileSystem.Open("lua/autorun/test.lua", "r", "LUA");
 
 					if (fileHandle != IntPtr.Zero)
