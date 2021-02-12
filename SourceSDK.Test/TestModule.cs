@@ -104,12 +104,12 @@ namespace SourceSDKTest
 
 					Console.WriteLine("add search path");
 
-					fileSystem.AddSearchPath("garrysmod", "LUA", SearchPathAdd_t.PATH_ADD_TO_TAIL);
+					fileSystem.AddSearchPath("garrysmod", "GAME", SearchPathAdd_t.PATH_ADD_TO_HEAD);
 
 					Console.WriteLine("print paths");
 					fileSystem.PrintSearchPaths();
 
-					IntPtr fileHandle = fileSystem.Open("lua/autorun/test.lua", "r", "LUA");
+					IntPtr fileHandle = fileSystem.Open("resource/GameMenu.res", "r", "GAME");
 
 					if (fileHandle != IntPtr.Zero)
 					{
