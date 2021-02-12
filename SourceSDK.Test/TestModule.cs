@@ -86,37 +86,39 @@ namespace SourceSDKTest
 				{
 					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "filesystem_stdio.so";
 
-					IntPtr fsPtr = GetSystem("VFileSystem", path);
 
-					if (fsPtr == IntPtr.Zero) fsPtr = GetSystem("VBaseFileSystem", path);
+					if (!interfaceh.Sys_LoadInterface(path, "VFileSystem022", out IntPtr module, out IntPtr fsPtr))
+						if (!interfaceh.Sys_LoadInterface(path, "VBaseFileSystem011", out module, out fsPtr))
+						{
+							Console.WriteLine("failed finding filesystems");
+							NativeLibrary.Free(module);
+							return;
+						}
 
-					if (fsPtr != IntPtr.Zero)
+					FileSystem fileSystem = new(fsPtr);
+
+					fileSystem.PrintSearchPaths();
+
+					IntPtr fileHandle = fileSystem.Open("lua/autorun/test.lua", "r", "LUA");
+
+					if (fileHandle != IntPtr.Zero)
 					{
-						FileSystem fileSystem = new(fsPtr);
+						uint size = fileSystem.Size(fileHandle);
+						MemoryStream ms = new((int)size);
+						byte[] buff = ms.GetBuffer();
 
-						fileSystem.PrintSearchPaths();
-
-						IntPtr fileHandle = fileSystem.Open("lua/autorun/test.lua", "r", "LUA");
-
-						if (fileHandle != IntPtr.Zero)
+						fixed (byte* buffPtr = buff)
 						{
-							uint size = fileSystem.Size(fileHandle);
-							MemoryStream ms = new((int)size);
-							byte[] buff = ms.GetBuffer();
-
-							fixed (byte* buffPtr = buff)
-							{
-								IntPtr buffIntPtr = new(buffPtr);
-								fileSystem.Read(buffIntPtr, (int)size, fileHandle);
-								//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
-								Console.WriteLine("Printing test.lua");
-								Console.WriteLine(Encoding.UTF8.GetChars(ms.ToArray()));
-							}
+							IntPtr buffIntPtr = new(buffPtr);
+							fileSystem.Read(buffIntPtr, (int)size, fileHandle);
+							//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
+							Console.WriteLine("Printing test.lua");
+							Console.WriteLine(Encoding.UTF8.GetChars(ms.ToArray()));
 						}
-						else
-						{
-							Console.WriteLine("not found file");
-						}
+					}
+					else
+					{
+						Console.WriteLine("not found file");
 					}
 				}
 			});
