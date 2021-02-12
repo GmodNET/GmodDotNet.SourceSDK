@@ -121,7 +121,7 @@ jobs:
     - name: Copy test.lua
       run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
     - name: Run Garry's Mod
-      run: ./srcds_run_x64 -game garrysmod -systemtest -condebug +sv_hibernate_think 1 || true
+      run: ./srcds_run_x64 -game garrysmod -systemtest -condebug +developer 1 +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 2 +sv_hibernate_think 1 || true
       working-directory: ./gmod/
       timeout-minutes: 2
       continue-on-error: true
@@ -159,7 +159,7 @@ jobs:
     - name: Run Garry's Mod
       shell: bash
       run: |
-           powershell -Command './gmod/srcds_win64.exe -console -systemtest -condebug -game "garrysmod" +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 16 +sv_hibernate_think 1'
+           powershell -Command './gmod/srcds_win64.exe -console -systemtest -condebug -game "garrysmod" +developer 1 +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 2 +sv_hibernate_think 1'
            powershell -Command 'Wait-Process -Name srcds_win64'
       continue-on-error: true
       timeout-minutes: 2
