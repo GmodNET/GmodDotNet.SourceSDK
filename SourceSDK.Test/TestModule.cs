@@ -86,7 +86,7 @@ namespace SourceSDKTest
 
 			Test(() => Dbg.COM_TimestampedLog("%s", "COM_TimestampedLog"));
 
-			Test(() =>
+			/*Test(() =>
 			{
 				unsafe
 				{
@@ -125,7 +125,7 @@ namespace SourceSDKTest
 						}
 					}
 				}
-			});
+			});*/
 
 			Debug.Assert(!failed);
 		}
