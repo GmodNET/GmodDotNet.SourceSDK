@@ -78,13 +78,15 @@ namespace SourceSDKTest
 			Test(() => Dbg.ConMsg("ConMsg(string)\n"));
 			Test(() => Dbg.ConDMsg("ConDMsg(string)\n"));
 
-			Test(() => Dbg.COM_TimestampedLog("COM_TimestampedLog(format = %s)", "COM_TimestampedLog"));
+			// Test(() => Dbg.COM_TimestampedLog("COM_TimestampedLog(format = %s)", "COM_TimestampedLog"));
 
 			Test(() =>
 			{
 				unsafe
 				{
 					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "bin/linux64/filesystem_stdio.so";
+
+					Console.WriteLine("loading fs");
 
 					if (!interfaceh.Sys_LoadInterface(path, "VFileSystem022", out IntPtr module, out IntPtr fsPtr))
 						if (!interfaceh.Sys_LoadInterface(path, "VBaseFileSystem011", out module, out fsPtr))
