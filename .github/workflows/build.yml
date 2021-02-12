@@ -85,6 +85,8 @@ jobs:
         path: SourceSDK/runtimes/win-x64/native
     - name: Build Solution
       run: dotnet publish SourceSDK.sln --configuration Release
+    - name: Pack
+      run: dotnet pack SourceSDK.sln --configuration Release
     - name: Upload nuget package
       uses: actions/upload-artifact@v2
       with:
