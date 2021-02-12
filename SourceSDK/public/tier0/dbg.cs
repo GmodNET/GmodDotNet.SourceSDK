@@ -113,6 +113,6 @@ namespace GmodNET.SourceSDK.Tier0
 		public static extern void ConDMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void COM_TimestampedLog([MarshalAs(UnmanagedType.LPUTF8Str)] string fmt, params string[] dotdotdot);
+		public static extern void COM_TimestampedLog([MarshalAs(UnmanagedType.LPUTF8Str)] string fmt, string dotdotdot);
 	}
 }
