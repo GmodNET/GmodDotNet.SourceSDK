@@ -94,6 +94,8 @@ namespace SourceSDKTest
 						if (!interfaceh.Sys_LoadInterface(path, "VBaseFileSystem011", out module, out fsPtr))
 						{
 							Console.WriteLine("failed finding filesystems");
+							// oof
+							NativeLibrary.Free(module);
 							NativeLibrary.Free(module);
 							return;
 						}
