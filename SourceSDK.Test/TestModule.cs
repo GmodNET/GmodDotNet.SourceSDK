@@ -84,7 +84,7 @@ namespace SourceSDKTest
 			{
 				unsafe
 				{
-					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "bin/linux64/filesystem_stdio.so";
+					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "filesystem_stdio.so";
 
 					Console.WriteLine("loading fs");
 
