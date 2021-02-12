@@ -87,6 +87,7 @@ namespace GmodNET.SourceSDK.Tier1
 		/// <seealso cref="Sys_GetFactory(IntPtr)"/>
 		public static bool Sys_LoadInterface(string moduleName, string interfaceVersionName, out IntPtr outModule, out IntPtr outInterface)
 		{
+			Console.WriteLine("Sys_LoadModule");
 			outModule = Sys_LoadModule(moduleName);
 			outInterface = IntPtr.Zero;
 
@@ -96,18 +97,22 @@ namespace GmodNET.SourceSDK.Tier1
 
 			try
 			{
+				Console.WriteLine("Sys_GetFactory");
 				factory = Sys_GetFactory(outModule);
 			}
 			catch (EntryPointNotFoundException)
 			{
+				Console.WriteLine("Sys_UnloadModule");
 				Sys_UnloadModule(outModule);
 				return false;
 			}
 
+			Console.WriteLine("factory()");
 			outInterface = factory(interfaceVersionName, out IFACE returnCode);
 
 			if (returnCode != IFACE.OK || outInterface == IntPtr.Zero)
 			{
+				Console.WriteLine("Sys_UnloadModule");
 				Sys_UnloadModule(outModule);
 				return false;
 			}
