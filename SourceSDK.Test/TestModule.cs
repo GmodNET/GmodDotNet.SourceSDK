@@ -100,7 +100,9 @@ namespace SourceSDKTest
 						Console.WriteLine("unloading it");
 						NativeLibrary.Free(module);
 						Console.WriteLine("unloaded ???");
+						return;
 					}
+
 					FileSystem fileSystem = new(fSPtr);
 					BaseFileSystem baseFileSystem = new(baseFSPtr);
 
