@@ -101,7 +101,7 @@ namespace SourceSDKTest
 					BaseFileSystem fileSystem = new(fsPtr);
 					//fileSystem.PrintSearchPaths();
 
-					IntPtr fileHandle = fileSystem.Open("resource/GameMenu.res", "r", "GAME");
+					IntPtr fileHandle = fileSystem.Open("resource/GameMenu.res", "rb", "GAME");
 
 					if (fileHandle != IntPtr.Zero)
 					{
