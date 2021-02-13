@@ -142,7 +142,7 @@ jobs:
     - name: Run Garry's Mod
       run: ./srcds_run_x64 -game garrysmod -systemtest -condebug +developer 1 +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 2 +sv_hibernate_think 1 || true
       working-directory: ./gmod/
-      timeout-minutes: 2
+      timeout-minutes: 3
       continue-on-error: true
     - name: Print log
       run: cat gmod/garrysmod/console.log
@@ -193,7 +193,7 @@ jobs:
            powershell -Command './gmod/srcds_win64.exe -console -systemtest -condebug -game "garrysmod" +developer 1 +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 2 +sv_hibernate_think 1'
            powershell -Command 'Wait-Process -Name srcds_win64'
       continue-on-error: true
-      timeout-minutes: 2
+      timeout-minutes: 3
     - name: Print log
       shell: bash
       run: cat gmod/garrysmod/console.log
