@@ -151,7 +151,7 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-    - name: Cleanup
+    - name: Delete ./gmod/garrysmod/lua/bin
       run: rm -r ./gmod/garrysmod/lua/bin
 
   Test-windows:
@@ -206,5 +206,5 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-    - name: Cleanup
-      run: del ./gmod/garrysmod/lua/bin
+    - name: Delete ./gmod/garrysmod/lua/bin
+      run: del /S ./gmod/garrysmod/lua/bin
