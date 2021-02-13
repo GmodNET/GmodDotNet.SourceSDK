@@ -282,8 +282,6 @@ namespace GmodNET.SourceSDK
 	{
 		public const string BASEFILESYSTEM_INTERFACE_VERSION = "VBaseFileSystem011";
 
-		static BaseFileSystem() => NativeLibraryResolver.Init();
-
 		protected readonly IntPtr ptr;
 
 		public BaseFileSystem(IntPtr ptr) => this.ptr = ptr;

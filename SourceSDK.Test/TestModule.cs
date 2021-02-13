@@ -64,6 +64,12 @@ namespace SourceSDKTest
 
 		public void Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
+			string platformIdentifier = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "win-x64" : "linux-x64";
+			assembly_context.SetCustomNativeLibraryResolver((ctx, str) =>
+			{
+				return NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
+			});
+
 			Test(() => Dbg.Msg("Msg(string)\n"));
 
 			Test(() => Dbg.Warning("Warning(string)\n"));

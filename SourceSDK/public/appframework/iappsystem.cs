@@ -32,8 +32,6 @@ namespace GmodNET.SourceSDK.AppFramework
 
 	public abstract class IAppSystem
 	{
-		static IAppSystem() => NativeLibraryResolver.Init();
-
 		protected readonly IntPtr ptr;
 
 		public IAppSystem(IntPtr ptr)
