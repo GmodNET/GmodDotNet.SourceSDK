@@ -207,4 +207,4 @@ jobs:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
     - name: Delete ./gmod/garrysmod/lua/bin
-      run: del /S ./gmod/garrysmod/lua/bin
+      run: Remove-Item –path ./gmod/garrysmod/lua/bin –recurse
