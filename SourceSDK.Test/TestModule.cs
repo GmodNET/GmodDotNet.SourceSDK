@@ -67,7 +67,7 @@ namespace SourceSDKTest
 			string platformIdentifier = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "win-x64" : "linux-x64";
 			assembly_context.SetCustomNativeLibraryResolver((ctx, str) =>
 			{
-				return NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
+				return str.Contains("sourcesdkc") ? NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc") : IntPtr.Zero;
 			});
 
 			Test(() => Dbg.Msg("Msg(string)\n"));
