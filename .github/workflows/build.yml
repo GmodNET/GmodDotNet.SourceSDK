@@ -151,9 +151,10 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-    - name: Delete ./gmod/garrysmod/lua/bin
+    - name: Delete stuff 1
       run: rm -r ./gmod/garrysmod/lua/bin
-
+    - name: Delete stuff 2
+      run: rm ./gmod/garrysmod/console.log
   Test-windows:
     needs: Build
     runs-on: windows-latest
@@ -206,5 +207,7 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-    - name: Delete ./gmod/garrysmod/lua/bin
+    - name: Delete stuff 1
       run: Remove-Item –path ./gmod/garrysmod/lua/bin –recurse
+    - name: Delete stuff 2
+      run: Remove-Item ./gmod/garrysmod/console.log
