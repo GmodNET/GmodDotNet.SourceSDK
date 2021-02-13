@@ -115,7 +115,7 @@ jobs:
           ./gmod
           steamcmd.sh
           ./linux32
-        key: ${{ runner.os }}
+        key: ${{ runner.os }}_new
     - name: Download SteamCMD
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
@@ -151,6 +151,9 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
+    - name: Cleanup
+      run: rm -r ./gmod/garrysmod/lua/bin
+
   Test-windows:
     needs: Build
     runs-on: windows-latest
@@ -163,7 +166,7 @@ jobs:
         path: |
           ./gmod
           steamcmd.exe
-        key: ${{ runner.os }}
+        key: ${{ runner.os }}_new
     - name: Download SteamCMD
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
@@ -203,3 +206,5 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
+    - name: Cleanup
+      run: del ./gmod/garrysmod/lua/bin
