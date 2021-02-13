@@ -18,6 +18,8 @@ namespace SourceSDKTest
 
 		private bool failed = false;
 
+		private IntPtr sourcesdkc = IntPtr.Zero;
+
 		internal void Test(Action action)
 		{
 			try
@@ -67,7 +69,12 @@ namespace SourceSDKTest
 			string platformIdentifier = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "win-x64" : "linux-x64";
 			assembly_context.SetCustomNativeLibraryResolver((ctx, str) =>
 			{
-				return str.Contains("sourcesdkc") ? NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc") : IntPtr.Zero;
+				if (str.Contains("sourcesdkc"))
+				{
+					sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
+					return sourcesdkc;
+				}
+				return IntPtr.Zero;
 			});
 
 			Test(() => Dbg.Msg("Msg(string)\n"));
@@ -143,7 +150,10 @@ namespace SourceSDKTest
 
 		public void Unload(ILua lua)
 		{
-
+			if (sourcesdkc != IntPtr.Zero)
+			{
+				NativeLibrary.Free(sourcesdkc);
+			}
 		}
 	}
 }
