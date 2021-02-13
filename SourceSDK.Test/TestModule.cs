@@ -86,37 +86,42 @@ namespace SourceSDKTest
 				{
 					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "filesystem_stdio.so";
 
-					Console.WriteLine("loading fs");
+					if (!interfaceh.Sys_LoadInterface(path, FileSystem.FILESYSTEM_INTERFACE_VERSION, out IntPtr module, out IntPtr fSPtr))
+					{
+						Console.WriteLine("failed loading FS");
+					}
+					if (!interfaceh.Sys_LoadInterface(path, BaseFileSystem.BASEFILESYSTEM_INTERFACE_VERSION, out module, out IntPtr baseFSPtr))
+					{
+						Console.WriteLine("failed loading FS");
+					}
 
-					if (!interfaceh.Sys_LoadInterface(path, "DISABLED!!!___VFileSystem022", out IntPtr module, out IntPtr fsPtr))
-						if (!interfaceh.Sys_LoadInterface(path, "VBaseFileSystem011", out module, out fsPtr))
-						{
-							Console.WriteLine("failed finding filesystems");
-							// oof
-							NativeLibrary.Free(module);
-							Console.WriteLine("i guess it freed");
-							return;
-						}
+					if (fSPtr == IntPtr.Zero || baseFSPtr == IntPtr.Zero)
+					{
+						Console.WriteLine("unloading it");
+						NativeLibrary.Free(module);
+						Console.WriteLine("unloaded ???");
+					}
+					FileSystem fileSystem = new(fSPtr);
+					BaseFileSystem baseFileSystem = new(baseFSPtr);
 
-					BaseFileSystem fileSystem = new(fsPtr);
-					//fileSystem.PrintSearchPaths();
+					fileSystem.PrintSearchPaths();
 
-					IntPtr fileHandle = fileSystem.Open("resource/GameMenu.res", "rb", "GAME");
+					IntPtr fileHandle = baseFileSystem.Open("resource/GameMenu.res", "rb", "GAME");
 
 					if (fileHandle != IntPtr.Zero)
 					{
-						uint size = fileSystem.Size(fileHandle);
+						uint size = baseFileSystem.Size(fileHandle);
 						byte[] buff = new byte[size];
 
 						fixed (byte* buffPtr = buff)
 						{
 							IntPtr buffIntPtr = new(buffPtr);
-							fileSystem.Read(buffIntPtr, (int)size, fileHandle);
+							baseFileSystem.Read(buffIntPtr, (int)size, fileHandle);
 							//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
 							Console.WriteLine("Printing file contents");
 							Console.WriteLine(Encoding.UTF8.GetChars(buff));
 						}
-						fileSystem.Close(fileHandle);
+						baseFileSystem.Close(fileHandle);
 					}
 					else
 					{
