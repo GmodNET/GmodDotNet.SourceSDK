@@ -107,11 +107,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install Steam and Garry's Mod Dedicated Server
+    - name: Cache Steam and Garry's Mod Dedicated Server
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ./gmod
+          steamcmd.sh
+          ./linux32
+        key: ${{ runner.os }}
+    - name: Download SteamCMD
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
         tar -xvzf steamcmd_linux.tar.gz
         rm -rfv steamcmd_linux.tar.gz
+    - name: Validate Garry's Mod Dedicated Server
+      run: |
         ./steamcmd.sh +login anonymous +force_install_dir gmod "+app_update 4020 -beta x86-64 validate" +quit
     - name: Install GmodDotNet
       run: |
@@ -144,11 +156,23 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install Steam and Garry's Mod Dedicated Server
-      shell: bash
+    - name: Cache Steam and Garry's Mod Dedicated Server
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ./gmod
+          steamcmd.exe
+        key: ${{ runner.os }}
+    - name: Download SteamCMD
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
            curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip -O -L
            powershell -Command 'Expand-Archive -LiteralPath ./steamcmd.zip -DestinationPath ./'
+           del steamcmd.zip
+    - name: Validate Garry's Mod Dedicated Server
+      shell: bash
+      run: |
            ./steamcmd.exe +login anonymous +force_install_dir gmod "+app_update 4020 -beta x86-64 validate" +quit || true
     - name: Install GmodDotNet
       shell: bash
