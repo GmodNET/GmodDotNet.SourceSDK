@@ -88,7 +88,7 @@ namespace SourceSDKTest
 
 					Console.WriteLine("loading fs");
 
-					if (!interfaceh.Sys_LoadInterface(path, "VFileSystem022", out IntPtr module, out IntPtr fsPtr))
+					if (!interfaceh.Sys_LoadInterface(path, "DISABLED!!!___VFileSystem022", out IntPtr module, out IntPtr fsPtr))
 						if (!interfaceh.Sys_LoadInterface(path, "VBaseFileSystem011", out module, out fsPtr))
 						{
 							Console.WriteLine("failed finding filesystems");
@@ -98,33 +98,25 @@ namespace SourceSDKTest
 							return;
 						}
 
-					FileSystem fileSystem = new(fsPtr);
-
-					fileSystem.PrintSearchPaths();
-
-					Console.WriteLine("add search path");
-
-					fileSystem.AddSearchPath("garrysmod", "GAME", SearchPathAdd_t.PATH_ADD_TO_HEAD);
-
-					Console.WriteLine("print paths");
-					fileSystem.PrintSearchPaths();
+					BaseFileSystem fileSystem = new(fsPtr);
+					//fileSystem.PrintSearchPaths();
 
 					IntPtr fileHandle = fileSystem.Open("resource/GameMenu.res", "r", "GAME");
 
 					if (fileHandle != IntPtr.Zero)
 					{
 						uint size = fileSystem.Size(fileHandle);
-						MemoryStream ms = new((int)size);
-						byte[] buff = ms.GetBuffer();
+						byte[] buff = new byte[size];
 
 						fixed (byte* buffPtr = buff)
 						{
 							IntPtr buffIntPtr = new(buffPtr);
 							fileSystem.Read(buffIntPtr, (int)size, fileHandle);
 							//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
-							Console.WriteLine("Printing test.lua");
-							Console.WriteLine(Encoding.UTF8.GetChars(ms.ToArray()));
+							Console.WriteLine("Printing file contents");
+							Console.WriteLine(Encoding.UTF8.GetChars(buff));
 						}
+						fileSystem.Close(fileHandle);
 					}
 					else
 					{
