@@ -71,8 +71,8 @@ namespace SourceSDKTest
 			{
 				if (str.Contains("sourcesdkc"))
 				{
-					sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
-					return sourcesdkc;
+					//sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
+					//return sourcesdkc;
 				}
 				return IntPtr.Zero;
 			});
@@ -95,7 +95,7 @@ namespace SourceSDKTest
 
 			Test(() =>
 			{
-				if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+				//if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 					return;
 				unsafe
 				{
