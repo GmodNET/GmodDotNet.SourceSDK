@@ -22,7 +22,7 @@ jobs:
       with:
         name: linux-x64
         path: "out/SourceSDK.CAPI/libsourcesdkc.so"
-        retention-days: 10
+        retention-days: 1
         if-no-files-found: error
   windows-cmake-build:
     runs-on: windows-latest
@@ -42,7 +42,7 @@ jobs:
       with:
         name: win-x64
         path: "out/x64-Release/SourceSDK.CAPI/sourcesdkc.dll"
-        retention-days: 10
+        retention-days: 1
         if-no-files-found: error
   #osx-cmake-build:
   #  runs-on: macos-latest
@@ -92,37 +92,33 @@ jobs:
       with:
         name: sourcesdk
         path: SourceSDK/bin/Release/*.nupkg
+        retention-days: 100
+        if-no-files-found: error
     - name: Upload SourceSDK.dll
       uses: actions/upload-artifact@v2
       with:
         name: sourcesdk
         path: SourceSDK/bin/Release/net5/publish/*
+        retention-days: 1
+        if-no-files-found: error
     - name: Upload SourceSDKTest.dll
       uses: actions/upload-artifact@v2
       with:
         name: sourcesdktest
         path: SourceSDK.Test/bin/Release/net5/publish/*
+        retention-days: 1
+        if-no-files-found: error
   Test-linux:
     needs: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Cache Steam and Garry's Mod Dedicated Server
-      id: cache
-      uses: actions/cache@v2
-      with:
-        path: |
-          ./gmod
-          steamcmd.sh
-          ./linux32
-        key: ${{ runner.os }}_new
     - name: Download SteamCMD
-      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
         tar -xvzf steamcmd_linux.tar.gz
         rm -rfv steamcmd_linux.tar.gz
-    - name: Validate Garry's Mod Dedicated Server
+    - name: Install Garry's Mod Dedicated Server
       run: |
         ./steamcmd.sh +login anonymous +force_install_dir gmod "+app_update 4020 -beta x86-64 validate" +quit
     - name: Install GmodDotNet
@@ -151,30 +147,17 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-    - name: Delete stuff 1
-      run: rm -r ./gmod/garrysmod/lua/bin
-    - name: Delete stuff 2
-      run: rm ./gmod/garrysmod/console.log
   Test-windows:
     needs: Build
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Cache Steam and Garry's Mod Dedicated Server
-      id: cache
-      uses: actions/cache@v2
-      with:
-        path: |
-          ./gmod
-          steamcmd.exe
-        key: ${{ runner.os }}_new
     - name: Download SteamCMD
-      if: steps.cache.outputs.cache-hit != 'true'
       run: |
            curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip -O -L
            powershell -Command 'Expand-Archive -LiteralPath ./steamcmd.zip -DestinationPath ./'
            del steamcmd.zip
-    - name: Validate Garry's Mod Dedicated Server
+    - name: Install Garry's Mod Dedicated Server
       shell: bash
       run: |
            ./steamcmd.exe +login anonymous +force_install_dir gmod "+app_update 4020 -beta x86-64 validate" +quit || true
@@ -207,7 +190,3 @@ jobs:
       with:
         files: "gmod/garrysmod/data/success.txt"
         allow_failure: true
-    - name: Delete stuff 1
-      run: Remove-Item –path ./gmod/garrysmod/lua/bin –recurse
-    - name: Delete stuff 2
-      run: Remove-Item ./gmod/garrysmod/console.log
