@@ -236,6 +236,15 @@ namespace GmodNET.SourceSDK
 		internal static extern void IFileSystem_RemoveSearchPaths(IntPtr ptr, string pathID);
 
 		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_MarkPathIDByRequestOnly(IntPtr ptr, string pathID, bool requestOnly);
+		[DllImport("sourcesdkc")]
+		internal static extern string IFileSystem_RelativePathToFullPath(IntPtr ptr, string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeFilter_t pathType = 0);
+		[DllImport("sourcesdkc")]
+		internal static extern int IFileSystem_GetSearchPath(IntPtr ptr, string pathID, bool getPackFiles, out string dest, int maxLenInChars);
+		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_AddPackFile(IntPtr ptr, string fullpath, string pathID);
+
+		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);
 	}
 
@@ -273,6 +282,11 @@ namespace GmodNET.SourceSDK
 		bool RemoveSearchPath(string path, string pathID);
 		void RemoveAllSearchPaths();
 		void RemoveSearchPaths(string pathID);
+
+		void MarkPathIDByRequestOnly(string pathID, bool requestOnly);
+		string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeFilter_t pathType = 0);
+		int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars);
+		bool AddPackFile(string fullpath, string pathID);
 
 
 		void PrintSearchPaths();
@@ -324,6 +338,11 @@ namespace GmodNET.SourceSDK
 		public bool RemoveSearchPath(string path, string pathID) => FileSystem_c.IFileSystem_RemoveSearchPath(ptr, path, pathID);
 		public void RemoveAllSearchPaths() => FileSystem_c.IFileSystem_RemoveAllSearchPaths(ptr);
 		public void RemoveSearchPaths(string pathID) => FileSystem_c.IFileSystem_RemoveSearchPaths(ptr, pathID);
+
+		public void MarkPathIDByRequestOnly(string pathID, bool requestOnly) => FileSystem_c.IFileSystem_MarkPathIDByRequestOnly(ptr, pathID, requestOnly);
+		public string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeFilter_t pathType = PathTypeFilter_t.FILTER_NONE) => FileSystem_c.IFileSystem_RelativePathToFullPath(ptr, fileName, pathID, out dest, maxLenInChars, pathFilter, pathType);
+		public int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars) => FileSystem_c.IFileSystem_GetSearchPath(ptr, pathID, getPackFiles, out dest, maxLenInChars);
+		public bool AddPackFile(string fullpath, string pathID) => FileSystem_c.IFileSystem_AddPackFile(ptr, fullpath, pathID);
 
 
 		public void PrintSearchPaths() => FileSystem_c.IFileSystem_PrintSearchPaths(ptr);

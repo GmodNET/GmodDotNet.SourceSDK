@@ -75,6 +75,7 @@ DLL_EXPORT bool IFileSystem_IsSteam(void** fsPtr) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	return fs->IsSteam();
 }
+
 DLL_EXPORT FilesystemMountRetval_t IFileSystem_MountSteamContent(void** fsPtr, int nExtraAppId = -1) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	return fs->MountSteamContent(nExtraAppId);
@@ -96,6 +97,22 @@ DLL_EXPORT void IFileSystem_RemoveSearchPaths(void** fsPtr, const char* szPathID
 	fs->RemoveSearchPaths(szPathID);
 }
 
+DLL_EXPORT void IFileSystem_MarkPathIDByRequestOnly(void** fsPtr, const char* pPathID, bool bRequestOnly) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->MarkPathIDByRequestOnly(pPathID, bRequestOnly);
+}
+DLL_EXPORT const char* IFileSystem_RelativePathToFullPath(void** fsPtr, const char* pFileName, const char* pPathID, char* pDest, int maxLenInChars, PathTypeFilter_t pathFilter = FILTER_NONE, PathTypeQuery_t* pPathType = NULL) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->RelativePathToFullPath(pFileName, pPathID, pDest, maxLenInChars, pathFilter, pPathType);
+}
+DLL_EXPORT int IFileSystem_GetSearchPath(void** fsPtr, const char* pathID, bool bGetPackFiles, char* pDest, int maxLenInChars) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->GetSearchPath(pathID, bGetPackFiles, pDest, maxLenInChars);
+}
+DLL_EXPORT bool IFileSystem_AddPackFile(void** fsPtr, const char* fullpath, const char* pathID) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->AddPackFile(fullpath, pathID);
+}
 
 
 DLL_EXPORT void IFileSystem_PrintSearchPaths(void** fsPtr) {
