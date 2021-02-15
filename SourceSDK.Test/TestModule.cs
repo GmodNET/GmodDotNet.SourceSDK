@@ -74,7 +74,7 @@ namespace SourceSDKTest
 					//sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
 					//return sourcesdkc;
 				}
-				return IntPtr.Zero;
+				return default;
 			});
 
 			Test(() => Dbg.Msg("Msg(string)\n"));
