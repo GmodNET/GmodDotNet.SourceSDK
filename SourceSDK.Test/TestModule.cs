@@ -67,7 +67,7 @@ namespace SourceSDKTest
 		public void Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
 			string platformIdentifier = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "win-x64" : "linux-x64";
-			/*assembly_context.SetCustomNativeLibraryResolver((ctx, str) =>
+			assembly_context.SetCustomNativeLibraryResolver((ctx, str) =>
 			{
 				if (str.Contains("sourcesdkc"))
 				{
@@ -75,7 +75,7 @@ namespace SourceSDKTest
 					//return sourcesdkc;
 				}
 				return IntPtr.Zero;
-			});*/
+			});
 
 			Test(() => Dbg.Msg("Msg(string)\n"));
 
