@@ -92,7 +92,7 @@ jobs:
       with:
         name: sourcesdk
         path: SourceSDK/bin/Release/*.nupkg
-        retention-days: 100
+        retention-days: 90
         if-no-files-found: error
     - name: Upload SourceSDK.dll
       uses: actions/upload-artifact@v2
