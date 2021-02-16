@@ -107,7 +107,7 @@ namespace SourceSDKTest
 					}
 					if (!interfaceh.Sys_LoadInterface(path, BaseFileSystem.BASEFILESYSTEM_INTERFACE_VERSION, out module, out IntPtr baseFSPtr))
 					{
-						Console.WriteLine("failed loading FS");
+						Console.WriteLine("failed loading BFS");
 					}
 
 					if (fSPtr == IntPtr.Zero || baseFSPtr == IntPtr.Zero)
