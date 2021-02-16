@@ -97,8 +97,8 @@ namespace SourceSDKTest
 
 			Test(() =>
 			{
-				//if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-				return;
+				if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+					return;
 				unsafe
 				{
 					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "filesystem_stdio.so";
