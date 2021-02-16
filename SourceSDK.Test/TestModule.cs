@@ -71,10 +71,12 @@ namespace SourceSDKTest
 			{
 				if (str.Contains("sourcesdkc"))
 				{
-					//sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
-					//return sourcesdkc;
+					Console.WriteLine("loading sourcesdkc");
+					sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
+					Console.WriteLine($"loaded sourcesdkc: {sourcesdkc != IntPtr.Zero}");
+					return sourcesdkc;
 				}
-				return default;
+				return IntPtr.Zero;
 			});
 
 			Test(() => Dbg.Msg("Msg(string)\n"));
@@ -96,7 +98,7 @@ namespace SourceSDKTest
 			Test(() =>
 			{
 				//if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-					return;
+				return;
 				unsafe
 				{
 					string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "filesystem_stdio.dll" : "filesystem_stdio.so";
@@ -146,6 +148,8 @@ namespace SourceSDKTest
 					}
 				}
 			});
+
+			assembly_context.SetCustomNativeLibraryResolver(null);
 
 			Debug.Assert(!failed);
 		}
