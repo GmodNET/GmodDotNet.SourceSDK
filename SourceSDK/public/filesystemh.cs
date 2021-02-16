@@ -225,6 +225,17 @@ namespace GmodNET.SourceSDK
 		internal static extern bool IFileSystem_AddPackFile(IntPtr ptr, string fullpath, string pathID);
 
 		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_RemoveFile(IntPtr ptr, string relativePath, string pathID = null);
+		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_RenameFile(IntPtr ptr, string oldPath, string newPath, string pathID = null);
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_CreateDirHierarchy(IntPtr ptr, string path, string pathID = null);
+		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_IsDirectory(IntPtr ptr, string fileName, string pathID = null);
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_FileTimeToString(IntPtr ptr, out string strip, int maxCharsIncludingTerminator, long fileTime);
+
+		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);
 	}
 
@@ -263,6 +274,7 @@ namespace GmodNET.SourceSDK
 
 		FilesystemMountRetval_t MountSteamContent(int extraAppId = -1);
 		#endregion
+		#region Search path manipulation
 		/// <summary>
 		/// Add paths in priority order (mod dir, game dir, ....)
 		/// If the path is the relative path to a .bsp file, then any previous .bsp file 
@@ -302,7 +314,17 @@ namespace GmodNET.SourceSDK
 		int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars);
 		/// <summary>interface for custom pack files > 4Gb</summary>
 		bool AddPackFile(string fullpath, string pathID);
-
+		#endregion
+		#region File manipulation operations
+		///<summary>Deletes a file (on the WritePath)</summary>
+		void RemoveFile(string relativePath, string pathID = null);
+		///<summary>Renames a file (on the WritePath)</summary>
+		bool RenameFile(string oldPath, string newPath, string pathID = null);
+		///<summary>create a local directory structure</summary>
+		void CreateDirHierarchy(string path, string pathID = null);
+		bool IsDirectory(string fileName, string pathID = null);
+		void FileTimeToString(out string strip, int maxCharsIncludingTerminator, long fileTime);
+		#endregion
 
 		void PrintSearchPaths();
 	}
@@ -383,5 +405,11 @@ namespace GmodNET.SourceSDK
 		public bool SetFileWriteable(string fileName, bool writeable, string pathID) => BaseFileSystem_c.IBaseFileSystem_SetFileWritable(ptr, fileName, writeable, pathID);
 
 		public long GetFileTime(string fileName, string pathID) => BaseFileSystem_c.IBaseFileSystem_GetFileTime(ptr, fileName, pathID);
+
+		public void RemoveFile(string relativePath, string pathID = null) => FileSystem_c.IFileSystem_RemoveFile(ptr, relativePath, pathID);
+		public bool RenameFile(string oldPath, string newPath, string pathID = null) => FileSystem_c.IFileSystem_RenameFile(ptr, oldPath, newPath, pathID);
+		public void CreateDirHierarchy(string path, string pathID = null) => FileSystem_c.IFileSystem_CreateDirHierarchy(ptr, path, pathID);
+		public bool IsDirectory(string fileName, string pathID = null) => FileSystem_c.IFileSystem_IsDirectory(ptr, fileName, pathID);
+		public void FileTimeToString(out string strip, int maxCharsIncludingTerminator, long fileTime) => FileSystem_c.IFileSystem_FileTimeToString(ptr, out strip, maxCharsIncludingTerminator, fileTime);
 	}
 }

@@ -114,6 +114,26 @@ DLL_EXPORT bool IFileSystem_AddPackFile(void** fsPtr, const char* fullpath, cons
 	return fs->AddPackFile(fullpath, pathID);
 }
 
+DLL_EXPORT void IFileSystem_RemoveFile(void** fsPtr, char const* pRelativePath, const char* pathID = 0) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->RemoveFile(pRelativePath, pathID);
+}
+DLL_EXPORT bool IFileSystem_RenameFile(void** fsPtr, char const* pOldPath, char const* pNewPath, const char* pathID = 0) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->RenameFile(pOldPath, pNewPath, pathID);
+}
+DLL_EXPORT void IFileSystem_CreateDirHierarchy(void** fsPtr, const char* path, const char* pathID = 0) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->CreateDirHierarchy(path, pathID);
+}
+DLL_EXPORT bool IFileSystem_IsDirectory(void** fsPtr, const char* pFileName, const char* pathID = 0) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->IsDirectory(pFileName, pathID);
+}
+DLL_EXPORT void IFileSystem_FileTimeToString(void** fsPtr, char* pStrip, int maxCharsIncludingTerminator, long fileTime) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->FileTimeToString(pStrip, maxCharsIncludingTerminator, fileTime);
+}
 
 DLL_EXPORT void IFileSystem_PrintSearchPaths(void** fsPtr) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
