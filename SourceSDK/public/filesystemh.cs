@@ -8,9 +8,7 @@ namespace GmodNET.SourceSDK
 
 	public enum EPureServerFileClass
 	{
-		/// <summary>
-		/// dummy debugging value
-		/// </summary>
+		/// <summary>dummy debugging value</summary>
 		ePureServerFileClass_Unknown = -1,
 		ePureServerFileClass_Any = 0,
 		ePureServerFileClass_AnyTrusted = 1,
@@ -45,57 +43,35 @@ namespace GmodNET.SourceSDK
 		/// <summary>Report all open/close/read/write events and all async I/O file events to the console ( !slower(est)! )</summary>
 		FILESYSTEM_WARNING_REPORTALLACCESSES_ASYNC = 6,
 	}
-	/// <summary>
-	/// search path filtering
-	/// </summary>
+	/// <summary>search path filtering</summary>
 	public enum PathTypeFilter_t
 	{
-		/// <summary>
-		/// no filtering, all search path types match
-		/// </summary>
+		/// <summary>no filtering, all search path types match</summary>
 		FILTER_NONE = 0,
-		/// <summary>
-		/// pack based search paths are culled (maps and zips)
-		/// </summary>
+		/// <summary>pack based search paths are culled (maps and zips)</summary>
 		FILTER_CULLPACK = 1,
-		/// <summary>
-		/// non-pack based search paths are culled
-		/// </summary>
+		/// <summary>non-pack based search paths are culled</summary>
 		FILTER_CULLNONPACK = 2,
 	}
-	// search path querying (bit flags)
-	public enum PATH
+	/// <summary>search path querying (bit flags)</summary>
+	public enum PathTypeQuery_t
 	{
-		/// <summary>
-		/// normal path, not pack based
-		/// </summary>
+		/// <summary>normal path, not pack based</summary>
 		PATH_IS_NORMAL = 0x00,
-		/// <summary>
-		/// path is a pack file
-		/// </summary>
+		/// <summary>path is a pack file</summary>
 		PATH_IS_PACKFILE = 0x01,
-		/// <summary>
-		/// path is a map pack file
-		/// </summary>
+		/// <summary>path is a map pack file</summary>
 		PATH_IS_MAPPACKFILE = 0x02,
-		/// <summary>
-		/// path is the remote filesystem
-		/// </summary>
+		/// <summary>path is the remote filesystem</summary>
 		PATH_IS_REMOTE = 0x04,
 	}
 	public enum DVDMode_t
 	{
-		/// <summary>
-		/// not using dvd
-		/// </summary>
+		/// <summary>not using dvd</summary>
 		DVDMODE_OFF = 0,
-		/// <summary>
-		/// dvd device only
-		/// </summary>
+		/// <summary>dvd device only</summary>
 		DVDMODE_STRICT = 1,
-		/// <summary>
-		/// dev mode, mutiple devices ok
-		/// </summary>
+		/// <summary>dev mode, mutiple devices ok</summary>
 		DVDMODE_DEV = 2
 	}
 	public enum FilesystemMountRetval_t
@@ -105,37 +81,47 @@ namespace GmodNET.SourceSDK
 	}
 	public enum SearchPathAdd_t
 	{
-		/// <summary>
-		/// First path searched
-		/// </summary>
+		/// <summary>First path searched</summary>
 		PATH_ADD_TO_HEAD = 0,
-		/// <summary>
-		/// Last path searched
-		/// </summary>
+		/// <summary>Last path searched</summary>
 		PATH_ADD_TO_TAIL = 1
 	}
 	public enum FilesystemOpenExFlags_t
 	{
 		FSOPEN_UNBUFFERED = (1 << 0),
-		FSOPEN_FORCE_TRACK_CRC = (1 << 1),      // This makes it calculate a CRC for the file (if the file came from disk) regardless 
-												// of the IFileList passed to RegisterFileWhitelist.
-		FSOPEN_NEVERINPACK = (1 << 2),      // 360 only, hint to FS that file is not allowed to be in pack file
+		/// <summary>This makes it calculate a CRC for the file (if the file came from disk) regardless of the IFileList passed to RegisterFileWhitelist.</summary>
+		FSOPEN_FORCE_TRACK_CRC = (1 << 1),
+		/// <summary>360 only, hint to FS that file is not allowed to be in pack file</summary>
+		FSOPEN_NEVERINPACK = (1 << 2),
 	}
 	public enum FSAsyncStatus_t
 	{
-		FSASYNC_ERR_NOT_MINE = -8,  // Filename not part of the specified file system, try a different one.  (Used internally to find the right filesystem)
-		FSASYNC_ERR_RETRY_LATER = -7,   // Failure for a reason that might be temporary.  You might retry, but not immediately.  (E.g. Network problems)
-		FSASYNC_ERR_ALIGNMENT = -6, // read parameters invalid for unbuffered IO
-		FSASYNC_ERR_FAILURE = -5,   // hard subsystem failure
-		FSASYNC_ERR_READING = -4,   // read error on file
-		FSASYNC_ERR_NOMEMORY = -3,  // out of memory for file read
-		FSASYNC_ERR_UNKNOWNID = -2, // caller's provided id is not recognized
-		FSASYNC_ERR_FILEOPEN = -1,  // filename could not be opened (bad path, not exist, etc)
-		FSASYNC_OK = 0, // operation is successful
-		FSASYNC_STATUS_PENDING = 1,         // file is properly queued, waiting for service
-		FSASYNC_STATUS_INPROGRESS = 2,      // file is being accessed
-		FSASYNC_STATUS_ABORTED = 3,         // file was aborted by caller
-		FSASYNC_STATUS_UNSERVICED = 4,      // file is not yet queued
+		///<summary>Filename not part of the specified file system, try a different one.  (Used internally to find the right filesystem)</summary>
+		FSASYNC_ERR_NOT_MINE = -8,
+		///<summary>Failure for a reason that might be temporary.  You might retry, but not immediately.  (E.g. Network problems)</summary>
+		FSASYNC_ERR_RETRY_LATER = -7,
+		///<summary>read parameters invalid for unbuffered IO</summary>
+		FSASYNC_ERR_ALIGNMENT = -6,
+		///<summary>hard subsystem failure</summary>
+		FSASYNC_ERR_FAILURE = -5,
+		///<summary>read error on file</summary>
+		FSASYNC_ERR_READING = -4,
+		///<summary>out of memory for file read</summary>
+		FSASYNC_ERR_NOMEMORY = -3,
+		///<summary>caller's provided id is not recognized</summary>
+		FSASYNC_ERR_UNKNOWNID = -2,
+		///<summary>filename could not be opened (bad path, not exist, etc)</summary>
+		FSASYNC_ERR_FILEOPEN = -1,
+		///<summary>operation is successful</summary>
+		FSASYNC_OK = 0,
+		///<summary>file is properly queued, waiting for service</summary>
+		FSASYNC_STATUS_PENDING = 1,
+		///<summary>file is being accessed</summary>
+		FSASYNC_STATUS_INPROGRESS = 2,
+		///<summary>file was aborted by caller</summary>
+		FSASYNC_STATUS_ABORTED = 3,
+		///<summary>file is not yet queued</summary>
+		FSASYNC_STATUS_UNSERVICED = 4,
 	}
 	public enum FSAsyncFlags_t
 	{
@@ -156,21 +142,15 @@ namespace GmodNET.SourceSDK
 		/// </summary>
 		FSASYNC_FLAGS_NULLTERMINATE = (1 << 3)
 	}
-	/// <summary>
-	/// Return value for CheckFileCRC.
-	/// </summary>
+	/// <summary>Return value for CheckFileCRC.</summary>
 	public enum EFileCRCStatus
 	{
-		/// <summary>
-		/// We don't have this file. 
-		/// </summary>
+		/// <summary>We don't have this file.</summary>
 		k_eFileCRCStatus_CantOpenFile = 0,
 		k_eFileCRCStatus_GotCRC = 1,
 		k_eFileCRCStatus_FileInVPK = 2
 	}
-	/// <summary>
-	/// Used in CacheFileCRCs.
-	/// </summary>
+	/// <summary>Used in CacheFileCRCs.</summary>
 	public enum ECacheCRCType
 	{
 		k_eCacheCRCType_SingleFile = 0,
@@ -229,7 +209,7 @@ namespace GmodNET.SourceSDK
 		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_AddSearchPath(IntPtr ptr, string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL);
 		[DllImport("sourcesdkc")]
-		internal static extern bool IFileSystem_RemoveSearchPath(IntPtr ptr, string path, string pathID);
+		internal static extern bool IFileSystem_RemoveSearchPath(IntPtr ptr, string path, string pathID = null);
 		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_RemoveAllSearchPaths(IntPtr ptr);
 		[DllImport("sourcesdkc")]
@@ -238,7 +218,7 @@ namespace GmodNET.SourceSDK
 		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_MarkPathIDByRequestOnly(IntPtr ptr, string pathID, bool requestOnly);
 		[DllImport("sourcesdkc")]
-		internal static extern string IFileSystem_RelativePathToFullPath(IntPtr ptr, string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeFilter_t pathType = 0);
+		internal static extern string IFileSystem_RelativePathToFullPath(IntPtr ptr, string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeQuery_t pathType = PathTypeQuery_t.PATH_IS_NORMAL);
 		[DllImport("sourcesdkc")]
 		internal static extern int IFileSystem_GetSearchPath(IntPtr ptr, string pathID, bool getPackFiles, out string dest, int maxLenInChars);
 		[DllImport("sourcesdkc")]
@@ -253,7 +233,11 @@ namespace GmodNET.SourceSDK
 		int Read(IntPtr output, int size, IntPtr file);
 		int Write(IntPtr input, int size, IntPtr file);
 
-		IntPtr Open(string fileName, string options, string pathID);
+		/// <param name="fileName"></param>
+		/// <param name="options"></param>
+		/// <param name="pathID">if null, all paths will be searched for the file</param>
+		/// <returns></returns>
+		IntPtr Open(string fileName, string options, string pathID = null);
 		void Close(IntPtr file);
 
 		void Seek(IntPtr file, int pos, in FileSystemSeek_t seekType);
@@ -274,18 +258,49 @@ namespace GmodNET.SourceSDK
 	}
 	internal interface IFileSystem
 	{
+		#region Steam operations
 		bool IsSteam();
 
 		FilesystemMountRetval_t MountSteamContent(int extraAppId = -1);
-
+		#endregion
+		/// <summary>
+		/// Add paths in priority order (mod dir, game dir, ....)
+		/// If the path is the relative path to a .bsp file, then any previous .bsp file 
+		///  override is cleared and the current .bsp is searched for an embedded PAK file
+		///  and this file becomes the highest priority search path ( i.e., it's looked at first
+		///   even before the mod's file system path ).
+		/// </summary>
+		/// <param name="path">If one or more .pak files are in the specified directory, then they are added after the file system path</param>
+		/// <param name="pathID"></param>
+		/// <param name="addType"></param>
 		void AddSearchPath(string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL);
-		bool RemoveSearchPath(string path, string pathID);
+		bool RemoveSearchPath(string path, string pathID = null);
+		/// <summary>Remove all search paths (including write path?)</summary>
 		void RemoveAllSearchPaths();
+		/// <summary>Remove search paths associated with a given pathID</summary>
 		void RemoveSearchPaths(string pathID);
 
+		/// <summary>
+		/// This is for optimization. If you mark a path ID as "by request only", then files inside it
+		/// will only be accessed if the path ID is specifically requested. Otherwise, it will be ignored.
+		/// If there are currently no search paths with the specified path ID, then it will still
+		/// remember it in case you add search paths with this path ID.
+		/// </summary>
+		/// <param name="pathID"></param>
+		/// <param name="requestOnly"></param>
 		void MarkPathIDByRequestOnly(string pathID, bool requestOnly);
-		string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeFilter_t pathType = 0);
+		/// <summary>converts a partial path into a full path</summary>
+		string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeQuery_t pathType = PathTypeQuery_t.PATH_IS_NORMAL);
+		/// <summary>
+		/// Returns the search path
+		/// </summary>
+		/// <param name="pathID"></param>
+		/// <param name="getPackFiles"></param>
+		/// <param name="dest">the search path, each path is separated by ;s</param>
+		/// <param name="maxLenInChars"></param>
+		/// <returns>the length of the string returned</returns>
 		int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars);
+		/// <summary>interface for custom pack files > 4Gb</summary>
 		bool AddPackFile(string fullpath, string pathID);
 
 
@@ -303,7 +318,7 @@ namespace GmodNET.SourceSDK
 		public int Read(IntPtr output, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Read(ptr, output, size, file);
 		public int Write(IntPtr input, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Write(ptr, input, size, file);
 
-		public IntPtr Open(string fileName, string options, string pathID) => BaseFileSystem_c.IBaseFileSystem_Open(ptr, fileName, options, pathID);
+		public IntPtr Open(string fileName, string options, string pathID = null) => BaseFileSystem_c.IBaseFileSystem_Open(ptr, fileName, options, pathID);
 		public void Close(IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Close(ptr, file);
 
 		public void Seek(IntPtr file, int pos, in FileSystemSeek_t seekType) => BaseFileSystem_c.IBaseFileSystem_Seek(ptr, file, pos, seekType);
@@ -335,12 +350,12 @@ namespace GmodNET.SourceSDK
 		public FilesystemMountRetval_t MountSteamContent(int extraAppId = -1) => FileSystem_c.IFileSystem_MountSteamContent(ptr, extraAppId);
 
 		public void AddSearchPath(string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL) => FileSystem_c.IFileSystem_AddSearchPath(ptr, path, pathID, addType);
-		public bool RemoveSearchPath(string path, string pathID) => FileSystem_c.IFileSystem_RemoveSearchPath(ptr, path, pathID);
+		public bool RemoveSearchPath(string path, string pathID = null) => FileSystem_c.IFileSystem_RemoveSearchPath(ptr, path, pathID);
 		public void RemoveAllSearchPaths() => FileSystem_c.IFileSystem_RemoveAllSearchPaths(ptr);
 		public void RemoveSearchPaths(string pathID) => FileSystem_c.IFileSystem_RemoveSearchPaths(ptr, pathID);
 
 		public void MarkPathIDByRequestOnly(string pathID, bool requestOnly) => FileSystem_c.IFileSystem_MarkPathIDByRequestOnly(ptr, pathID, requestOnly);
-		public string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeFilter_t pathType = PathTypeFilter_t.FILTER_NONE) => FileSystem_c.IFileSystem_RelativePathToFullPath(ptr, fileName, pathID, out dest, maxLenInChars, pathFilter, pathType);
+		public string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeQuery_t pathType = PathTypeQuery_t.PATH_IS_NORMAL) => FileSystem_c.IFileSystem_RelativePathToFullPath(ptr, fileName, pathID, out dest, maxLenInChars, pathFilter, pathType);
 		public int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars) => FileSystem_c.IFileSystem_GetSearchPath(ptr, pathID, getPackFiles, out dest, maxLenInChars);
 		public bool AddPackFile(string fullpath, string pathID) => FileSystem_c.IFileSystem_AddPackFile(ptr, fullpath, pathID);
 
@@ -352,7 +367,7 @@ namespace GmodNET.SourceSDK
 		public int Read(IntPtr output, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Read(ptr, output, size, file);
 		public int Write(IntPtr input, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Write(ptr, input, size, file);
 
-		public IntPtr Open(string fileName, string options, string pathID) => BaseFileSystem_c.IBaseFileSystem_Open(ptr, fileName, options, pathID);
+		public IntPtr Open(string fileName, string options, string pathID = null) => BaseFileSystem_c.IBaseFileSystem_Open(ptr, fileName, options, pathID);
 		public void Close(IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Close(ptr, file);
 
 		public void Seek(IntPtr file, int pos, in FileSystemSeek_t seekType) => BaseFileSystem_c.IBaseFileSystem_Seek(ptr, file, pos, seekType);
