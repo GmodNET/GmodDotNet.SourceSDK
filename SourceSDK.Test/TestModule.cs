@@ -115,6 +115,12 @@ namespace SourceSDKTest
 						Console.WriteLine("unloading it");
 						NativeLibrary.Free(module);
 						Console.WriteLine("unloaded ???");
+						if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+						{
+							Console.WriteLine("unload second time");
+							NativeLibrary.Free(module);
+							Console.WriteLine("unloaded !!!");
+						}
 						return;
 					}
 
