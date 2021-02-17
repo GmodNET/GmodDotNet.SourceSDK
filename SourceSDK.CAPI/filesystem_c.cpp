@@ -135,6 +135,27 @@ DLL_EXPORT void IFileSystem_FileTimeToString(void** fsPtr, char* pStrip, int max
 	fs->FileTimeToString(pStrip, maxCharsIncludingTerminator, fileTime);
 }
 
+DLL_EXPORT void IFileSystem_SetBufferSize(void** fsPtr, FileHandle_t file, unsigned int nBytes) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->SetBufferSize(file, nBytes);
+}
+DLL_EXPORT bool IFileSystem_IsOk(void** fsPtr, FileHandle_t file) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->IsOk(file);
+}
+DLL_EXPORT bool IFileSystem_EndOfFile(void** fsPtr, FileHandle_t file) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->EndOfFile(file);
+}
+DLL_EXPORT char* IFileSystem_ReadLine(void** fsPtr, char* pOutput, int maxChars, FileHandle_t file) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->ReadLine(pOutput, maxChars, file);
+}
+DLL_EXPORT int IFileSystem_FPrintf(void** fsPtr, FileHandle_t file, const char* pFormat, const char* pMsg = nullptr) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->FPrintf(file, pFormat, pMsg);
+}
+
 DLL_EXPORT void IFileSystem_PrintSearchPaths(void** fsPtr) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	fs->PrintSearchPaths();

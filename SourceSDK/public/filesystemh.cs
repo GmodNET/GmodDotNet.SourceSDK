@@ -236,6 +236,17 @@ namespace GmodNET.SourceSDK
 		internal static extern void IFileSystem_FileTimeToString(IntPtr ptr, out string strip, int maxCharsIncludingTerminator, long fileTime);
 
 		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_SetBufferSize(IntPtr ptr, IntPtr file, uint bytes);
+		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_IsOk(IntPtr ptr, IntPtr file);
+		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_EndOfFile(IntPtr ptr, IntPtr file);
+		[DllImport("sourcesdkc")]
+		internal static extern string IFileSystem_ReadLine(IntPtr ptr, out string output, int maxChars, IntPtr file);
+		[DllImport("sourcesdkc")]
+		internal static extern int IFileSystem_FPrintf(IntPtr ptr, IntPtr file, string format, string msg = null);
+
+		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);
 	}
 
@@ -264,14 +275,11 @@ namespace GmodNET.SourceSDK
 		bool SetFileWriteable(string fileName, bool writeable, string pathID);
 
 		long GetFileTime(string fileName, string pathID);
-
-
 	}
 	internal interface IFileSystem
 	{
 		#region Steam operations
 		bool IsSteam();
-
 		FilesystemMountRetval_t MountSteamContent(int extraAppId = -1);
 		#endregion
 		#region Search path manipulation
@@ -291,25 +299,17 @@ namespace GmodNET.SourceSDK
 		void RemoveAllSearchPaths();
 		/// <summary>Remove search paths associated with a given pathID</summary>
 		void RemoveSearchPaths(string pathID);
-
 		/// <summary>
 		/// This is for optimization. If you mark a path ID as "by request only", then files inside it
 		/// will only be accessed if the path ID is specifically requested. Otherwise, it will be ignored.
 		/// If there are currently no search paths with the specified path ID, then it will still
 		/// remember it in case you add search paths with this path ID.
 		/// </summary>
-		/// <param name="pathID"></param>
-		/// <param name="requestOnly"></param>
 		void MarkPathIDByRequestOnly(string pathID, bool requestOnly);
 		/// <summary>converts a partial path into a full path</summary>
 		string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeQuery_t pathType = PathTypeQuery_t.PATH_IS_NORMAL);
-		/// <summary>
-		/// Returns the search path
-		/// </summary>
-		/// <param name="pathID"></param>
-		/// <param name="getPackFiles"></param>
+		/// <summary>Returns the search path</summary>
 		/// <param name="dest">the search path, each path is separated by ;s</param>
-		/// <param name="maxLenInChars"></param>
 		/// <returns>the length of the string returned</returns>
 		int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars);
 		/// <summary>interface for custom pack files > 4Gb</summary>
@@ -325,7 +325,13 @@ namespace GmodNET.SourceSDK
 		bool IsDirectory(string fileName, string pathID = null);
 		void FileTimeToString(out string strip, int maxCharsIncludingTerminator, long fileTime);
 		#endregion
-
+		#region Open file operations
+		void SetBufferSize(IntPtr file, uint bytes);
+		bool IsOk(IntPtr file);
+		bool EndOfFile(IntPtr file);
+		string ReadLine(out string output, int maxChars, IntPtr file);
+		int FPrintf(IntPtr file, string format, string msg = null);
+		#endregion
 		void PrintSearchPaths();
 	}
 
@@ -366,25 +372,7 @@ namespace GmodNET.SourceSDK
 
 		public FileSystem(IntPtr ptr) : base(ptr) { }
 
-
-		public bool IsSteam() => FileSystem_c.IFileSystem_IsSteam(ptr);
-
-		public FilesystemMountRetval_t MountSteamContent(int extraAppId = -1) => FileSystem_c.IFileSystem_MountSteamContent(ptr, extraAppId);
-
-		public void AddSearchPath(string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL) => FileSystem_c.IFileSystem_AddSearchPath(ptr, path, pathID, addType);
-		public bool RemoveSearchPath(string path, string pathID = null) => FileSystem_c.IFileSystem_RemoveSearchPath(ptr, path, pathID);
-		public void RemoveAllSearchPaths() => FileSystem_c.IFileSystem_RemoveAllSearchPaths(ptr);
-		public void RemoveSearchPaths(string pathID) => FileSystem_c.IFileSystem_RemoveSearchPaths(ptr, pathID);
-
-		public void MarkPathIDByRequestOnly(string pathID, bool requestOnly) => FileSystem_c.IFileSystem_MarkPathIDByRequestOnly(ptr, pathID, requestOnly);
-		public string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeQuery_t pathType = PathTypeQuery_t.PATH_IS_NORMAL) => FileSystem_c.IFileSystem_RelativePathToFullPath(ptr, fileName, pathID, out dest, maxLenInChars, pathFilter, pathType);
-		public int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars) => FileSystem_c.IFileSystem_GetSearchPath(ptr, pathID, getPackFiles, out dest, maxLenInChars);
-		public bool AddPackFile(string fullpath, string pathID) => FileSystem_c.IFileSystem_AddPackFile(ptr, fullpath, pathID);
-
-
-		public void PrintSearchPaths() => FileSystem_c.IFileSystem_PrintSearchPaths(ptr);
-
-		/// IBaseFileSystem
+		#region IBaseFileSystem
 
 		public int Read(IntPtr output, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Read(ptr, output, size, file);
 		public int Write(IntPtr input, int size, IntPtr file) => BaseFileSystem_c.IBaseFileSystem_Write(ptr, input, size, file);
@@ -406,10 +394,34 @@ namespace GmodNET.SourceSDK
 
 		public long GetFileTime(string fileName, string pathID) => BaseFileSystem_c.IBaseFileSystem_GetFileTime(ptr, fileName, pathID);
 
+		#endregion
+
+		public bool IsSteam() => FileSystem_c.IFileSystem_IsSteam(ptr);
+
+		public FilesystemMountRetval_t MountSteamContent(int extraAppId = -1) => FileSystem_c.IFileSystem_MountSteamContent(ptr, extraAppId);
+
+		public void AddSearchPath(string path, string pathID, SearchPathAdd_t addType = SearchPathAdd_t.PATH_ADD_TO_TAIL) => FileSystem_c.IFileSystem_AddSearchPath(ptr, path, pathID, addType);
+		public bool RemoveSearchPath(string path, string pathID = null) => FileSystem_c.IFileSystem_RemoveSearchPath(ptr, path, pathID);
+		public void RemoveAllSearchPaths() => FileSystem_c.IFileSystem_RemoveAllSearchPaths(ptr);
+		public void RemoveSearchPaths(string pathID) => FileSystem_c.IFileSystem_RemoveSearchPaths(ptr, pathID);
+
+		public void MarkPathIDByRequestOnly(string pathID, bool requestOnly) => FileSystem_c.IFileSystem_MarkPathIDByRequestOnly(ptr, pathID, requestOnly);
+		public string RelativePathToFullPath(string fileName, string pathID, out string dest, int maxLenInChars, PathTypeFilter_t pathFilter = PathTypeFilter_t.FILTER_NONE, in PathTypeQuery_t pathType = PathTypeQuery_t.PATH_IS_NORMAL) => FileSystem_c.IFileSystem_RelativePathToFullPath(ptr, fileName, pathID, out dest, maxLenInChars, pathFilter, pathType);
+		public int GetSearchPath(string pathID, bool getPackFiles, out string dest, int maxLenInChars) => FileSystem_c.IFileSystem_GetSearchPath(ptr, pathID, getPackFiles, out dest, maxLenInChars);
+		public bool AddPackFile(string fullpath, string pathID) => FileSystem_c.IFileSystem_AddPackFile(ptr, fullpath, pathID);
+
 		public void RemoveFile(string relativePath, string pathID = null) => FileSystem_c.IFileSystem_RemoveFile(ptr, relativePath, pathID);
 		public bool RenameFile(string oldPath, string newPath, string pathID = null) => FileSystem_c.IFileSystem_RenameFile(ptr, oldPath, newPath, pathID);
 		public void CreateDirHierarchy(string path, string pathID = null) => FileSystem_c.IFileSystem_CreateDirHierarchy(ptr, path, pathID);
 		public bool IsDirectory(string fileName, string pathID = null) => FileSystem_c.IFileSystem_IsDirectory(ptr, fileName, pathID);
 		public void FileTimeToString(out string strip, int maxCharsIncludingTerminator, long fileTime) => FileSystem_c.IFileSystem_FileTimeToString(ptr, out strip, maxCharsIncludingTerminator, fileTime);
+
+		public void SetBufferSize(IntPtr file, uint bytes) => FileSystem_c.IFileSystem_SetBufferSize(ptr, file, bytes);
+		public bool IsOk(IntPtr file) => FileSystem_c.IFileSystem_IsOk(ptr, file);
+		public bool EndOfFile(IntPtr file) => FileSystem_c.IFileSystem_EndOfFile(ptr, file);
+		public string ReadLine(out string output, int maxChars, IntPtr file) => FileSystem_c.IFileSystem_ReadLine(ptr, out output, maxChars, file);
+		public int FPrintf(IntPtr file, string format, string msg = null) => FileSystem_c.IFileSystem_FPrintf(ptr, file, format, msg);
+
+		public void PrintSearchPaths() => FileSystem_c.IFileSystem_PrintSearchPaths(ptr);
 	}
 }
