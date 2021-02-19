@@ -29,6 +29,7 @@ elseif(APPLE)
 		"FD_SETSIZE=10240"
 		"OVERRIDE_V_DEFINES"
 		"SWDS"
+		"DX_TO_GL_ABSTRACTION"
 	)
 	set(SOURCESDK_LIBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/lib/public/osx64")
 elseif(UNIX)
@@ -39,6 +40,7 @@ elseif(UNIX)
 		"LINUX"
 		"_LINUX"
 		"SWDS"
+		"DX_TO_GL_ABSTRACTION"
 	)
 	set(SOURCESDK_LIBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/gmod_sdk/sourcesdk-minimal/lib/public/linux64")
 endif()
