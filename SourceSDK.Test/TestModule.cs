@@ -122,10 +122,11 @@ namespace SourceSDKTest
 					BaseFileSystem baseFileSystem = new(baseFSPtr);
 
 					Console.WriteLine("get dependencies");
-					fileSystem.GetDependencies().ToList().ForEach((val) =>
-					{
+					//fileSystem.GetDependencies().ToList().ForEach((val) =>
+					//{
+						var val = fileSystem.GetDependencies();
 						Console.WriteLine($"{val.m_pModuleName} - {val.m_pInterfaceName}");
-					});
+					//});
 
 					fileSystem.PrintSearchPaths();
 
