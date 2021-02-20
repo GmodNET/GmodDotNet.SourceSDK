@@ -2,6 +2,7 @@ using GmodNET.API;
 using GmodNET.SourceSDK;
 using GmodNET.SourceSDK.Tier0;
 using GmodNET.SourceSDK.Tier1;
+using GmodNET.SourceSDK.vgui;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -130,6 +131,13 @@ namespace SourceSDKTest
 					var deps = fileSystem.GetDependencies();
 
 					Console.WriteLine(deps.ToInt64());
+
+					if(interfaceh.Sys_LoadInterface("vguimatsurface", ISurface.VGUI_SURFACE_INTERFACE_VERSION, out IntPtr isurfaceModule, out IntPtr isurfaceInterface))
+					{
+						ISurface surface = new(isurfaceInterface);
+						var isurfdeps = surface.GetDependencies();
+						Console.WriteLine(isurfdeps.ToInt64());
+					}
 
 					fileSystem.PrintSearchPaths();
 

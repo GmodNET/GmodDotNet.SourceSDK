@@ -7,6 +7,8 @@ namespace GmodNET.SourceSDK.vgui
 {
 	public class ISurface : IAppSystem
 	{
+		public const string VGUI_SURFACE_INTERFACE_VERSION = "VGUI_Surface030";
+
 		public ISurface(IntPtr ptr) : base(ptr) { }
 
 		public void DrawFilledRect(int x0, int y0, int x1, int y1) => Methods.ISurface_DrawFilledRect(ptr, x0, y0, x1, y1);
