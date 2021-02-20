@@ -1,11 +1,10 @@
 using GmodNET.API;
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using GmodNET.SourceSDK;
 using GmodNET.SourceSDK.Tier0;
 using GmodNET.SourceSDK.Tier1;
-using System.IO;
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SourceSDKTest
