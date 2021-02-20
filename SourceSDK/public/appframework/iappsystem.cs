@@ -12,6 +12,7 @@ namespace GmodNET.SourceSDK.AppFramework
 		INIT_LAST_VAL = 2,
 	};
 
+	[StructLayout(LayoutKind.Sequential)]
 	public struct AppSystemInfo_t
 	{
 		[MarshalAs(UnmanagedType.LPStr)]
