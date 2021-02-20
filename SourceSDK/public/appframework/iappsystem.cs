@@ -15,10 +15,14 @@ namespace GmodNET.SourceSDK.AppFramework
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 	public struct AppSystemInfo_t
 	{
+		/*
 		[MarshalAs(UnmanagedType.LPStr)]
 		public string m_pModuleName;
 		[MarshalAs(UnmanagedType.LPStr)]
 		public string m_pInterfaceName;
+		*/
+		public IntPtr m_pModuleName;
+		public IntPtr m_pInterfaceName;
 	};
 
 	public enum AppSystemTier_t
