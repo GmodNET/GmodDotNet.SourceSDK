@@ -77,8 +77,8 @@ namespace GmodNET.SourceSDK.AppFramework
 		}
 
 		[DllImport("sourcesdkc", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-		internal static extern AppSystemInfo_t IAppSystem_GetDependencies(IntPtr ptr);
-		public AppSystemInfo_t GetDependencies() => IAppSystem_GetDependencies(ptr);
+		internal static extern AppSystemInfo_t[] IAppSystem_GetDependencies(IntPtr ptr);
+		public AppSystemInfo_t[] GetDependencies() => IAppSystem_GetDependencies(ptr);
 
 		[DllImport("sourcesdkc")]
 		internal static extern AppSystemTier_t IAppSystem_GetTier(IntPtr ptr);
