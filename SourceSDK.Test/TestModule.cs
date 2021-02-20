@@ -4,6 +4,7 @@ using GmodNET.SourceSDK.Tier0;
 using GmodNET.SourceSDK.Tier1;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -119,6 +120,12 @@ namespace SourceSDKTest
 
 					FileSystem fileSystem = new(fSPtr);
 					BaseFileSystem baseFileSystem = new(baseFSPtr);
+
+					Console.WriteLine("get dependencies");
+					fileSystem.GetDependencies().ToList().ForEach((val) =>
+					{
+						Console.WriteLine($"{val.moduleName} - {val.interfaceName}");
+					});
 
 					fileSystem.PrintSearchPaths();
 
