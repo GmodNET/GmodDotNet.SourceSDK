@@ -124,7 +124,7 @@ namespace SourceSDKTest
 					Console.WriteLine("get dependencies");
 					fileSystem.GetDependencies().ToList().ForEach((val) =>
 					{
-						Console.WriteLine($"{val.moduleName} - {val.interfaceName}");
+						Console.WriteLine($"{val.m_pModuleName} - {val.m_pInterfaceName}");
 					});
 
 					fileSystem.PrintSearchPaths();

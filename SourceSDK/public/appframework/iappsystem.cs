@@ -12,13 +12,13 @@ namespace GmodNET.SourceSDK.AppFramework
 		INIT_LAST_VAL = 2,
 	};
 
-	[StructLayout(LayoutKind.Sequential)]
+	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 	public struct AppSystemInfo_t
 	{
 		[MarshalAs(UnmanagedType.LPStr)]
-		public string moduleName;
+		public string m_pModuleName;
 		[MarshalAs(UnmanagedType.LPStr)]
-		public string interfaceName;
+		public string m_pInterfaceName;
 	};
 
 	public enum AppSystemTier_t
@@ -77,11 +77,8 @@ namespace GmodNET.SourceSDK.AppFramework
 		}
 
 		[DllImport("sourcesdkc")]
-		internal static extern ref AppSystemInfo_t[] IAppSystem_GetDependencies(IntPtr ptr);
-		public ref AppSystemInfo_t[] GetDependencies()
-		{
-			return ref IAppSystem_GetDependencies(ptr);
-		}
+		internal static extern AppSystemInfo_t[] IAppSystem_GetDependencies(IntPtr ptr);
+		public AppSystemInfo_t[] GetDependencies() => IAppSystem_GetDependencies(ptr);
 
 		[DllImport("sourcesdkc")]
 		internal static extern AppSystemTier_t IAppSystem_GetTier(IntPtr ptr);
