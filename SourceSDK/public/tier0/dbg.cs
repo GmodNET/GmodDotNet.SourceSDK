@@ -127,7 +127,7 @@ namespace GmodNET.SourceSDK.Tier0
 	{
 		internal static class Methods
 		{
-			[DllImport("sourcesdkc")]
+			[DllImport("sourcesdkc", EntryPoint = "DBG_CDbgFmtMsg")]
 			internal static extern string CDbgFmtMsg(string format, IntPtr args);
 		}
 		public static string Format(string format, params VariableArgument[] args)
