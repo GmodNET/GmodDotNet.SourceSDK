@@ -133,6 +133,12 @@ namespace SourceSDKTest
 
 					fileSystem.PrintSearchPaths();
 
+					Console.WriteLine("add new path");
+
+					fileSystem.AddSearchPath("garrysmod", "GAME", SearchPathAdd_t.PATH_ADD_TO_HEAD);
+
+					fileSystem.PrintSearchPaths();
+
 					IntPtr fileHandle = baseFileSystem.Open("resource/GameMenu.res", "rb", "GAME");
 
 					if (fileHandle != IntPtr.Zero)
