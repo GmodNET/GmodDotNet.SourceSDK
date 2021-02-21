@@ -156,6 +156,37 @@ DLL_EXPORT int IFileSystem_FPrintf(void** fsPtr, FileHandle_t file, const char* 
 	return fs->FPrintf(file, pFormat, pMsg);
 }
 
+DLL_EXPORT CSysModule* IFileSystem_LoadModule(void** fsPtr, const char* pFileName, const char* pPathID = 0, bool bValidatedDllOnly = true) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->LoadModule(pFileName, pPathID, bValidatedDllOnly);
+}
+DLL_EXPORT void IFileSystem_UnloadModule(void** fsPtr, CSysModule* pModule) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->UnloadModule(pModule);
+}
+
+DLL_EXPORT const char* IFileSystem_FindFirst(void** fsPtr, const char* pWildCard, FileFindHandle_t* pHandle) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->FindFirst(pWildCard, pHandle);
+}
+DLL_EXPORT const char* IFileSystem_FindNext(void** fsPtr, FileFindHandle_t Handle) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->FindNext(Handle);
+}
+DLL_EXPORT bool IFileSystem_FindIsDirectory(void** fsPtr, FileFindHandle_t Handle) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->FindIsDirectory(Handle);
+}
+DLL_EXPORT void IFileSystem_FindClose(void** fsPtr, FileFindHandle_t Handle) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	fs->FindClose(Handle);
+}
+DLL_EXPORT const char* IFileSystem_FindFirstEx(void** fsPtr, const char* pWildCard, const char* pPathID, FileFindHandle_t* pHandle) {
+	IFileSystem* fs = (IFileSystem*)fsPtr;
+	return fs->FindFirstEx(pWildCard, pPathID, pHandle);
+}
+
+
 DLL_EXPORT void IFileSystem_PrintSearchPaths(void** fsPtr) {
 	IFileSystem* fs = (IFileSystem*)fsPtr;
 	fs->PrintSearchPaths();

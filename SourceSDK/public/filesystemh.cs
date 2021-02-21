@@ -247,6 +247,23 @@ namespace GmodNET.SourceSDK
 		internal static extern int IFileSystem_FPrintf(IntPtr ptr, IntPtr file, string format, string msg = null);
 
 		[DllImport("sourcesdkc")]
+		internal static extern IntPtr IFileSystem_LoadModule(IntPtr ptr, string fileName, string pathID = null, bool validatedDllOnly = true);
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_UnloadModule(IntPtr ptr, IntPtr module);
+
+		[DllImport("sourcesdkc")]
+		internal static extern string IFileSystem_FindFirst(IntPtr ptr, string wildCard, out int handle);
+		[DllImport("sourcesdkc")]
+		internal static extern string IFileSystem_FindNext(IntPtr ptr, int handle);
+		[DllImport("sourcesdkc")]
+		internal static extern bool IFileSystem_FindIsDirectory(IntPtr ptr, int handle);
+		[DllImport("sourcesdkc")]
+		internal static extern void IFileSystem_FindClose(IntPtr ptr, int handle);
+		[DllImport("sourcesdkc")]
+		internal static extern string IFileSystem_FindFirstEx(IntPtr ptr, string wildCard, string pathID, out int handle);
+
+
+		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);
 	}
 
@@ -331,6 +348,17 @@ namespace GmodNET.SourceSDK
 		bool EndOfFile(IntPtr file);
 		string ReadLine(out string output, int maxChars, IntPtr file);
 		int FPrintf(IntPtr file, string format, string msg = null);
+		#endregion
+		#region Dynamic library operations
+		IntPtr IFileSystem_LoadModule(string fileName, string pathID = null, bool validatedDllOnly = true);
+		void IFileSystem_UnloadModule(IntPtr module);
+		#endregion
+		#region File searching operations
+		string IFileSystem_FindFirst(string wildCard, out int handle);
+		string IFileSystem_FindNext(int handle);
+		bool IFileSystem_FindIsDirectory(int handle);
+		void IFileSystem_FindClose(int handle);
+		string IFileSystem_FindFirstEx(string wildCard, string pathID, out int handle);
 		#endregion
 		void PrintSearchPaths();
 	}
@@ -421,6 +449,15 @@ namespace GmodNET.SourceSDK
 		public bool EndOfFile(IntPtr file) => FileSystem_c.IFileSystem_EndOfFile(ptr, file);
 		public string ReadLine(out string output, int maxChars, IntPtr file) => FileSystem_c.IFileSystem_ReadLine(ptr, out output, maxChars, file);
 		public int FPrintf(IntPtr file, string format, string msg = null) => FileSystem_c.IFileSystem_FPrintf(ptr, file, format, msg);
+
+		public IntPtr IFileSystem_LoadModule(string fileName, string pathID = null, bool validatedDllOnly = true) => FileSystem_c.IFileSystem_LoadModule(ptr, fileName, pathID, validatedDllOnly);
+		public void IFileSystem_UnloadModule(IntPtr module) => FileSystem_c.IFileSystem_UnloadModule(ptr, module);
+
+		public string IFileSystem_FindFirst(string wildCard, out int handle) => FileSystem_c.IFileSystem_FindFirst(ptr, wildCard, out handle);
+		public string IFileSystem_FindNext(int handle) => FileSystem_c.IFileSystem_FindNext(ptr, handle);
+		public bool IFileSystem_FindIsDirectory(int handle) => FileSystem_c.IFileSystem_FindIsDirectory(ptr, handle);
+		public void IFileSystem_FindClose(int handle) => FileSystem_c.IFileSystem_FindClose(ptr, handle);
+		public string IFileSystem_FindFirstEx(string wildCard, string pathID, out int handle) => FileSystem_c.IFileSystem_FindFirstEx(ptr, wildCard, pathID, out handle);
 
 		public void PrintSearchPaths() => FileSystem_c.IFileSystem_PrintSearchPaths(ptr);
 	}
