@@ -122,21 +122,14 @@ namespace SourceSDKTest
 					FileSystem fileSystem = new(fSPtr);
 					BaseFileSystem baseFileSystem = new(baseFSPtr);
 
-					Console.WriteLine("get dependencies");
-					//fileSystem.GetDependencies().ToList().ForEach((val) =>
-					//{
-					//	Console.WriteLine($"{val.m_pModuleName} - {val.m_pInterfaceName}");
-					//});
+					Console.WriteLine("get tier");
 
-					var deps = fileSystem.GetDependencies();
+					Console.WriteLine(fileSystem.GetTier());
 
-					Console.WriteLine(deps.ToInt64());
-
-					if(interfaceh.Sys_LoadInterface("vguimatsurface", ISurface.VGUI_SURFACE_INTERFACE_VERSION, out IntPtr isurfaceModule, out IntPtr isurfaceInterface))
+					if (interfaceh.Sys_LoadInterface("vguimatsurface", ISurface.VGUI_SURFACE_INTERFACE_VERSION, out IntPtr isurfaceModule, out IntPtr isurfaceInterface))
 					{
 						ISurface surface = new(isurfaceInterface);
-						var isurfdeps = surface.GetDependencies();
-						Console.WriteLine(isurfdeps.ToInt64());
+						Console.WriteLine(surface.GetTier());
 					}
 
 					fileSystem.PrintSearchPaths();
