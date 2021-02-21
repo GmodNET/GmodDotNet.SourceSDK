@@ -122,4 +122,18 @@ namespace GmodNET.SourceSDK.Tier0
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void COM_TimestampedLog([MarshalAs(UnmanagedType.LPUTF8Str)] string fmt, string dotdotdot);
 	}
+
+	public static class CDbgFmtMsg
+	{
+		internal static class Methods
+		{
+			[DllImport("sourcesdkc")]
+			internal static extern string CDbgFmtMsg(string format, IntPtr args);
+		}
+		public static string Format(string format, params VariableArgument[] args)
+		{
+			using var va_list = new CombinedVariables(args);
+			return Methods.CDbgFmtMsg(format, va_list.GetPtr());
+		}
+	}
 }
