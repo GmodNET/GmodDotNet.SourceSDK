@@ -125,15 +125,22 @@ namespace GmodNET.SourceSDK.Tier0
 
 	public static class CDbgFmtMsg
 	{
-		internal static class Methods
+#nullable enable
+		public static string Format(string format, params object?[]? args)
 		{
-			[DllImport("sourcesdkc", EntryPoint = "DBG_CDbgFmtMsg")]
-			internal static extern string CDbgFmtMsg(string format, IntPtr args);
+			if (args is null)
+			{
+				return format;
+			}
+			foreach(var obj in args)
+			{
+				if(obj is int)
+				{
+					
+				}
+			}
+			throw new NotImplementedException("todo");
 		}
-		public static string Format(string format, params VariableArgument[] args)
-		{
-			using var va_list = new CombinedVariables(args);
-			return Methods.CDbgFmtMsg(format, va_list.GetPtr());
-		}
+#nullable restore
 	}
 }

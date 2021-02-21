@@ -93,8 +93,6 @@ namespace SourceSDKTest
 			Test(() => Dbg.ConMsg("ConMsg(string)\n"));
 			Test(() => Dbg.ConDMsg("ConDMsg(string)\n"));
 
-			Test(() => Dbg.Msg(CDbgFmtMsg.Format("CDbgFmtMsg%s", "(%s)")));
-
 			// Test(() => Dbg.COM_TimestampedLog("COM_TimestampedLog(format = %s)", "COM_TimestampedLog"));
 
 			Test(() =>
