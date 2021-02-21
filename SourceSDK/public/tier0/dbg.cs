@@ -102,12 +102,12 @@ namespace GmodNET.SourceSDK.Tier0
 		public static extern void Error([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 
-		public static Delegates.void_string DevMsg;
-		public static Delegates.void_string DevWarning;
+		public static readonly Delegates.void_string DevMsg;
+		public static readonly Delegates.void_string DevWarning;
 
 
-		public static Delegates.void_inColor_string ConColorMsg;
-		public static Delegates.void_string ConMsg;
+		public static readonly Delegates.void_inColor_string ConColorMsg;
+		public static readonly Delegates.void_string ConMsg;
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ConDMsg([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
