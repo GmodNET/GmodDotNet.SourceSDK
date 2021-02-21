@@ -187,7 +187,6 @@ DLL_EXPORT const char* IFileSystem_FindFirstEx(void** fsPtr, const char* pWildCa
 }
 
 
-DLL_EXPORT void IFileSystem_PrintSearchPaths(void** fsPtr) {
-	IFileSystem* fs = (IFileSystem*)fsPtr;
+DLL_EXPORT void IFileSystem_PrintSearchPaths(IFileSystem* fs) {
 	fs->PrintSearchPaths();
 }
