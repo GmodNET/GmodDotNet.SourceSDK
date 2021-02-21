@@ -5,7 +5,6 @@ using GmodNET.SourceSDK.Tier1;
 using GmodNET.SourceSDK.vgui;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
