@@ -128,15 +128,15 @@ namespace GmodNET.SourceSDK.Tier0
 #nullable enable
 		public static string Format(string format, params object?[]? args)
 		{
-			if (args is null)
+			if (args is null || args.Length < 1)
 			{
 				return format;
 			}
-			foreach(var obj in args)
+			foreach (var obj in args)
 			{
-				if(obj is int)
+				if (obj is int)
 				{
-					
+
 				}
 			}
 			throw new NotImplementedException("todo");
