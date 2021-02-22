@@ -1,11 +1,79 @@
 using GmodNET.SourceSDK.AppFramework;
+using GmodNET.SourceSDK.tier1;
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace GmodNET.SourceSDK
 {
-	#region Enums
+	public delegate void FileSystemLoggingFunc_t(string fileName, string accessType);
+	/// <summary>File system allocation functions. Client must free on failure</summary>
+	public delegate void FSAllocFunc_t(string szFileName, uint bytes);
+	/// <summary>Used to display dirty disk error functions</summary>
+	public delegate void FSDirtyDiskReportFunc_t();
+	/// <summary>Completion callback for each async file serviced (or failed)</summary>
+	public delegate void FSAsyncCallbackFunc_t(ref FileAsyncRequest_t request, int bytesRead, FSAsyncStatus_t err);
 
+	#region Structs
+	public struct FileAsyncRequest_t
+	{
+		static FileAsyncRequest_t() => throw new NotImplementedException("TODO");
+
+		//FileAsyncRequest_t() { memset(this, 0, sizeof(*this) ); hSpecificAsyncFile = FS_INVALID_ASYNC_FILE; }
+		/// <summary>file system name</summary>
+		public string szFilename;
+		/// <summary>optional, system will alloc/free if NULL</summary>
+		public IntPtr data;
+		/// <summary>optional initial seek_set, 0=beginning</summary>
+		public int offset;
+		/// <summary>optional read clamp, -1=exist test, 0=full read</summary>
+		public int bytes;
+		/// <summary>optional completion callback</summary>
+		public FSAsyncCallbackFunc_t fnCallback;
+		/// <summary>caller's unique file identifier</summary>
+		public IntPtr context;
+		/// <summary>inter list priority, 0=lowest</summary>
+		public int priority;
+		/// <summary>behavior modifier</summary>
+		public FSAsyncFlags_t flags;
+		/// <summary>path ID (NOTE: this field is here to remain binary compatible with release HL2 filesystem interface)</summary>
+		public string szPathID;
+		/// <summary>Optional hint obtained using AsyncBeginRead()</summary>
+		public IntPtr hSpecificAsyncFile;
+		/// <summary>custom allocator. can be null. not compatible with FSASYNC_FLAGS_FREEDATAPTR</summary>
+		public FSAllocFunc_t fnAlloc;
+	}
+	public struct FileHash_t : IEquatable<FileHash_t>
+	{
+		public enum EFileHashType_t
+		{
+			k_EFileHashTypeUnknown = 0,
+			k_EFileHashTypeEntireFile = 1,
+			k_EFileHashTypeIncompleteFile = 2,
+		}
+
+		public EFileHashType_t m_eFileHashType;
+		public uint m_crcIOSequence;
+		public MD5Value_t m_md5contents;
+		public int m_cbFileLen;
+		public int m_PackFileID;
+		public int m_nPackFileNumber;
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool operator ==(FileHash_t obj1, FileHash_t obj2) => obj1.m_crcIOSequence == obj2.m_crcIOSequence && obj1.m_md5contents == obj2.m_md5contents && obj1.m_eFileHashType == obj2.m_eFileHashType;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool operator !=(FileHash_t obj1, FileHash_t obj2) => obj1.m_crcIOSequence != obj2.m_crcIOSequence || obj1.m_md5contents != obj2.m_md5contents || obj1.m_eFileHashType != obj2.m_eFileHashType;
+
+		public override bool Equals(object obj) => this == (FileHash_t)obj;
+		public override int GetHashCode() => base.GetHashCode();
+
+		public bool Equals(FileHash_t other) => this == other;
+	}
+
+	#endregion
+
+	#region Enums
+	/// <summary>How strict will the pure server be for a particular set of files</summary>
 	public enum EPureServerFileClass
 	{
 		/// <summary>dummy debugging value</summary>
@@ -20,10 +88,7 @@ namespace GmodNET.SourceSDK
 		FILESYSTEM_SEEK_CURRENT = 1,
 		FILESYSTEM_SEEK_TAIL = 2,
 	}
-	public enum FileSystem_Handle
-	{
-		FILESYSTEM_INVALID_FIND_HANDLE = -1
-	}
+
 	public enum FileWarningLevel_t
 	{
 		/// <summary>A problem!</summary>
@@ -94,6 +159,7 @@ namespace GmodNET.SourceSDK
 		/// <summary>360 only, hint to FS that file is not allowed to be in pack file</summary>
 		FSOPEN_NEVERINPACK = (1 << 2),
 	}
+	/// <summary>Async file status</summary>
 	public enum FSAsyncStatus_t
 	{
 		///<summary>Filename not part of the specified file system, try a different one.  (Used internally to find the right filesystem)</summary>
@@ -395,6 +461,9 @@ namespace GmodNET.SourceSDK
 	public class FileSystem : IAppSystem, IBaseFileSystem, IFileSystem
 	{
 		public const int FILESYSTEM_MAX_SEARCH_PATHS = 128;
+		public const int FILESYSTEM_INVALID_FIND_HANDLE = -1;
+		public static readonly IntPtr FILESYSTEM_INVALID_HANDLE = IntPtr.Zero;
+		public const int FS_INVALID_ASYNC_FILE = 0x0000ffff;
 
 		public const string FILESYSTEM_INTERFACE_VERSION = "VFileSystem022";
 
