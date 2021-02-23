@@ -46,7 +46,7 @@ namespace GmodNET.SourceSDK.Tier0
 			public static extern void DevWarning([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 
-			[DllImport("tier0", EntryPoint = "?ConColorMsg@@YAXAEBVColor@@PEBDZZ", CallingConvention = CallingConvention.Cdecl)]
+			[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 			[DllImport("tier0", EntryPoint = "?ConMsg@@YAXPEBDZZ", CallingConvention = CallingConvention.Cdecl)]
@@ -61,7 +61,7 @@ namespace GmodNET.SourceSDK.Tier0
 			public static extern void DevWarning([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 
-			[DllImport("tier0", EntryPoint = "_Z11ConColorMsgRK5ColorPKcz", CallingConvention = CallingConvention.Cdecl)]
+			[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 			[DllImport("tier0", EntryPoint = "_Z6ConMsgPKcz", CallingConvention = CallingConvention.Cdecl)]
@@ -76,7 +76,7 @@ namespace GmodNET.SourceSDK.Tier0
 			public static extern void DevWarning([MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 
-			[DllImport("tier0", EntryPoint = "__Z11ConColorMsgRK5ColorPKcz", CallingConvention = CallingConvention.Cdecl)]
+			[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void ConColorMsg(in Color clr, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
 			[DllImport("tier0", EntryPoint = "__Z6ConMsgPKcz", CallingConvention = CallingConvention.Cdecl)]
