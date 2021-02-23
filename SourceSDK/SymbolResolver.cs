@@ -11,7 +11,7 @@ namespace GmodNET.SourceSDK
 		private static readonly string[] libNames;
 		private static readonly string[] paths;
 
-		private static string getPath(string path) => Path.Combine(Directory.GetCurrentDirectory(), path);
+		private static string GetPath(string path) => Path.Combine(Directory.GetCurrentDirectory(), path);
 
 		static SymbolResolver()
 		{
@@ -82,7 +82,7 @@ namespace GmodNET.SourceSDK
 				{
 					string relativeLibPath = string.Format(path, fullLibName);
 
-					string absoluteLibPath = getPath(relativeLibPath);
+					string absoluteLibPath = GetPath(relativeLibPath);
 
 					if (File.Exists(absoluteLibPath))
 					{
