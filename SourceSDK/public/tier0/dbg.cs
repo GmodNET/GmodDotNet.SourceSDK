@@ -14,21 +14,21 @@ namespace GmodNET.SourceSDK.Tier0
 			{
 				DevMsg = Windows.DevMsg;
 				DevWarning = Windows.DevWarning;
-				ConColorMsg = Windows.ConColorMsg;
+				//ConColorMsg = Windows.ConColorMsg;
 				ConMsg = Windows.ConMsg;
 			}
 			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 			{
 				DevMsg = Linux.DevMsg;
 				DevWarning = Linux.DevWarning;
-				ConColorMsg = Linux.ConColorMsg;
+				//ConColorMsg = Linux.ConColorMsg;
 				ConMsg = Linux.ConMsg;
 			}
 			else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 			{
 				DevMsg = OSX.DevMsg;
 				DevWarning = OSX.DevWarning;
-				ConColorMsg = OSX.ConColorMsg;
+				//ConColorMsg = OSX.ConColorMsg;
 				ConMsg = OSX.ConMsg;
 			}
 			else
@@ -106,7 +106,7 @@ namespace GmodNET.SourceSDK.Tier0
 		public static readonly Delegates.void_string DevWarning;
 
 
-		public static readonly Delegates.void_inColor_string ConColorMsg;
+		public static readonly Delegates.void_inColor_string ConColorMsg = SymbolResolver.ResolveSymbol<Delegates.void_inColor_string>("tier0", "ConColorMsg");
 		public static readonly Delegates.void_string ConMsg;
 
 		[DllImport("tier0", CallingConvention = CallingConvention.Cdecl)]
