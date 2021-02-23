@@ -15,50 +15,49 @@ namespace GmodNET.SourceSDK
 
 		static SymbolResolver()
 		{
-			switch (Environment.OSVersion.Platform)
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				case PlatformID.Win32NT:
-					getLibPtr = LoadLibrary;
-					getSymbolPtr = GetProcAddress;
-					libNames = new[]
-					{
-						"{0}.dll"
-					};
-					paths = new[]
-					{
-						"bin/win64/{0}",
-						// "bin/{0}"
-					};
-					break;
-				case PlatformID.Unix:
-					getLibPtr = dlopen;
-					getSymbolPtr = dlsym;
-					libNames = new[]
-					{
-						"{0}.so",
-						"lib{0}.so"
-					};
-					paths = new[]
-					{
-						"bin/linux64/{0}"
-					};
-					break;
-				case PlatformID.MacOSX:
-					getLibPtr = dlopen;
-					getSymbolPtr = dlsym;
-					libNames = new[]
-					{
-						"{0}.dylib",
-						"lib{0}.dylib"
-					};
-					paths = new[]
-					{
-						"bin/osx64/{0}"
-					};
-					break;
-				default:
-					throw new PlatformNotSupportedException();
+				getLibPtr = LoadLibrary;
+				getSymbolPtr = GetProcAddress;
+				libNames = new[]
+				{
+					"{0}.dll"
+				};
+				paths = new[]
+				{
+					"bin/win64/{0}",
+					// "bin/{0}"
+				};
 			}
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			{
+				getLibPtr = dlopen;
+				getSymbolPtr = dlsym;
+				libNames = new[]
+				{
+					"{0}.so",
+					"lib{0}.so"
+				};
+				paths = new[]
+				{
+					"bin/linux64/{0}"
+				};
+			}
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+			{
+				getLibPtr = dlopen;
+				getSymbolPtr = dlsym;
+				libNames = new[]
+				{
+					"{0}.dylib",
+					"lib{0}.dylib"
+				};
+				paths = new[]
+				{
+					"bin/osx64/{0}"
+				};
+			}
+			else throw new PlatformNotSupportedException();
 		}
 
 		#region native
@@ -73,7 +72,7 @@ namespace GmodNET.SourceSDK
 		private static extern IntPtr GetProcAddress(IntPtr lib, string name);
 		#endregion
 
-		internal static TDelegate ResolveSymbol<TDelegate>(string libName, string name)
+		private static TDelegate ResolveSymbol<TDelegate>(string libName, string name)
 		{
 			foreach (string libNameFormat in libNames)
 			{
@@ -98,8 +97,15 @@ namespace GmodNET.SourceSDK
 					}
 				}
 			}
-			Console.WriteLine("not found");
 			return default;
+		}
+
+		internal static TDelegate GetSymbol<TDelegate>(string libName, string windows, string unix, string osx = null)
+		{
+			if (osx == null) osx = "_" + unix;
+			string entryPoint = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? windows : (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? unix : osx);
+
+			return ResolveSymbol<TDelegate>(libName, entryPoint);
 		}
 	}
 }
