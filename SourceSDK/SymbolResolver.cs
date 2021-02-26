@@ -4,8 +4,10 @@ using System.Runtime.InteropServices;
 
 namespace GmodNET.SourceSDK
 {
-	internal static class SymbolResolver
+	public static class SymbolResolver
 	{
+		public static bool Server { private get; set; } = true;
+
 		private static readonly Func<string, IntPtr> getLibPtr;
 		private static readonly Func<IntPtr, string, IntPtr> getSymbolPtr;
 		private static readonly string[] libNames;
@@ -33,11 +35,24 @@ namespace GmodNET.SourceSDK
 			{
 				getLibPtr = dlopen;
 				getSymbolPtr = dlsym;
-				libNames = new[]
+				if (Server)
 				{
-					"{0}.so",
-					"lib{0}.so"
-				};
+					libNames = new[]
+					{
+						"{0}.so",
+						"lib{0}.so"
+					};
+				}
+				else
+				{
+					libNames = new[]
+					{
+						"{0}_client.so",
+						"lib{0}_client.so",
+						"{0}.so",
+						"lib{0}.so"
+					};
+				}
 				paths = new[]
 				{
 					"bin/linux64/{0}"
@@ -47,11 +62,24 @@ namespace GmodNET.SourceSDK
 			{
 				getLibPtr = dlopen;
 				getSymbolPtr = dlsym;
-				libNames = new[]
+				if (Server)
 				{
-					"{0}.dylib",
-					"lib{0}.dylib"
-				};
+					libNames = new[]
+					{
+						"{0}.dylib",
+						"lib{0}.dylib"
+					};
+				}
+				else
+				{
+					libNames = new[]
+					{
+						"{0}_client.dylib",
+						"lib{0}_client.dylib",
+						"{0}.dylib",
+						"lib{0}.dylib"
+					};
+				}
 				paths = new[]
 				{
 					"bin/osx64/{0}"
