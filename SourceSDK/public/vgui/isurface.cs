@@ -11,10 +11,18 @@ namespace GmodNET.SourceSDK.vgui
 
 		public ISurface(IntPtr ptr) : base(ptr) { }
 
+		public void DrawSetColor(int r, int g, int b, int a) => Methods.ISurface_DrawSetColor_RGBA(ptr, r, g, b, a);
+		public void DrawSetColor(Color color) => Methods.ISurface_DrawSetColor_COLOR(ptr, color);
+
 		public void DrawFilledRect(int x0, int y0, int x1, int y1) => Methods.ISurface_DrawFilledRect(ptr, x0, y0, x1, y1);
 
 		internal static class Methods
 		{
+			[DllImport("sourcesdkc")]
+			internal static extern void ISurface_DrawSetColor_RGBA(IntPtr ptr, int r, int g, int b, int a);
+			[DllImport("sourcesdkc")]
+			internal static extern void ISurface_DrawSetColor_COLOR(IntPtr ptr, Color color);
+
 			[DllImport("sourcesdkc")]
 			internal static extern void ISurface_DrawFilledRect(IntPtr ptr, int x0, int y0, int x1, int y1);
 

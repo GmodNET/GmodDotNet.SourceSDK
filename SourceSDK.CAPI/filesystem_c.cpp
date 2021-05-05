@@ -142,6 +142,22 @@ DLL_EXPORT const char* IFileSystem_FindFirstEx(IFileSystem* fs, const char* pWil
 	return fs->FindFirstEx(pWildCard, pPathID, pHandle);
 }
 
+DLL_EXPORT const char* IFileSystem_GetLocalPath(IFileSystem* fs, const char* pFileName, char* pDest, int maxLenInChars) {
+	return fs->GetLocalPath(pFileName, pDest, maxLenInChars);
+}
+DLL_EXPORT bool IFileSystem_FullPathToRelativePath(IFileSystem* fs, const char* pFullpath, char* pDest, int maxLenInChars) {
+	return fs->FullPathToRelativePath(pFullpath, pDest, maxLenInChars);
+}
+DLL_EXPORT bool IFileSystem_GetCurrentDirectory(IFileSystem* fs, char* pDirectory, int maxlen) {
+	return fs->GetCurrentDirectory(pDirectory, maxlen);
+}
+
+DLL_EXPORT void* IFileSystem_FindOrAddFileName(IFileSystem* fs, char const* pFileName) {
+	return fs->FindOrAddFileName(pFileName);
+}
+DLL_EXPORT bool IFileSystem_String(IFileSystem* fs, void* handle, char* buf, int buflen) {
+	return fs->String(handle, buf, buflen);
+}
 
 DLL_EXPORT void IFileSystem_PrintSearchPaths(IFileSystem* fs) {
 	fs->PrintSearchPaths();

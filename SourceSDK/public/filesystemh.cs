@@ -328,6 +328,20 @@ namespace GmodNET.SourceSDK
 		[DllImport("sourcesdkc")]
 		internal static extern string IFileSystem_FindFirstEx(IntPtr ptr, string wildCard, string pathID, out int handle);
 
+		[DllImport("sourcesdkc")]
+		internal static extern string IFileSystem_GetLocalPath(IntPtr ptr, string fileName, ref string dest, int maxlen);
+		[DllImport("sourcesdkc", CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		internal static extern bool IFileSystem_FullPathToRelativePath(IntPtr ptr, string fullPath, ref string dest, int maxLenInChars);
+
+		[DllImport("sourcesdkc", CharSet = CharSet.Ansi)]
+		internal static extern bool IFileSystem_GetCurrentDirectory(IntPtr ptr, ref string pDirectory, int maxlen);
+
+		[DllImport("sourcesdkc", CharSet = CharSet.Ansi)]
+		internal static extern IntPtr IFileSystem_FindOrAddFileName(IntPtr ptr, string fileName);
+
+		[DllImport("sourcesdkc", CharSet = CharSet.Ansi)]
+		internal static extern bool IFileSystem_String(IntPtr ptr, IntPtr handle, ref string buffer, int bufMaxLen);
 
 		[DllImport("sourcesdkc")]
 		internal static extern void IFileSystem_PrintSearchPaths(IntPtr ptr);

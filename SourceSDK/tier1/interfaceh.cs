@@ -109,7 +109,7 @@ namespace GmodNET.SourceSDK.Tier1
 			Console.WriteLine("factory()");
 			outInterface = factory(interfaceVersionName, out IFACE returnCode);
 
-			if (returnCode != IFACE.OK || outInterface == IntPtr.Zero)
+			if (returnCode is not IFACE.OK || outInterface == IntPtr.Zero)
 			{
 				Console.WriteLine("Sys_UnloadModule");
 				Sys_UnloadModule(outModule);

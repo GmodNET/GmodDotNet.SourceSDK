@@ -64,6 +64,8 @@ namespace SourceSDKTest
 			return IntPtr.Zero;
 		}
 
+		private GCHandle handle;
+
 		public void Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
 			string platformIdentifier = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "win-x64" : "linux-x64";
@@ -166,10 +168,44 @@ namespace SourceSDKTest
 			assembly_context.SetCustomNativeLibraryResolver(null);
 
 			Debug.Assert(!failed);
+
+
+			lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+			handle = lua.PushManagedFunction(DrawSomething);
+			lua.SetField(-2, "DrawSomethingPLSWORK");
+			lua.Pop();
+		}
+
+		private ISurface surface;
+
+		public int DrawSomething(ILua lua)
+		{
+			if (surface is null)
+			{
+				if (interfaceh.Sys_LoadInterface("vguimatsurface", ISurface.VGUI_SURFACE_INTERFACE_VERSION, out _, out IntPtr isurfacePtr))
+				{
+					surface = new(isurfacePtr);
+				}
+				else
+				{
+					Console.WriteLine("failed to load");
+				}
+			}
+			if (surface is not null)
+			{
+				Console.WriteLine("drawing");
+				surface.DrawSetColor(0, 255, 0, 255);
+				surface.DrawFilledRect(0, 0, 25, 10);
+				surface.DrawSetColor(0, 0, 255, 255);
+				surface.DrawFilledRect(20, 0, 25, 10);
+				Console.WriteLine("drawn OMG");
+			}
+			return 0;
 		}
 
 		public void Unload(ILua lua)
 		{
+			handle.Free();
 			if (sourcesdkc != IntPtr.Zero)
 			{
 				NativeLibrary.Free(sourcesdkc);
