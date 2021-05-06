@@ -440,6 +440,13 @@ namespace GmodNET.SourceSDK
 		void IFileSystem_FindClose(int handle);
 		string IFileSystem_FindFirstEx(string wildCard, string pathID, out int handle);
 		#endregion
+		#region Paths
+		string GetLocalPath(string fileName, ref string dest, int maxLen);
+		bool FullPathToRelativePath(string fullPath, ref string dest, int maxLen);
+		bool GetCurrentDirectory(ref string pDirectory, int maxLen);
+		IntPtr FindOrAddFileName(string fileName);
+		bool @String(IntPtr handle, ref string buffer, int bufMaxLen);
+		#endregion
 		void PrintSearchPaths();
 	}
 
@@ -541,6 +548,12 @@ namespace GmodNET.SourceSDK
 		public bool IFileSystem_FindIsDirectory(int handle) => FileSystem_c.IFileSystem_FindIsDirectory(ptr, handle);
 		public void IFileSystem_FindClose(int handle) => FileSystem_c.IFileSystem_FindClose(ptr, handle);
 		public string IFileSystem_FindFirstEx(string wildCard, string pathID, out int handle) => FileSystem_c.IFileSystem_FindFirstEx(ptr, wildCard, pathID, out handle);
+
+		public string GetLocalPath(string fileName, ref string dest, int maxLen) => FileSystem_c.IFileSystem_GetLocalPath(ptr, fileName, ref dest, maxLen);
+		public bool FullPathToRelativePath(string fullPath, ref string dest, int maxLen) => FileSystem_c.IFileSystem_FullPathToRelativePath(ptr, fullPath, ref dest, maxLen);
+		public bool GetCurrentDirectory(ref string pDirectory, int maxLen) => FileSystem_c.IFileSystem_GetCurrentDirectory(ptr, ref pDirectory, maxLen);
+		public IntPtr FindOrAddFileName(string fileName) => FileSystem_c.IFileSystem_FindOrAddFileName(ptr, fileName);
+		public bool @String(IntPtr handle, ref string buffer, int bufMaxLen) => FileSystem_c.IFileSystem_String(ptr, handle, ref buffer, bufMaxLen);
 
 		public void PrintSearchPaths() => FileSystem_c.IFileSystem_PrintSearchPaths(ptr);
 	}
