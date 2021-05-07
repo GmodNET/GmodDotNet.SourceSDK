@@ -146,16 +146,13 @@ namespace SourceSDKTest
 					if (fileHandle != IntPtr.Zero)
 					{
 						uint size = baseFileSystem.Size(fileHandle);
-						byte[] buff = new byte[size];
 
-						fixed (byte* buffPtr = buff)
-						{
-							IntPtr buffIntPtr = new(buffPtr);
-							baseFileSystem.Read(buffIntPtr, (int)size, fileHandle);
-							//byte* bufferResult = (byte*)buffIntPtr.ToPointer();
-							Console.WriteLine("Printing file contents");
-							Console.WriteLine(Encoding.UTF8.GetChars(buff));
-						}
+						byte* buffPtr = stackalloc byte[(int)size];
+
+						IntPtr buffIntPtr = new(buffPtr);
+						baseFileSystem.Read(buffIntPtr, (int)size, fileHandle);
+						Console.WriteLine("Printing file contents");
+						Console.WriteLine(Encoding.UTF8.GetString(buffPtr, (int)size));
 						baseFileSystem.Close(fileHandle);
 					}
 					else
