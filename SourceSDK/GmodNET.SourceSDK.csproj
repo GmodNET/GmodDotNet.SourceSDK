@@ -7,9 +7,7 @@
 		<Version>0.0.1</Version>
 		<IncludeSymbols>true</IncludeSymbols>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<LangVersion>preview</LangVersion>
-		<UseAppHost>true</UseAppHost>
-		<IsPackable>true</IsPackable>
+		<LangVersion>9.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="runtimes\win-x64\native\sourcesdkc.dll;runtimes\linux-x64\native\libsourcesdkc.so">
