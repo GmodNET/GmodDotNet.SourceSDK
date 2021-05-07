@@ -18,4 +18,8 @@
 		</None>
 		<Content Remove="runtimes\*\**" />
 	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Ancillary.Interop" Version="1.0.0-alpha.20604.3" />
+	  <PackageReference Include="Microsoft.Interop.DllImportGenerator" Version="1.0.0-alpha.21256.4" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
 </Project>

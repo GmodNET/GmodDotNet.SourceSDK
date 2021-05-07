@@ -3,6 +3,7 @@ using GmodNET.SourceSDK.tier1;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace GmodNET.SourceSDK
 {
@@ -265,10 +266,11 @@ namespace GmodNET.SourceSDK
 		//TODO: CUtlBuffer
 	}
 
-	internal static class FileSystem_c
+	internal static partial class FileSystem_c
 	{
-		[DllImport("sourcesdkc")]
-		internal static extern bool IFileSystem_IsSteam(IntPtr ptr);
+		[GeneratedDllImport("sourcesdkc")]
+		[return: MarshalAs(UnmanagedType.I1)]
+		internal static partial bool IFileSystem_IsSteam(IntPtr ptr);
 
 		[DllImport("sourcesdkc")]
 		internal static extern FilesystemMountRetval_t IFileSystem_MountSteamContent(IntPtr ptr, int extraAppId = -1);
@@ -334,8 +336,9 @@ namespace GmodNET.SourceSDK
 		[return: MarshalAs(UnmanagedType.I1)]
 		internal static extern bool IFileSystem_FullPathToRelativePath(IntPtr ptr, string fullPath, ref string dest, int maxLenInChars);
 
-		[DllImport("sourcesdkc", CharSet = CharSet.Ansi)]
-		internal static extern bool IFileSystem_GetCurrentDirectory(IntPtr ptr, ref string pDirectory, int maxlen);
+		[DllImport("sourcesdkc")]
+		[return: MarshalAs(UnmanagedType.I1)]
+		internal static extern unsafe bool IFileSystem_GetCurrentDirectory(IntPtr ptr, byte* pDirectory, int maxlen);
 
 		[DllImport("sourcesdkc", CharSet = CharSet.Ansi)]
 		internal static extern IntPtr IFileSystem_FindOrAddFileName(IntPtr ptr, string fileName);
@@ -443,7 +446,7 @@ namespace GmodNET.SourceSDK
 		#region Paths
 		string GetLocalPath(string fileName, ref string dest, int maxLen);
 		bool FullPathToRelativePath(string fullPath, ref string dest, int maxLen);
-		bool GetCurrentDirectory(ref string pDirectory, int maxLen);
+		//bool GetCurrentDirectory(ref string pDirectory, int maxLen);
 		IntPtr FindOrAddFileName(string fileName);
 		bool @String(IntPtr handle, ref string buffer, int bufMaxLen);
 		#endregion
@@ -551,7 +554,20 @@ namespace GmodNET.SourceSDK
 
 		public string GetLocalPath(string fileName, ref string dest, int maxLen) => FileSystem_c.IFileSystem_GetLocalPath(ptr, fileName, ref dest, maxLen);
 		public bool FullPathToRelativePath(string fullPath, ref string dest, int maxLen) => FileSystem_c.IFileSystem_FullPathToRelativePath(ptr, fullPath, ref dest, maxLen);
-		public bool GetCurrentDirectory(ref string pDirectory, int maxLen) => FileSystem_c.IFileSystem_GetCurrentDirectory(ptr, ref pDirectory, maxLen);
+		public unsafe bool GetCurrentDirectory(byte* pDirectory, int maxLen) => FileSystem_c.IFileSystem_GetCurrentDirectory(ptr, pDirectory, maxLen);
+		public bool GetCurrentDirectory(out string pDirectory, int maxLen = 1024)
+		{
+			unsafe
+			{
+				byte* bytes = stackalloc byte[maxLen];
+
+				bool retVal = GetCurrentDirectory(bytes, maxLen);
+
+				pDirectory = Encoding.UTF8.GetString(bytes, maxLen);
+
+				return retVal;
+			}
+		}
 		public IntPtr FindOrAddFileName(string fileName) => FileSystem_c.IFileSystem_FindOrAddFileName(ptr, fileName);
 		public bool @String(IntPtr handle, ref string buffer, int bufMaxLen) => FileSystem_c.IFileSystem_String(ptr, handle, ref buffer, bufMaxLen);
 
