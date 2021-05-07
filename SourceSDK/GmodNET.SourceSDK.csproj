@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net5</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -6,6 +6,10 @@
 		<Product>GmodNET.SourceSDK</Product>
 		<Version>0.0.1</Version>
 		<IncludeSymbols>true</IncludeSymbols>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<LangVersion>preview</LangVersion>
+		<UseAppHost>true</UseAppHost>
+		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="runtimes\win-x64\native\sourcesdkc.dll;runtimes\linux-x64\native\libsourcesdkc.so">
