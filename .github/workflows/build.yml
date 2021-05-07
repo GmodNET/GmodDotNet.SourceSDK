@@ -69,10 +69,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.7.2
       with:
         dotnet-version: 5.0.100
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: 6.0.100-preview.3.21202.5
     - name: Download linux-x64
       uses: actions/download-artifact@v2
       with:
