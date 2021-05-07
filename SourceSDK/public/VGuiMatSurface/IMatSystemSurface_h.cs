@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace GmodNET.SourceSDK.VGuiMatSurface
@@ -29,6 +30,33 @@ namespace GmodNET.SourceSDK.VGuiMatSurface
 		public void SetMouseCallbacks(GetMouseCallback_t get, SetMouseCallback_t set) => Methods.IMatSystemSurface_SetMouseCallbacks(ptr, get, set);
 		public void InstallPlaySoundFunc(PlaySoundFunc_t func) => Methods.IMatSystemSurface_InstallPlaySoundFunc(ptr, func);
 
+		public void DrawColoredCircle(int centerx, int centery, float radius, int r, int g, int b, int a) => Methods.IMatSystemSurface_DrawColoredCircle(ptr, centerx, centery, radius, r, g, b, a);
+		public int DrawColoredText(ulong font, int x, int y, int r, int g, int b, int a, string fmt) => Methods.IMatSystemSurface_DrawColoredText(ptr, font, x, y, r, g, b, a, fmt);
+
+		public void DrawColoredTextRect(ulong font, int x, int y, int w, int h, int r, int g, int b, int a, string fmt) => Methods.IMatSystemSurface_DrawColoredTextRect(ptr, font, x, y, w, h, r, g, b, a, fmt);
+		public void DrawTextHeight(ulong font, int w, ref int h, string fmt) => Methods.IMatSystemSurface_DrawTextHeight(ptr, font, w, ref h, fmt);
+
+		public int DrawTextLen(ulong font, string fmt) => Methods.IMatSystemSurface_DrawTextLen(ptr, font, fmt);
+		public void DrawPanelIn3DSpace(uint pRootPanel, ref Matrix4x4 panelCenterToWorld, int nPixelWidth, int nPixelHeight, float flWorldWidth, float flWorldHeight) => Methods.IMatSystemSurface_DrawPanelIn3DSpace(ptr, pRootPanel, ref panelCenterToWorld, nPixelWidth, nPixelHeight, flWorldWidth, flWorldHeight);
+
+		// todo: ITexture bindings
+		public void DrawSetTextureMaterial(int id, IntPtr texture) => Methods.IMatSystemSurface_DrawSetTextureMaterial(ptr, id, texture);
+
+		public void Set3DPaintTempRenderTarget(string name) => Methods.IMatSystemSurface_Set3DPaintTempRenderTarget(ptr, name);
+		public void Reset3DPaintTempRenderTarget() => Methods.IMatSystemSurface_Reset3DPaintTempRenderTarget(ptr);
+
+		// todo: ITexture bindings
+		public IntPtr DrawGetTextureMaterial(int id) => Methods.IMatSystemSurface_DrawGetTextureMaterial(ptr, id);
+
+		public void GetFullscreenViewportAndRenderTarget(ref int x, ref int y, ref int w, ref int h, out IntPtr texture) => Methods.IMatSystemSurface_GetFullscreenViewportAndRenderTarget(ptr, ref x, ref y, ref w, ref h, out texture);
+		public void SetFullscreenViewportAndRenderTarget(int x, int y, int w, int h, IntPtr texture) => Methods.IMatSystemSurface_SetFullscreenViewportAndRenderTarget(ptr, x, y, w, h, texture);
+
+		public int DrawGetTextureId(IntPtr texture) => Methods.IMatSystemSurface_DrawGetTextureId(ptr, texture);
+
+		public void BeginSkinCompositionPainting() => Methods.IMatSystemSurface_BeginSkinCompositionPainting(ptr);
+		public void EndSkinCompositionPainting() => Methods.IMatSystemSurface_EndSkinCompositionPainting(ptr);
+
+
 		new internal static partial class Methods
 		{
 			[GeneratedDllImport("sourcesdkc")]
@@ -58,6 +86,46 @@ namespace GmodNET.SourceSDK.VGuiMatSurface
 			internal static extern void IMatSystemSurface_SetMouseCallbacks(IntPtr s, GetMouseCallback_t get, SetMouseCallback_t set);
 			[DllImport("sourcesdkc")]
 			internal static extern void IMatSystemSurface_InstallPlaySoundFunc(IntPtr s, PlaySoundFunc_t func);
+
+			[DllImport("sourcesdkc")]
+			internal static extern void IMatSystemSurface_DrawColoredCircle(IntPtr s, int centerx, int centery, float radius, int r, int g, int b, int a);
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial int IMatSystemSurface_DrawColoredText(IntPtr s, ulong font, int x, int y, int r, int g, int b, int a, [MarshalAs(UnmanagedType.LPUTF8Str)] string fmt);
+
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial void IMatSystemSurface_DrawColoredTextRect(IntPtr s, ulong font, int x, int y, int w, int h, int r, int g, int b, int a, [MarshalAs(UnmanagedType.LPUTF8Str)] string fmt);
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial void IMatSystemSurface_DrawTextHeight(IntPtr s, ulong font, int w, ref int h, [MarshalAs(UnmanagedType.LPUTF8Str)] string fmt);
+
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial int IMatSystemSurface_DrawTextLen(IntPtr s, ulong font, [MarshalAs(UnmanagedType.LPUTF8Str)] string fmt);
+
+			[DllImport("sourcesdkc")]
+			internal static extern void IMatSystemSurface_DrawPanelIn3DSpace(IntPtr s, uint pRootPanel, ref Matrix4x4 panelCenterToWorld, int nPixelWidth, int nPixelHeight, float flWorldWidth, float flWorldHeight);
+
+			[DllImport("sourcesdkc")]
+			internal static extern void IMatSystemSurface_DrawSetTextureMaterial(IntPtr s, int id, IntPtr material);
+
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial void IMatSystemSurface_Set3DPaintTempRenderTarget(IntPtr s, [MarshalAs(UnmanagedType.LPUTF8Str)] string renderTargetName);
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial void IMatSystemSurface_Reset3DPaintTempRenderTarget(IntPtr s);
+
+			[DllImport("sourcesdkc")]
+			internal static extern IntPtr IMatSystemSurface_DrawGetTextureMaterial(IntPtr s, int id);
+
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial void IMatSystemSurface_GetFullscreenViewportAndRenderTarget(IntPtr s, ref int x, ref int y, ref int w, ref int h, out IntPtr texture);
+			[DllImport("sourcesdkc")]
+			internal static extern void IMatSystemSurface_SetFullscreenViewportAndRenderTarget(IntPtr s, int x, int y, int w, int h, IntPtr texture);
+
+			[DllImport("sourcesdkc")]
+			internal static extern int IMatSystemSurface_DrawGetTextureId(IntPtr s, IntPtr texture);
+
+			[DllImport("sourcesdkc")]
+			internal static extern void IMatSystemSurface_BeginSkinCompositionPainting(IntPtr s);
+			[DllImport("sourcesdkc")]
+			internal static extern void IMatSystemSurface_EndSkinCompositionPainting(IntPtr s);
 		}
 	}
 }

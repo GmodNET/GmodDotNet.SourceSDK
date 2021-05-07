@@ -35,7 +35,7 @@ DLL_EXPORT void IMatSystemSurface_SetMouseCallbacks(IMatSystemSurface* s, GetMou
 DLL_EXPORT void IMatSystemSurface_InstallPlaySoundFunc(IMatSystemSurface* s, PlaySoundFunc_t f) {
 	s->InstallPlaySoundFunc(f);
 }
-// aaaaaaaaaaaaaaaaaaaaaaaaaaa
+
 DLL_EXPORT void IMatSystemSurface_DrawColoredCircle(IMatSystemSurface* s, int centerx, int centery, float radius, int r, int g, int b, int a) {
 	s->DrawColoredCircle(centerx, centery, radius, r, g, b, a);
 }
