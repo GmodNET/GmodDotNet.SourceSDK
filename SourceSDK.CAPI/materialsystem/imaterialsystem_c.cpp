@@ -48,6 +48,52 @@ DLL_EXPORT bool IMaterialSystem_OverrideConfig(IMaterialSystem* m, const Materia
 DLL_EXPORT const MaterialSystem_Config_t& IMaterialSystem_GetCurrentConfigForVideoCard(IMaterialSystem* m) {
 	return m->GetCurrentConfigForVideoCard();
 }
-DLL_EXPORT bool GetRecommendedConfigurationInfo(IMaterialSystem* m, int nDXLevel, KeyValues* pKeyValues) {
+DLL_EXPORT bool IMaterialSystem_GetRecommendedConfigurationInfo(IMaterialSystem* m, int nDXLevel, KeyValues* pKeyValues) {
 	return m->GetRecommendedConfigurationInfo(nDXLevel, pKeyValues);
+}
+
+DLL_EXPORT int IMaterialSystem_GetDisplayAdapterCount(IMaterialSystem* m) {
+	return m->GetDisplayAdapterCount();
+}
+DLL_EXPORT int IMaterialSystem_GetCurrentAdapter(IMaterialSystem* m) {
+	return m->GetCurrentAdapter();
+}
+DLL_EXPORT void IMaterialSystem_GetDisplayAdapterInfo(IMaterialSystem* m, int adapter, MaterialAdapterInfo_t& info) {
+	m->GetDisplayAdapterInfo(adapter, info);
+}
+DLL_EXPORT int IMaterialSystem_GetModeCount(IMaterialSystem* m, int adapter) {
+	return m->GetModeCount(adapter);
+}
+DLL_EXPORT void IMaterialSystem_GetModeInfo(IMaterialSystem* m, int adapter, int mode, MaterialVideoMode_t& info) {
+	m->GetModeInfo(adapter, mode, info);
+}
+DLL_EXPORT void IMaterialSystem_AddModeChangeCallBack(IMaterialSystem* m, ModeChangeCallbackFunc_t func) {
+	m->AddModeChangeCallBack(func);
+}
+DLL_EXPORT void IMaterialSystem_GetDisplayMode(IMaterialSystem* m, MaterialVideoMode_t& mode) {
+	m->GetDisplayMode(mode);
+}
+DLL_EXPORT bool IMaterialSystem_SetMode(IMaterialSystem* m, void* hwnd, const MaterialSystem_Config_t& config) {
+	return m->SetMode(hwnd, config);
+}
+DLL_EXPORT bool IMaterialSystem_SupportsMSAAMode(IMaterialSystem* m, int nMSAAMode) {
+	return m->SupportsMSAAMode(nMSAAMode);
+}
+DLL_EXPORT const MaterialSystemHardwareIdentifier_t& IMaterialSystem_GetVideoCardIdentifier(IMaterialSystem* m) {
+	return m->GetVideoCardIdentifier();
+}
+DLL_EXPORT void IMaterialSystem_SpewDriverInfo(IMaterialSystem* m) {
+	m->SpewDriverInfo();
+}
+DLL_EXPORT void IMaterialSystem_GetBackBufferDimensions(IMaterialSystem* m, int& width, int& height){
+	m->GetBackBufferDimensions(width, height);
+}
+DLL_EXPORT ImageFormat IMaterialSystem_GetBackBufferFormat(IMaterialSystem* m) {
+	return m->GetBackBufferFormat();
+}
+DLL_EXPORT const AspectRatioInfo_t& IMaterialSystem_GetAspectRatioInfo(IMaterialSystem* m) {
+	return m->GetAspectRatioInfo();
+}
+DLL_EXPORT bool IMaterialSystem_SupportsHDRMode(IMaterialSystem* m, HDRType_t nHDRModede) {
+	return m->SupportsHDRMode(nHDRModede);
 }
