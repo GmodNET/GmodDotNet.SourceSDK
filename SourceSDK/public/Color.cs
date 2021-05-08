@@ -11,6 +11,7 @@ namespace GmodNET.SourceSDK
 	/// <remarks>
 	/// "public/Color.h"
 	/// </remarks>
+	[BlittableType]
 	public struct Color
 	{
 		/// <summary>
