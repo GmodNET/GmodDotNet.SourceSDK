@@ -67,7 +67,7 @@ namespace GmodNET.SourceSDK.materialsystem
 
 		public IMaterialSystemHardwareConfig(IntPtr ptr)
 		{
-			this.c = ptr;
+			c = ptr;
 		}
 
 		public int FrameBufferColorDepth => Methods.IMaterialSystemHardwareConfig_GetFrameBufferColorDepth(c);
