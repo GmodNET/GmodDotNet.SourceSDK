@@ -43,6 +43,9 @@ namespace GmodNET.SourceSDK.materialsystem
 			internal static extern void IMaterialSystem_ExecuteQueued(IntPtr m);
 			[GeneratedDllImport("sourcesdkc")]
 			internal static partial void IMaterialSystem_OnDebugEvent(IntPtr m, [MarshalAs(UnmanagedType.LPUTF8Str)] string pEvent = "");
+
+			[GeneratedDllImport("sourcesdkc")]
+			internal static partial IntPtr IMaterialSystem_GetHardwareConfig(IntPtr m, [MarshalAs(UnmanagedType.LPUTF8Str)] string version, out int returnCode);
 		}
 	}
 }
