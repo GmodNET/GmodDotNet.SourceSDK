@@ -16,12 +16,23 @@ namespace GmodNET.SourceSDK.materialsystem
 	{
 		public IMaterialSystem(IntPtr ptr) : base(ptr) { }
 
+		public void Init(string shaderAPIDLL, IntPtr materialProxyFactory, CreateInterfaceFn fileSystemFactory, CreateInterfaceFn cvarFactory = null) => Methods.IMaterialSystem_Init(ptr, shaderAPIDLL, materialProxyFactory, fileSystemFactory, cvarFactory);
 
+		public void SetShaderApi(string shaderApiDll) => Methods.IMaterialSystem_SetShaderAPI(ptr, shaderApiDll);
 
+		public void SetAdapter(int adapter, int flags) => Methods.IMaterialSystem_SetAdapter(ptr, adapter, flags);
 
+		public void ModInit() => Methods.IMaterialSystem_ModInit(ptr);
+		public void ModShutdown() => Methods.IMaterialSystem_ModShutdown(ptr);
+
+		public void SetThreadMode(MaterialThreadMode_t mode, int nServiceThread = -1) => Methods.IMaterialSystem_SetThreadMode(ptr, mode, nServiceThread);
+		public MaterialThreadMode_t GetThreadMode() => Methods.IMaterialSystem_GetThreadMode(ptr);
+
+		public bool IsRenderThreadSafe => Methods.IMaterialSystem_IsRenderThreadSafe(ptr);
+		public void ExecuteQueued() => Methods.IMaterialSystem_ExecuteQueued(ptr);
+		public void OnDebugEvent(string pEvent = "") => Methods.IMaterialSystem_OnDebugEvent(ptr, pEvent);
 
 		public IMaterialSystemHardwareConfig GetHardwareConfig(string version, out int returnCode) => new(Methods.IMaterialSystem_GetHardwareConfig(ptr, version, out returnCode));
-
 
 		new internal static partial class Methods
 		{
