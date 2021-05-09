@@ -74,6 +74,58 @@ namespace GmodNET.SourceSDK.materialsystem
 		public int SamplerCount => Methods.IMaterialSystemHardwareConfig_GetSamplerCount(c);
 		public bool SupportsStaticControlFlow => Methods.IMaterialSystemHardwareConfig_SupportsStaticControlFlow(c);
 		public VertexCompressionType_t SupportsCompressedVertices => Methods.IMaterialSystemHardwareConfig_SupportsCompressedVertices(c);
+		public int MaximumAnisotropicLevel => Methods.IMaterialSystemHardwareConfig_MaximumAnisotropicLevel(c);
+		public int MaxTextureWidth => Methods.IMaterialSystemHardwareConfig_MaxTextureWidth(c);
+		public int MaxTextureHeight => Methods.IMaterialSystemHardwareConfig_MaxTextureHeight(c);
+		public int TextureMemorySize => Methods.IMaterialSystemHardwareConfig_TextureMemorySize(c);
+		public bool SupportsMipmappedCubemaps => Methods.IMaterialSystemHardwareConfig_SupportsMipmappedCubemaps(c);
+
+		public int NumVertexShaderConstants => Methods.IMaterialSystemHardwareConfig_NumVertexShaderConstants(c);
+		public int NumPixelShaderConstants => Methods.IMaterialSystemHardwareConfig_NumPixelShaderConstants(c);
+		public int MaxNumLights => Methods.IMaterialSystemHardwareConfig_MaxNumLights(c);
+		public int MaxTextureAspectRatio => Methods.IMaterialSystemHardwareConfig_MaxTextureAspectRatio(c);
+		public int MaxVertexShaderBlendMatrices => Methods.IMaterialSystemHardwareConfig_MaxVertexShaderBlendMatrices(c);
+		public int MaxUserClipPlanes => Methods.IMaterialSystemHardwareConfig_MaxUserClipPlanes(c);
+		public bool UseFastClipping => Methods.IMaterialSystemHardwareConfig_UseFastClipping(c);
+
+		public int DXSupportLevel => Methods.IMaterialSystemHardwareConfig_GetDXSupportLevel(c);
+		public string ShaderDLLName => Methods.IMaterialSystemHardwareConfig_GetShaderDLLName(c);
+
+		public bool ReadPixelsFromFrontBuffer => Methods.IMaterialSystemHardwareConfig_ReadPixelsFromFrontBuffer(c);
+
+		public bool PreferDynamicTextures => Methods.IMaterialSystemHardwareConfig_PreferDynamicTextures(c);
+
+		public bool SupportsHDR => Methods.IMaterialSystemHardwareConfig_SupportsHDR(c);
+
+		public bool NeedsAAClamp => Methods.IMaterialSystemHardwareConfig_NeedsAAClamp(c);
+		public bool NeedsATICentroidHack => Methods.IMaterialSystemHardwareConfig_NeedsATICentroidHack(c);
+
+		public int MaxDXSupportLevel => Methods.IMaterialSystemHardwareConfig_GetMaxDXSupportLevel(c);
+
+		public bool SpecifiesFogColorInLinearSpace => Methods.IMaterialSystemHardwareConfig_SpecifiesFogColorInLinearSpace(c);
+
+		public bool SupportsSRGB => Methods.IMaterialSystemHardwareConfig_SupportsSRGB(c);
+		public bool FakeSRGBWrite => Methods.IMaterialSystemHardwareConfig_FakeSRGBWrite(c);
+		public bool CanDoSRGBReadFromRTs => Methods.IMaterialSystemHardwareConfig_CanDoSRGBReadFromRTs(c);
+
+		public bool SupportsGLMixedSizeTargets => Methods.IMaterialSystemHardwareConfig_SupportsGLMixedSizeTargets(c);
+
+		public bool IsAAEnabled => Methods.IMaterialSystemHardwareConfig_IsAAEnabled(c);
+
+		public int VertexSamplerCount => Methods.IMaterialSystemHardwareConfig_GetVertexSamplerCount(c);
+		public int MaxVertexTextureDimension => Methods.IMaterialSystemHardwareConfig_GetMaxVertexTextureDimension(c);
+
+		public int MaxTextureDepth => Methods.IMaterialSystemHardwareConfig_MaxTextureDepth(c);
+
+		public HDRType_t HDRType => Methods.IMaterialSystemHardwareConfig_GetHDRType(c);
+		public HDRType_t HardwareHDRType => Methods.IMaterialSystemHardwareConfig_GetHardwareHDRType(c);
+
+		public bool SupportsStreamOffset => Methods.IMaterialSystemHardwareConfig_SupportsStreamOffset(c);
+
+		public int StencilBufferBits => Methods.IMaterialSystemHardwareConfig_StencilBufferBits(c);
+		public int MaxViewports => Methods.IMaterialSystemHardwareConfig_MaxViewports(c);
+
+		public void OverrideStreamOffsetSupport(bool overrideEnabled, bool enableSupport) => Methods.IMaterialSystemHardwareConfig_OverrideStreamOffsetSupport(c, overrideEnabled, enableSupport);
 
 		private static partial class Methods
 		{

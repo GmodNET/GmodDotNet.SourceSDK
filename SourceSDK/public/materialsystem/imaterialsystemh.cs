@@ -16,6 +16,13 @@ namespace GmodNET.SourceSDK.materialsystem
 	{
 		public IMaterialSystem(IntPtr ptr) : base(ptr) { }
 
+
+
+
+
+		public IMaterialSystemHardwareConfig GetHardwareConfig(string version, out int returnCode) => new(Methods.IMaterialSystem_GetHardwareConfig(ptr, version, out returnCode));
+
+
 		new internal static partial class Methods
 		{
 			[GeneratedDllImport("sourcesdkc")]
