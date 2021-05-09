@@ -127,6 +127,57 @@ namespace GmodNET.SourceSDK.materialsystem
 
 		public void OverrideStreamOffsetSupport(bool overrideEnabled, bool enableSupport) => Methods.IMaterialSystemHardwareConfig_OverrideStreamOffsetSupport(c, overrideEnabled, enableSupport);
 
+		public ShadowFilterMode_t GetShadowFilterMode(bool forceLowQualityShadows, bool PS30) => Methods.IMaterialSystemHardwareConfig_GetShadowFilterMode(c, forceLowQualityShadows, PS30);
+
+		public int NeedsShaderSRGBConversion => Methods.IMaterialSystemHardwareConfig_NeedsShaderSRGBConversion(c);
+
+		public bool UsesSRGBCorrectBlending => Methods.IMaterialSystemHardwareConfig_UsesSRGBCorrectBlending(c);
+
+		public bool HasFastVertexTextures => Methods.IMaterialSystemHardwareConfig_HasFastVertexTextures(c);
+		public int MaxHWMorphBatchCount => Methods.IMaterialSystemHardwareConfig_MaxHWMorphBatchCount(c);
+
+		public bool HDREnabled
+		{
+			get => Methods.IMaterialSystemHardwareConfig_GetHDREnabled(c);
+			set => Methods.IMaterialSystemHardwareConfig_SetHDREnabled(c, value);
+		}
+
+		public bool SupportsBorderColor => Methods.IMaterialSystemHardwareConfig_SupportsBorderColor(c);
+		public bool SupportsFetch4 => Methods.IMaterialSystemHardwareConfig_SupportsFetch4(c);
+
+		public float ShadowDepthBias => Methods.IMaterialSystemHardwareConfig_GetShadowDepthBias(c);
+		public float ShadowSlopeScaleDepthBias => Methods.IMaterialSystemHardwareConfig_GetShadowSlopeScaleDepthBias(c);
+
+		public bool PreferZPrepass => Methods.IMaterialSystemHardwareConfig_PreferZPrepass(c);
+
+		public bool SuppressPixelShaderCentroidHackFixup => Methods.IMaterialSystemHardwareConfig_SuppressPixelShaderCentroidHackFixup(c);
+		public bool PreferTexturesInHWMemory => Methods.IMaterialSystemHardwareConfig_PreferTexturesInHWMemory(c);
+		public bool PreferHardwareSync => Methods.IMaterialSystemHardwareConfig_PreferHardwareSync(c);
+		public bool ActualHasFastVertexTextures => Methods.IMaterialSystemHardwareConfig_ActualHasFastVertexTextures(c);
+
+		public bool SupportsShadowDepthTextures => Methods.IMaterialSystemHardwareConfig_SupportsShadowDepthTextures(c);
+
+		public ImageFormat ShadowDepthTextureFormat => Methods.IMaterialSystemHardwareConfig_GetShadowDepthTextureFormat(c);
+		public ImageFormat HighPrecisionShadowDepthTextureFormat => Methods.IMaterialSystemHardwareConfig_GetHighPrecisionShadowDepthTextureFormat(c);
+		public ImageFormat NullTextureFormat => Methods.IMaterialSystemHardwareConfig_GetNullTextureFormat(c);
+		public int MinDXSupportLevel => Methods.IMaterialSystemHardwareConfig_GetMinDXSupportLevel(c);
+		public bool IsUnsupported => Methods.IMaterialSystemHardwareConfig_IsUnsupported(c);
+
+		public float LightMapScaleFactor => Methods.IMaterialSystemHardwareConfig_GetLightMapScaleFactor(c);
+
+		public bool SupportsCascadedShadowMapping => Methods.IMaterialSystemHardwareConfig_SupportsCascadedShadowMapping(c);
+		public CSMQualityMode_t CSMQuality => Methods.IMaterialSystemHardwareConfig_GetCSMQuality(c);
+		public bool SupportsBilinearPCFSampling => Methods.IMaterialSystemHardwareConfig_SupportsBilinearPCFSampling(c);
+		public CSMShaderMode_t CSMShaderMode => Methods.IMaterialSystemHardwareConfig_GetCSMShaderMode(c);
+		public bool CSMAccurateBlending
+		{
+			get => Methods.IMaterialSystemHardwareConfig_GetCSMAccurateBlending(c);
+			set => Methods.IMaterialSystemHardwareConfig_SetCSMAccurateBlending(c, value);
+		}
+
+		public bool SupportsResolveDepth => Methods.IMaterialSystemHardwareConfig_SupportsResolveDepth(c);
+		public bool HasFullResolutionDepthTexture => Methods.IMaterialSystemHardwareConfig_HasFullResolutionDepthTexture(c);
+
 		private static partial class Methods
 		{
 			[DllImport("sourcesdkc")]
