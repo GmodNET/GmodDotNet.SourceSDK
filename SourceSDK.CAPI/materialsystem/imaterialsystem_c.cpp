@@ -85,7 +85,7 @@ DLL_EXPORT const MaterialSystemHardwareIdentifier_t& IMaterialSystem_GetVideoCar
 DLL_EXPORT void IMaterialSystem_SpewDriverInfo(IMaterialSystem* m) {
 	m->SpewDriverInfo();
 }
-DLL_EXPORT void IMaterialSystem_GetBackBufferDimensions(IMaterialSystem* m, int& width, int& height){
+DLL_EXPORT void IMaterialSystem_GetBackBufferDimensions(IMaterialSystem* m, int& width, int& height) {
 	m->GetBackBufferDimensions(width, height);
 }
 DLL_EXPORT ImageFormat IMaterialSystem_GetBackBufferFormat(IMaterialSystem* m) {
@@ -96,4 +96,34 @@ DLL_EXPORT const AspectRatioInfo_t& IMaterialSystem_GetAspectRatioInfo(IMaterial
 }
 DLL_EXPORT bool IMaterialSystem_SupportsHDRMode(IMaterialSystem* m, HDRType_t nHDRModede) {
 	return m->SupportsHDRMode(nHDRModede);
+}
+
+
+
+
+
+
+
+
+
+
+
+DLL_EXPORT void IMaterialSystem_BeginRenderTargetAllocation(IMaterialSystem* m) {
+	m->BeginRenderTargetAllocation();
+}
+DLL_EXPORT void IMaterialSystem_EndRenderTargetAllocation(IMaterialSystem* m) {
+	m->EndRenderTargetAllocation();
+}
+
+DLL_EXPORT ITexture* IMaterialSystem_CreateRenderTargetTexture(IMaterialSystem* m, int w, int h, RenderTargetSizeMode_t sizeMode, ImageFormat format, MaterialRenderTargetDepth_t depth) {
+	return m->CreateRenderTargetTexture(w, h, sizeMode, format, depth);
+}
+DLL_EXPORT ITexture* IMaterialSystem_CreateNamedRenderTargetTextureEx(IMaterialSystem* m, const char* pRTName, int w, int h, RenderTargetSizeMode_t sizeMode, ImageFormat format, MaterialRenderTargetDepth_t depth, unsigned int textureFlags, unsigned int renderTargetFlags) {
+	return m->CreateNamedRenderTargetTextureEx(pRTName, w, h, sizeMode, format, depth, textureFlags, renderTargetFlags);
+}
+DLL_EXPORT ITexture* IMaterialSystem_CreateNamedRenderTargetTexture(IMaterialSystem* m, const char* pRTName, int w, int h, RenderTargetSizeMode_t sizeMode, ImageFormat format, MaterialRenderTargetDepth_t depth, bool bClampTexCoords, bool bAutoMipMap) {
+	return m->CreateNamedRenderTargetTexture(pRTName, w, h, sizeMode, format, depth, bClampTexCoords, bAutoMipMap);
+}
+DLL_EXPORT ITexture* IMaterialSystem_CreateNamedRenderTargetTextureEx2(IMaterialSystem* m, const char* pRTName, int w, int h, RenderTargetSizeMode_t sizeMode, ImageFormat format, MaterialRenderTargetDepth_t depth, unsigned int textureFlags, unsigned int renderTargetFlags) {
+	return m->CreateNamedRenderTargetTextureEx2(pRTName, w, h, sizeMode, format, depth, textureFlags, renderTargetFlags);
 }
