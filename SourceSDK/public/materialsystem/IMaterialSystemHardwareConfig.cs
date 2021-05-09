@@ -63,10 +63,11 @@ namespace GmodNET.SourceSDK.materialsystem
 	};
 	public partial class IMaterialSystemHardwareConfig
 	{
-		private IntPtr c;
+		private readonly IntPtr c;
 
 		public IMaterialSystemHardwareConfig(IntPtr ptr)
 		{
+			if (ptr == IntPtr.Zero) throw new ArgumentNullException(nameof(ptr), "Passing invalid pointer will cause crash");
 			c = ptr;
 		}
 
