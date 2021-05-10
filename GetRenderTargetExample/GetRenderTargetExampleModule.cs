@@ -19,6 +19,7 @@ namespace GetRenderTargetExample
 		private IntPtr sourcesdkc = IntPtr.Zero;
 
 		private IntPtr rt;
+		private IntPtr mat;
 
 		void IModule.Load(ILua lua, bool is_serverside, ModuleAssemblyLoadContext assembly_context)
 		{
@@ -57,6 +58,24 @@ namespace GetRenderTargetExample
 			lua.PushNumber(512);
 			lua.MCall(3, 1);
 			rt = lua.GetUserType(-1, (int)TYPES.TEXTURE);
+			lua.Pop();
+
+			lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+			lua.GetField(-1, "CreateMaterial");
+			lua.PushString("ExampleRTwithAlpha_Mat");
+			lua.PushString("UnlitGeneric");
+			lua.CreateTable();
+			{
+				lua.PushString("$basetexture");
+				lua.PushString("ExampleRTwithAlpha");
+				lua.SetTable(-4);
+
+				lua.PushString("$translucent");
+				lua.PushString("1");
+				lua.SetTable(-4);
+			}
+			lua.MCall(3, 1);
+			mat = lua.GetUserType(-1, (int)TYPES.MATERIAL);
 			lua.Pop();
 
 			lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
@@ -191,8 +210,33 @@ namespace GetRenderTargetExample
 				}
 				else
 				{
-
+					lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+					lua.GetField(-1, "surface");
+					lua.GetField(-1, "SetDrawColor");
+					lua.PushNumber(255);
+					lua.PushNumber(255);
+					lua.PushNumber(255);
+					lua.PushNumber(255);
+					lua.MCall(4, 0);
+					lua.Pop();
 				}
+
+				lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+				lua.GetField(-1, "surface");
+				lua.GetField(-1, "SetMaterial");
+				lua.PushUserType(mat, (int)TYPES.MATERIAL);
+				lua.MCall(1, 0);
+				lua.Pop();
+
+				lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+				lua.GetField(-1, "surface");
+				lua.GetField(-1, "DrawTexturedRect");
+				lua.PushNumber(50);
+				lua.PushNumber(50);
+				lua.PushNumber(512);
+				lua.PushNumber(512);
+				lua.MCall(4, 0);
+				lua.Pop();
 			}
 
 			return 0;
