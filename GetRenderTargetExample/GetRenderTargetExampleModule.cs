@@ -204,7 +204,7 @@ namespace GetRenderTargetExample
 
 			// Draw it on screen
 			{
-				if(surface is not null)
+				if (surface is not null)
 				{
 					surface.DrawSetColor(255, 255, 255, 255);
 				}
@@ -228,15 +228,22 @@ namespace GetRenderTargetExample
 				lua.MCall(1, 0);
 				lua.Pop();
 
-				lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
-				lua.GetField(-1, "surface");
-				lua.GetField(-1, "DrawTexturedRect");
-				lua.PushNumber(50);
-				lua.PushNumber(50);
-				lua.PushNumber(512);
-				lua.PushNumber(512);
-				lua.MCall(4, 0);
-				lua.Pop();
+				if (surface is not null)
+				{
+					surface.DrawTexturedRect(50, 50, 512, 512);
+				}
+				else
+				{
+					lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+					lua.GetField(-1, "surface");
+					lua.GetField(-1, "DrawTexturedRect");
+					lua.PushNumber(50);
+					lua.PushNumber(50);
+					lua.PushNumber(512);
+					lua.PushNumber(512);
+					lua.MCall(4, 0);
+					lua.Pop();
+				}
 			}
 
 			return 0;
