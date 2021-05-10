@@ -48,6 +48,8 @@ namespace GmodNET.SourceSDK.materialsystem
 
 	public partial class IMaterialSystem : ISurface
 	{
+		public const string MATERIAL_SYSTEM_INTERFACE_VERSION = "VMaterialSystem080";
+
 		public IMaterialSystem(IntPtr ptr) : base(ptr) { }
 
 		public void Init(string shaderAPIDLL, IntPtr materialProxyFactory, CreateInterfaceFn fileSystemFactory, CreateInterfaceFn cvarFactory = null) => Methods.IMaterialSystem_Init(ptr, shaderAPIDLL, materialProxyFactory, fileSystemFactory, cvarFactory);

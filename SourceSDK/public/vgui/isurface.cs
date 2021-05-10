@@ -32,7 +32,7 @@ namespace GmodNET.SourceSDK.vgui
 		public void PopMakeCurrent(uint panel) => Methods.ISurface_PopMakeCurrent(ptr, panel);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void DrawSetColor(int r, int g, int b, int a) => Methods.ISurface_DrawSetColor(ptr, r, g, b, a);
+		public void DrawSetColor(int r, int g, int b, int a = 255) => Methods.ISurface_DrawSetColor(ptr, r, g, b, a);
 		public void DrawSetColor(Color color) => Methods.ISurface_DrawSetColor(ptr, color);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)] // guess why ;D
