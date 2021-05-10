@@ -33,7 +33,7 @@ namespace GetRenderTargetExample
 					if (sourcesdkc == IntPtr.Zero)
 					{
 						Console.WriteLine("loading sourcesdkc");
-						sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/SourceSDKTest/runtimes/{platformIdentifier}/native/sourcesdkc");
+						sourcesdkc = NativeLibrary.Load($"./garrysmod/lua/bin/Modules/GetRenderTargetExample/runtimes/{platformIdentifier}/native/sourcesdkc");
 						Console.WriteLine($"loaded sourcesdkc: {sourcesdkc != IntPtr.Zero}");
 					}
 					return sourcesdkc;
