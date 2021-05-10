@@ -68,11 +68,11 @@ namespace GetRenderTargetExample
 			{
 				lua.PushString("$basetexture");
 				lua.PushString("ExampleRTwithAlpha");
-				lua.SetTable(-4);
+				lua.SetTable(-3);
 
 				lua.PushString("$translucent");
 				lua.PushString("1");
-				lua.SetTable(-4);
+				lua.SetTable(-3);
 			}
 			lua.MCall(3, 1);
 			mat = lua.GetUserType(-1, (int)TYPES.MATERIAL);
