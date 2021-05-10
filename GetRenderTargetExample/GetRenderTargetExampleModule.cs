@@ -97,7 +97,7 @@ namespace GetRenderTargetExample
 			lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
 			lua.GetField(-1, "CurTime");
 			lua.MCall(0, 1);
-			int CurTime = (int)lua.GetNumber(1);
+			int CurTime = (int)lua.GetNumber(-1);
 			lua.Pop();
 
 			// PushRenderTarget
