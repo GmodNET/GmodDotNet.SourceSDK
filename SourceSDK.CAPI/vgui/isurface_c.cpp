@@ -51,4 +51,7 @@ DLL_EXPORT void ISurface_DrawSetTextureRGBAex(void** ptr, int id, const unsigned
 	surf->DrawSetTextureRGBAEx(id, rgba, wide, tall, imageFormat);
 }
 
+DLL_EXPORT void ISurface_DrawTexturedRect(vgui::ISurface* s, int x0, int y0, int x1, int y1) {
+	s->DrawTexturedRect(x0, y0, x1, y1);
+}
 

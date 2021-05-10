@@ -47,6 +47,12 @@ namespace GmodNET.SourceSDK.vgui
 		public void DrawPolyLine(int[] px, int[] py) => Methods.ISurface_DrawPolyLine(ptr, px, py, Math.Min(px.Length, py.Length));
 		public unsafe void DrawPolyLine(int* px, int* py, int numPoints) => Methods.ISurface_DrawPolyLine(ptr, px, py, numPoints);
 
+
+
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void DrawTexturedRect(int x0, int y0, int x1, int y1) => Methods.ISurface_DrawTexturedRect(ptr, x0, y0, x1, y1);
+
 		internal static partial class Methods
 		{
 			[DllImport("sourcesdkc")]
@@ -88,6 +94,9 @@ namespace GmodNET.SourceSDK.vgui
 
 			[DllImport("sourcesdkc")]
 			internal static extern void ISurface_DrawSetTextureRGBAex(IntPtr ptr, int id, IntPtr rgba, int wide, int tall, ImageFormat imageFormat);
+
+			[DllImport("sourcesdkc")]
+			internal static extern void ISurface_DrawTexturedRect(IntPtr s, int x0, int y0, int x1, int y1);
 		}
 	}
 }
