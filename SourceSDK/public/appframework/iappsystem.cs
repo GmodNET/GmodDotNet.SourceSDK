@@ -37,7 +37,7 @@ namespace GmodNET.SourceSDK.AppFramework
 
 	public abstract class IAppSystem
 	{
-		protected readonly IntPtr ptr;
+		public readonly IntPtr ptr;
 
 		public IAppSystem(IntPtr ptr)
 		{
