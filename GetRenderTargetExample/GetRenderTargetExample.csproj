@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="GmodNET.API" Version="0.7.0-beta.2.32934270.master" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SourceSDK\GmodNET.SourceSDK.csproj" />
+	</ItemGroup>
+</Project>

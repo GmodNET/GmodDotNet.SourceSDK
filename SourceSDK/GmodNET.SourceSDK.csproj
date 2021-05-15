@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net5</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Company>GmodNET</Company>
+		<Product>GmodNET.SourceSDK</Product>
+		<Version>0.0.1</Version>
+		<IncludeSymbols>true</IncludeSymbols>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<LangVersion>9.0</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="runtimes\win-x64\native\sourcesdkc.dll;runtimes\linux-x64\native\libsourcesdkc.so">
+			<Pack>True</Pack>
+			<PackagePath>runtimes\</PackagePath>
+			<PackageCopyToOutput>False</PackageCopyToOutput>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<Link>%(Identity)</Link>
+		</None>
+		<Content Remove="runtimes\*\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Ancillary.Interop" Version="1.0.0-alpha.20604.3" />
+		<PackageReference Include="Microsoft.Interop.DllImportGenerator" Version="1.0.0-alpha.21256.4" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="All" />
+	</ItemGroup>
+</Project>

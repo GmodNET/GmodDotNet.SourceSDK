@@ -1,0 +1,196 @@
+name: Build & Test
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  linux-cmake-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: 'CMake'
+      uses: lukka/run-cmake@v2
+      with:
+        cmakeListsOrSettingsJson: CMakeListsTxtBasic
+        cmakeBuildType: Release
+        buildDirectory: '${{ github.workspace }}/out'
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-x64
+        path: "out/SourceSDK.CAPI/libsourcesdkc.so"
+        retention-days: 1
+        if-no-files-found: error
+  windows-cmake-build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: ilammy/msvc-dev-cmd@v1
+    - name: 'CMake'
+      uses: lukka/run-cmake@v2
+      with:
+        cmakeListsOrSettingsJson: CMakeSettingsJson
+        cmakeBuildType: Release
+        buildDirectory: '${{ github.workspace }}/out'
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: win-x64
+        path: "out/x64-Release/SourceSDK.CAPI/sourcesdkc.dll"
+        retention-days: 1
+        if-no-files-found: error
+  #osx-cmake-build:
+  #  runs-on: macos-latest
+  #  steps:
+  #  - uses: actions/checkout@v2
+  #    with:
+  #      submodules: recursive
+  #  - uses: ilammy/msvc-dev-cmd@v1
+  #  - name: 'CMake'
+  #    uses: lukka/run-cmake@v2
+  #    with:
+  #      cmakeListsOrSettingsJson: CMakeListsTxtBasic
+  #      cmakeBuildType: Release
+  #      buildDirectory: '${{ github.workspace }}/out'
+  #  - name: Upload Artifact
+  #    uses: actions/upload-artifact@v2
+  #    with:
+  #      name: osx-x64
+  #      path: "out/SourceSDK.CAPI/libsourcesdkc.dylib"
+  #      retention-days: 10
+  #      if-no-files-found: error
+  Build:
+    needs: [ linux-cmake-build, windows-cmake-build ]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: 5.0.100
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: 6.0.100-preview.3.21202.5
+    - name: Download linux-x64
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-x64
+        path: SourceSDK/runtimes/linux-x64/native
+    - name: Download win-x64
+      uses: actions/download-artifact@v2
+      with:
+        name: win-x64
+        path: SourceSDK/runtimes/win-x64/native
+    - name: Build Solution
+      run: dotnet publish SourceSDK.sln --configuration Release
+    - name: Pack
+      run: dotnet pack SourceSDK.sln --configuration Release
+    - name: Upload nuget package
+      uses: actions/upload-artifact@v2
+      with:
+        name: sourcesdk
+        path: SourceSDK/bin/Release/*.nupkg
+        retention-days: 90
+        if-no-files-found: error
+    - name: Upload SourceSDK.dll
+      uses: actions/upload-artifact@v2
+      with:
+        name: sourcesdk
+        path: SourceSDK/bin/Release/net5/publish/*
+        retention-days: 1
+        if-no-files-found: error
+    - name: Upload SourceSDKTest.dll
+      uses: actions/upload-artifact@v2
+      with:
+        name: sourcesdktest
+        path: SourceSDK.Test/bin/Release/net5/publish/*
+        retention-days: 1
+        if-no-files-found: error
+  Test-linux:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download SteamCMD
+      run: |
+        wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+        tar -xvzf steamcmd_linux.tar.gz
+        rm -rfv steamcmd_linux.tar.gz
+    - name: Install Garry's Mod Dedicated Server
+      run: |
+        ./steamcmd.sh +login anonymous +force_install_dir gmod "+app_update 4020 -beta x86-64 validate" +quit
+    - name: Install GmodDotNet
+      run: |
+        wget https://gleb-krasilich.fra1.digitaloceanspaces.com/GmodNETStorage/storage/gmod-dot-net-linux.0.7.0-beta.2.32934270.master.tar.gz -O gmoddotnet.tar.gz
+        mkdir ./gmod/garrysmod/lua/bin
+        tar -xvzf gmoddotnet.tar.gz -C ./gmod/garrysmod/lua/bin
+        rm -rfv gmoddotnet.tar.gz
+    - name: Download SourceSDKTest
+      uses: actions/download-artifact@v2
+      with:
+        name: sourcesdktest
+        path: ./gmod/garrysmod/lua/bin/Modules/SourceSDKTest/
+    - run: tree
+    - name: Copy test.lua
+      run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
+    - name: Run Garry's Mod
+      run: ./srcds_run_x64 -game garrysmod -systemtest -condebug +developer 1 +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 2 +sv_hibernate_think 1 || true
+      working-directory: ./gmod/
+      timeout-minutes: 5
+      continue-on-error: true
+    - name: Print log
+      run: cat gmod/garrysmod/console.log
+    - name: Tests successfull?
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "gmod/garrysmod/data/success.txt"
+        allow_failure: true
+  Test-windows:
+    needs: Build
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download SteamCMD
+      run: |
+           curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip -O -L
+           powershell -Command 'Expand-Archive -LiteralPath ./steamcmd.zip -DestinationPath ./'
+           del steamcmd.zip
+    - name: Install Garry's Mod Dedicated Server
+      shell: bash
+      run: |
+           ./steamcmd.exe +login anonymous +force_install_dir gmod "+app_update 4020 -beta x86-64 validate" +quit || true
+    - name: Install GmodDotNet
+      shell: bash
+      run: |
+        curl -o gmoddotnet.zip https://gleb-krasilich.fra1.digitaloceanspaces.com/GmodNETStorage/storage/gmod-dot-net-windows.0.7.0-beta.2.32934270.master.zip -O -L
+        mkdir ./gmod/garrysmod/lua/bin
+        powershell -Command 'Expand-Archive -LiteralPath ./gmoddotnet.zip -DestinationPath ./gmod/garrysmod/lua/bin'
+    - name: Download SourceSDKTest
+      uses: actions/download-artifact@v2
+      with:
+        name: sourcesdktest
+        path: ./gmod/garrysmod/lua/bin/Modules/SourceSDKTest/
+    - name: Copy test.lua
+      run: cp .github/workflows/test.lua ./gmod/garrysmod/lua/autorun
+    - name: Run Garry's Mod
+      shell: bash
+      run: |
+           powershell -Command './gmod/srcds_win64.exe -console -systemtest -condebug -game "garrysmod" +developer 1 +exec "server.cfg" +gamemode sandbox +map gm_construct +maxplayers 2 +sv_hibernate_think 1'
+           powershell -Command 'Wait-Process -Name srcds_win64'
+      continue-on-error: true
+      timeout-minutes: 3
+    - name: Print log
+      shell: bash
+      run: cat gmod/garrysmod/console.log
+    - name: Tests successfull?
+      id: check_files
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "gmod/garrysmod/data/success.txt"
+        allow_failure: true
